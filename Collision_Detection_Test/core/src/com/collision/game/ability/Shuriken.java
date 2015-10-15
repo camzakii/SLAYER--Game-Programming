@@ -1,5 +1,7 @@
 package com.collision.game.ability;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -13,10 +15,14 @@ import com.collision.game.handler.Animation;
 
 public class Shuriken {
 
-	private static final int VELOCITY = 10;
+	private static final int VELOCITY = 5;
 	
-	private Animation animation;
-	private TextureRegion[] shurikenRegion;
+	private Animation rightAnimation;
+	private Animation leftAnimation;
+	private Animation currentAnimation;
+	
+	private TextureRegion[] shurikenRightRegion;
+	private TextureRegion[] shurikenLeftRegion;
 	
 	private Vector2 direction;
 	private Vector2 position;
@@ -29,11 +35,22 @@ public class Shuriken {
 	
 	public Shuriken(GameLevel level, TiledMapTileLayer layer){
 		this.boundingBox = new Rectangle();
-		this.animation = new Animation();
+		this.rightAnimation = new Animation();
+		this.leftAnimation = new Animation();
+		this.currentAnimation = new Animation();
+		
 		this.alive = false;
+		
+		Texture texture = new Texture(Gdx.files.internal("shuriken_throw.png"));
+		this.shurikenRightRegion = TextureRegion.split(texture, 43, 20)[0];
+		this.rightAnimation.setAnimation(shurikenRightRegion, 1/3f, rightAnimation);
+		
+		this.shurikenLeftRegion = TextureRegion.split(texture, 43, 20)[1];
+		this.leftAnimation.setAnimation(shurikenLeftRegion, 1/3f, leftAnimation);
 		
 		this.layer = layer;
 		this.level = level;
+		
 	}
 	
 	public void action(Vector2 direction, Vector2 position){
@@ -41,13 +58,24 @@ public class Shuriken {
 		this.position = position;
 		this.alive = true;
 		
-		if(direction.x > 0) boundingBox = new Rectangle(this.position.x, this.position.y + 8, 5, 5);
-		else boundingBox = new Rectangle(this.position.x, this.position.y + 8, 5, 5);
+		if(direction.x > 0) {
+			boundingBox = new Rectangle(this.position.x + 17, this.position.y + 8, 8, 8);
+			currentAnimation = rightAnimation;
+		}
+		else {
+			boundingBox = new Rectangle(this.position.x - 9, this.position.y + 8, 8, 8);
+			currentAnimation = leftAnimation;
+		}
+		
+		currentAnimation.setPlaying(true);
+		
 	}
 	
 	
 	public void update(float dt){
 		
+		currentAnimation.setPlaying(true);
+		currentAnimation.update(dt);
 		if(!alive) return;
 		
 		if(alive) {
@@ -67,9 +95,14 @@ public class Shuriken {
 	public void render(SpriteBatch batch, ShapeRenderer sr){
 		if(!alive) return;
 		
-		sr.begin(ShapeType.Line);
-		sr.rect(boundingBox.x, boundingBox.y, 5, 5);
-		sr.end();
+		batch.begin();
+		batch.draw(currentAnimation.getFrame() , boundingBox.x - 13,
+					boundingBox.y - 4);
+		batch.end();
+		
+//		sr.begin(ShapeType.Line);
+//		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
+//		sr.end();
 	}
 
 	private void mapCollision(){

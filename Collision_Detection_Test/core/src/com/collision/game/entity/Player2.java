@@ -152,9 +152,9 @@ public class Player2 extends PlayerEntity {
 		batch.draw(currentAnimation.getFrame(), position.x - WIDTH / 3, position.y);
 		batch.end();
 		
-		sr.begin(ShapeType.Line);
-		sr.rect(position.x, position.y, 16, 16);
-		sr.end();
+//		sr.begin(ShapeType.Line);
+//		sr.rect(position.x, position.y, 16, 16);
+//		sr.end();
 		
 		sword.render(sr);
 		block.render(sr);

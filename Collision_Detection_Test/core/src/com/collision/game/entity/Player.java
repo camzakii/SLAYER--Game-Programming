@@ -45,11 +45,16 @@ public class Player extends PlayerEntity {
 	private TextureRegion[] rightSwordRegion;
 	private TextureRegion[] leftBlockRegion;
 	private TextureRegion[] rightBlockRegion;
+	private TextureRegion[] leftExtSwordRegion;
+	private TextureRegion[] rightExtSwordRegion;
+	
 	
 	private Animation rightAnimation;
 	private Animation leftAnimation;
 	private Animation leftSwordAnimation;
 	private Animation rightSwordAnimation;
+	private Animation leftExtSwordAnimation;
+	private Animation rightExtSwordAnimation;
 	private Animation blockLeftAnimation;
 	private Animation blockRightAnimation;
 	
@@ -86,6 +91,8 @@ public class Player extends PlayerEntity {
 		this.rightSwordAnimation = new Animation();
 		this.blockLeftAnimation = new Animation();
 		this.blockRightAnimation = new Animation();
+		this.leftExtSwordAnimation = new Animation();
+		this.rightExtSwordAnimation = new Animation();
 		
 		Texture texture = new Texture(Gdx.files.internal("idle_fight_ninja1.png"));
 		this.rightSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
@@ -101,12 +108,19 @@ public class Player extends PlayerEntity {
 		this.leftSwordRegion = TextureRegion.split(texture, 43, 25)[1];
 		this.leftSwordAnimation.setAnimation(leftSwordRegion, 1/8f, leftSwordAnimation);
 		
-		texture = new Texture(Gdx.files.internal("playerblock.png"));
+		texture = new Texture(Gdx.files.internal("block_fight_ninja1.png"));
 		this.leftBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
 		this.blockLeftAnimation.setAnimation(leftBlockRegion, 1/8f, blockLeftAnimation);
 		
 		this.rightBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
 		this.blockRightAnimation.setAnimation(rightBlockRegion, 1/8f, blockRightAnimation);
+		
+		texture = new Texture(Gdx.files.internal("attack_fight_ninja1_extended.png"));
+		this.rightExtSwordRegion = TextureRegion.split(texture, 50, 30)[0];
+		this.rightExtSwordAnimation.setAnimation(rightExtSwordRegion, 1/8f, rightExtSwordAnimation);
+		
+		this.leftExtSwordRegion = TextureRegion.split(texture, 50, 30)[1];
+		this.leftExtSwordAnimation.setAnimation(leftExtSwordRegion, 1/8f, leftExtSwordAnimation);
 		
 		currentAnimation = rightAnimation;
 		
@@ -145,9 +159,9 @@ public class Player extends PlayerEntity {
 		batch.draw(currentAnimation.getFrame(), position.x - WIDTH / 3, position.y);
 		batch.end();
 		
-		sr.begin(ShapeType.Line);
-		sr.rect(position.x, position.y, 16, 16);
-		sr.end();
+//		sr.begin(ShapeType.Line);
+//		sr.rect(position.x, position.y, 16, 16);
+//		sr.end();
 	
 		sword.render(sr);
 		block.render(sr);
@@ -165,8 +179,14 @@ public class Player extends PlayerEntity {
 		}
 		if(state == PlayerState.ATTACKING){
 			
-			if(direction.x > 0) currentAnimation = rightSwordAnimation;
-			else currentAnimation = leftSwordAnimation;
+			
+			if(sword.getPowerup()){
+				if(direction.x > 0) currentAnimation = rightExtSwordAnimation;
+				else currentAnimation = leftExtSwordAnimation;
+			}else{
+				if(direction.x > 0) currentAnimation = rightSwordAnimation;
+				else currentAnimation = leftSwordAnimation;
+			}
 			
 			if(sword.getTimer() == 0){
 				currentAnimation.setCurrentFrame(0);
@@ -187,9 +207,9 @@ public class Player extends PlayerEntity {
 	}
 	
 	public void mapWarping(){
-		if(position.x + 16 < 0) position.x = 350;
-		if(position.x > 350) position.x = 0;
-		if(position.y + 15 < 0) position.y = 400;
+		if(position.x + 16 < 0) position.x = 420;
+		if(position.x > 420) position.x = 0;
+		if(position.y + 15 < 0) position.y = 420;
 	}
 	
 	public void collisionHandling(float dt){
@@ -331,6 +351,7 @@ public class Player extends PlayerEntity {
 	
 	public void hit(){
 		alive = false;
+		boundingRectangle.x = -400;
 	}
 	
 	public void setVelocityX(float x){

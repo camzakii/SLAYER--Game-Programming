@@ -80,10 +80,10 @@ public class Sword {
 	
 	public void render(ShapeRenderer sr){
 		
-		sr.begin(ShapeType.Line);
-		if(!powerup)	sr.rect(boundingBox.x, boundingBox.y, 16, 10);
-		else sr.rect(boundingBox.x, boundingBox.y, 30, 10);
-		sr.end();
+//		sr.begin(ShapeType.Line);
+//		if(!powerup)	sr.rect(boundingBox.x, boundingBox.y, 16, 10);
+//		else sr.rect(boundingBox.x, boundingBox.y, 30, 10);
+//		sr.end();
 	}
 	
 	public int getTimer(){
@@ -100,6 +100,10 @@ public class Sword {
 	
 	public void setPowerup(boolean bool){
 		this.powerup = bool;
+	}
+	
+	public boolean getPowerup(){
+		return powerup;
 	}
 	
 }

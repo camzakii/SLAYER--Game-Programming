@@ -24,7 +24,6 @@ public class GameScreen extends GameState{
 	private GameLevel level;
 	private Powerup powerup;
 	private CollisionComponent collision;
-	private ParticleEngine particleEngine;
 	
 	// Testing
 	private ShapeRenderer sr;
@@ -35,8 +34,7 @@ public class GameScreen extends GameState{
 		this.player2 = new Player2(camera, level);
 		this.player = new Player(camera, level);
 		this.enemy = new Enemy(camera);
-		this.powerup = new Powerup(new Vector2(300, 200));
-		this.particleEngine = new ParticleEngine();
+		this.powerup = new Powerup(new Vector2(330, 60));
 		this.collision = new CollisionComponent(this);
 		
 		// Testing
@@ -50,11 +48,10 @@ public class GameScreen extends GameState{
 		
 		handleInput();
 		
-		particleEngine.update();
-		
 		collision.update(dt);
 		player.update(dt);
 		player2.update(dt);
+		powerup.update(dt);
 //		enemy.update(dt);
 		
 		sr.setProjectionMatrix(camera.combined);
@@ -68,8 +65,7 @@ public class GameScreen extends GameState{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		level.render();
-		particleEngine.render(batch);
-		
+		collision.render(batch);
 		powerup.render(batch, sr);
 		player.render(batch);
 		player2.render(batch);
@@ -112,7 +108,6 @@ public class GameScreen extends GameState{
 		
 		if(GameKeys.isPressed(GameKeys.U)){
 			player2.jump();
-			this.particleEngine.createParticles(player2.getPosition().x, player2.getPosition().y);
 		}
 		if(GameKeys.isDown(GameKeys.H)){
 			player2.moveLeft();

@@ -1,5 +1,6 @@
 package com.collision.game.handler;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.collision.game.ability.Shuriken;
@@ -9,6 +10,7 @@ import com.collision.game.entity.Player2;
 import com.collision.game.entity.PlayerEntity.PlayerState;
 import com.collision.game.entity.Powerup;
 import com.collision.game.states.GameScreen;
+import com.collision.game.utils.ParticleEngine;
 
 public class CollisionComponent {
 	
@@ -17,6 +19,7 @@ public class CollisionComponent {
 	private Powerup powerup;
 	private GameScreen game;
 	private GameLevel level;
+	private ParticleEngine particleEngine;
 	
 	public CollisionComponent(GameScreen game){
 		this.game = game;
@@ -24,11 +27,17 @@ public class CollisionComponent {
 		this.player = game.getPlayer();
 		this.player2 = game.getPlayer2();
 		this.level = game.getLevel();
+		this.particleEngine = new ParticleEngine();
 	}
 	
 	public void update(float dt){
 		
 		playerCollisions();
+		particleEngine.update();
+	}
+	
+	public void render(SpriteBatch batch){
+		particleEngine.render(batch);
 	}
 	
 	private void playerCollisions(){
@@ -36,13 +45,14 @@ public class CollisionComponent {
 			if(player2.getState() == PlayerState.BLOCKING) return;
 			
 			player2.hit();
+			particleEngine.createParticles(player2.getPosition().x - 10, player2.getPosition().y);
 		}
 		
 		if(player2.getSwordRect().overlaps(player.getBoundingRectangle())){
 			if(player.getState() == PlayerState.BLOCKING) return;
 			
-			System.out.println("Player 1 hit");
 			player.hit();
+			particleEngine.createParticles(player.getPosition().x - 10, player.getPosition().y);
 		}
 		
 		// Player 2 Shurikens hit player 1
@@ -52,12 +62,14 @@ public class CollisionComponent {
 				if(player.getState() == PlayerState.BLOCKING) return;
 				
 				shuriken.setDead();
+				shurikens.removeValue(shuriken, true);
 				player.hit();
 			}
 			if(shuriken.getBoundingBox().overlaps(player2.getBoundingRectangle())){
 				if(player2.getState() == PlayerState.BLOCKING) return;
 				
 				shuriken.setDead();
+				shurikens.removeValue(shuriken, true);
 				player2.hit();
 			}
 		}
@@ -70,12 +82,14 @@ public class CollisionComponent {
 				
 				shuriken.setDead();
 				player2.hit();
+				player1_shurikens.removeValue(shuriken, true);
 			}
 			if(shuriken.getBoundingBox().overlaps(player.getBoundingRectangle())){
 				if(player.getState() == PlayerState.BLOCKING) return;
 				
 				shuriken.setDead();
 				player.hit();
+				player1_shurikens.removeValue(shuriken, true);
 			}
 		}
 		
