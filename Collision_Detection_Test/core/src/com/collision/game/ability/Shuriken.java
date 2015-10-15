@@ -103,4 +103,8 @@ public class Shuriken {
 	public Rectangle getBoundingBox(){
 		return boundingBox;
 	}
+	
+	public void setDead(){
+		alive = false;
+	}
 }

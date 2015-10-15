@@ -32,7 +32,6 @@ public class CollisionComponent {
 	}
 	
 	private void playerCollisions(){
-		
 		if(player.getSwordRect().overlaps(player2.getBoundingRectangle())){
 			if(player2.getState() == PlayerState.BLOCKING) return;
 			
@@ -52,7 +51,7 @@ public class CollisionComponent {
 			if(shuriken.getBoundingBox().overlaps(player.getBoundingRectangle())){
 				if(player.getState() == PlayerState.BLOCKING) return;
 				
-				System.out.println("Player 1 hit by player 2 shuriken");
+				shuriken.setDead();
 				player.hit();
 			}
 		}
@@ -63,7 +62,7 @@ public class CollisionComponent {
 			if(shuriken.getBoundingBox().overlaps(player2.getBoundingRectangle())){
 				if(player2.getState() == PlayerState.BLOCKING) return;
 				
-				System.out.println("Player 2 hit by player 1 shuriken");
+				shuriken.setDead();
 				player2.hit();
 			}
 		}

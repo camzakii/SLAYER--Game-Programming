@@ -28,9 +28,10 @@ public class Player extends PlayerEntity {
 	private Rectangle boundingRectangle;	
 	private Vector2 direction;
 	private Vector2 position;
-
 	private Vector2 velocity;
-
+	
+	private int numBullets;
+	
 	private Block block;
 	private Sword sword;
 	private Array<Shuriken> shurikens;
@@ -66,6 +67,8 @@ public class Player extends PlayerEntity {
 		this.direction = new Vector2(1, 0);
 		this.level = level;
 		this.layer = level.getLayer();
+		
+		this.numBullets = 3;
 		
 		this.shurikens = new Array<Shuriken>();
 		this.alive = true;
@@ -311,10 +314,14 @@ public class Player extends PlayerEntity {
 	}
 	
 	public void shurikenAction(){
+		
+		if(numBullets <= 0) return;
+		
 		Vector2 dir = new Vector2(direction.x, 0);
 		Vector2 pos = new Vector2(position.x, position.y);
 		Shuriken shuriken = new Shuriken(level, layer);
 		shuriken.action(dir, pos);
+		numBullets--;
 		shurikens.add(shuriken);
 	}
 	
