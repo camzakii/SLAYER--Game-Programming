@@ -139,5 +139,6 @@ public class Shuriken {
 	
 	public void setDead(){
 		alive = false;
+		boundingBox.x = -500;
 	}
 }
