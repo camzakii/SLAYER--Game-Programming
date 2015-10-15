@@ -60,9 +60,9 @@ public class Player extends PlayerEntity {
 	
 	public Player(OrthographicCamera camera, GameLevel level){
 		
-		this.boundingRectangle = new Rectangle(100, 100, 16, 16);
+		this.boundingRectangle = new Rectangle(100, 150, 16, 16);
 		
-		this.position = new Vector2(100, 100);
+		this.position = new Vector2(100, 150);
 		this.direction = new Vector2(1, 0);
 		this.level = level;
 		this.layer = level.getLayer();
@@ -84,18 +84,18 @@ public class Player extends PlayerEntity {
 		this.blockLeftAnimation = new Animation();
 		this.blockRightAnimation = new Animation();
 		
-		Texture texture = new Texture(Gdx.files.internal("player.png"));
+		Texture texture = new Texture(Gdx.files.internal("idle_fight_ninja1.png"));
 		this.rightSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
 		this.rightAnimation.setAnimation(rightSpriteRegion, 1/3f, rightAnimation);
 		
 		this.leftSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
 		this.leftAnimation.setAnimation(leftSpriteRegion, 1/3f, leftAnimation);
 		
-		texture = new Texture(Gdx.files.internal("playerattack.png"));
-		this.rightSwordRegion = TextureRegion.split(texture,43, 20)[0];
+		texture = new Texture(Gdx.files.internal("attack_fight_ninja1.png"));
+		this.rightSwordRegion = TextureRegion.split(texture,43, 25)[0];
 		this.rightSwordAnimation.setAnimation(rightSwordRegion, 1/8f, rightSwordAnimation);
 		
-		this.leftSwordRegion = TextureRegion.split(texture, 43, 20)[1];
+		this.leftSwordRegion = TextureRegion.split(texture, 43, 25)[1];
 		this.leftSwordAnimation.setAnimation(leftSwordRegion, 1/8f, leftSwordAnimation);
 		
 		texture = new Texture(Gdx.files.internal("playerblock.png"));
