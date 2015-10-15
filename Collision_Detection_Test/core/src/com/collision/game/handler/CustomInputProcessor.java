@@ -22,23 +22,23 @@ public class CustomInputProcessor implements InputProcessor {
 		if(keycode == Keys.R){
 			GameKeys.setKey(GameKeys.R, true);
 		}
-		if(keycode == Keys.O){
-			GameKeys.setKey(GameKeys.O, true);
+		if(keycode == Keys.M){
+			GameKeys.setKey(GameKeys.M, true);
 		}
-		if(keycode == Keys.H){
-			GameKeys.setKey(GameKeys.H, true);
+		if(keycode == Keys.LEFT){
+			GameKeys.setKey(GameKeys.LEFT, true);
 		}
-		if(keycode == Keys.U){
-			GameKeys.setKey(GameKeys.U, true);
+		if(keycode == Keys.UP){
+			GameKeys.setKey(GameKeys.UP, true);
 		}
-		if(keycode == Keys.K){
-			GameKeys.setKey(GameKeys.K, true);
+		if(keycode == Keys.RIGHT){
+			GameKeys.setKey(GameKeys.RIGHT, true);
 		}
-		if(keycode == Keys.J){
-			GameKeys.setKey(GameKeys.J, true);
+		if(keycode == Keys.DOWN){
+			GameKeys.setKey(GameKeys.DOWN, true);
 		}
-		if(keycode == Keys.E){
-			GameKeys.setKey(GameKeys.E, true);
+		if(keycode == Keys.C){
+			GameKeys.setKey(GameKeys.C, true);
 		}
 		if(keycode == Keys.V){
 			GameKeys.setKey(GameKeys.V, true);
@@ -66,23 +66,23 @@ public class CustomInputProcessor implements InputProcessor {
 		if(keycode == Keys.R){
 			GameKeys.setKey(GameKeys.R, false);
 		}
-		if(keycode == Keys.O){
-			GameKeys.setKey(GameKeys.O, false);
+		if(keycode == Keys.M){
+			GameKeys.setKey(GameKeys.M, false);
 		}
-		if(keycode == Keys.H){
-			GameKeys.setKey(GameKeys.H, false);
+		if(keycode == Keys.LEFT){
+			GameKeys.setKey(GameKeys.LEFT, false);
 		}
-		if(keycode == Keys.U){
-			GameKeys.setKey(GameKeys.U, false);
+		if(keycode == Keys.UP){
+			GameKeys.setKey(GameKeys.UP, false);
 		}
-		if(keycode == Keys.K){
-			GameKeys.setKey(GameKeys.K, false);
+		if(keycode == Keys.RIGHT){
+			GameKeys.setKey(GameKeys.RIGHT, false);
 		}
-		if(keycode == Keys.J){
-			GameKeys.setKey(GameKeys.J, false);
+		if(keycode == Keys.DOWN){
+			GameKeys.setKey(GameKeys.DOWN, false);
 		}
-		if(keycode == Keys.E){
-			GameKeys.setKey(GameKeys.E, false);
+		if(keycode == Keys.C){
+			GameKeys.setKey(GameKeys.C, false);
 		}
 		if(keycode == Keys.V){
 			GameKeys.setKey(GameKeys.V, false);

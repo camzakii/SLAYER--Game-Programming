@@ -94,7 +94,7 @@ public class GameScreen extends GameState{
 		if(GameKeys.isPressed(GameKeys.S)){
 			player.swordAction();
 		}
-		if(GameKeys.isPressed(GameKeys.E)){
+		if(GameKeys.isPressed(GameKeys.C)){
 			player.parryAction();
 		}
 		if(GameKeys.isUp(GameKeys.A) && GameKeys.isUp(GameKeys.D)){
@@ -105,26 +105,25 @@ public class GameScreen extends GameState{
 		}
 		
 		// Player 2 Controls
-		
-		if(GameKeys.isPressed(GameKeys.U)){
+		if(GameKeys.isPressed(GameKeys.UP)){
 			player2.jump();
 		}
-		if(GameKeys.isDown(GameKeys.H)){
+		if(GameKeys.isDown(GameKeys.LEFT)){
 			player2.moveLeft();
 		}
-		if(GameKeys.isDown(GameKeys.K)){
+		if(GameKeys.isDown(GameKeys.RIGHT)){
 			player2.moveRight();
 		}
-		if(GameKeys.isPressed(GameKeys.J)){
+		if(GameKeys.isPressed(GameKeys.DOWN)){
 			player2.swordAction();
 		}
-		if(GameKeys.isPressed(GameKeys.O)){
+		if(GameKeys.isPressed(GameKeys.M)){
 			player2.parryAction();
 		}
 		if(GameKeys.isPressed(GameKeys.N)){
 			player2.shurikenAction();
 		}
-		if(GameKeys.isUp(GameKeys.H) && GameKeys.isUp(GameKeys.K)){
+		if(GameKeys.isUp(GameKeys.LEFT) && GameKeys.isUp(GameKeys.RIGHT)){
 			player2.setVelocityX(0);
 		}
 	
