@@ -141,7 +141,10 @@ public class Player2 extends PlayerEntity {
 	
 	public void render(SpriteBatch batch){
 	
-		if(!alive) return;
+		if(!alive){
+			boundingRectangle.setPosition(-200, -200);
+			return;
+		}
 		
 		for(Shuriken shuriken: shurikens) shuriken.render(batch, sr);
 		
@@ -160,6 +163,9 @@ public class Player2 extends PlayerEntity {
 	private void animationHandler(){
 		
 		if(state == PlayerState.MOVING){
+			
+			if(sword.getTimer() > 0) return;
+			
 			if(direction.x > 0) currentAnimation = rightAnimation;
 			else currentAnimation = leftAnimation;
 		}
@@ -372,6 +378,10 @@ public class Player2 extends PlayerEntity {
 		return sword.getBoundingBox();
 	}
 
+	public Sword getSword(){
+		return sword;
+	}
+	
 	public PlayerState getState(){
 		return state;
 	}

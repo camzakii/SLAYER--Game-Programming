@@ -14,6 +14,7 @@ import com.collision.game.handler.CollisionComponent;
 import com.collision.game.handler.CustomInputProcessor;
 import com.collision.game.handler.GameKeys;
 import com.collision.game.handler.GameStateManager;
+import com.collision.game.utils.ParticleEngine;
 
 public class GameScreen extends GameState{
 
@@ -23,6 +24,7 @@ public class GameScreen extends GameState{
 	private GameLevel level;
 	private Powerup powerup;
 	private CollisionComponent collision;
+	private ParticleEngine particleEngine;
 	
 	// Testing
 	private ShapeRenderer sr;
@@ -34,7 +36,7 @@ public class GameScreen extends GameState{
 		this.player = new Player(camera, level);
 		this.enemy = new Enemy(camera);
 		this.powerup = new Powerup(new Vector2(300, 200));
-		
+		this.particleEngine = new ParticleEngine();
 		this.collision = new CollisionComponent(this);
 		
 		// Testing
@@ -48,8 +50,9 @@ public class GameScreen extends GameState{
 		
 		handleInput();
 		
-		collision.update(dt);
+		particleEngine.update();
 		
+		collision.update(dt);
 		player.update(dt);
 		player2.update(dt);
 //		enemy.update(dt);
@@ -65,6 +68,8 @@ public class GameScreen extends GameState{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		level.render();
+		particleEngine.render(batch);
+		
 		powerup.render(batch, sr);
 		player.render(batch);
 		player2.render(batch);
@@ -107,6 +112,7 @@ public class GameScreen extends GameState{
 		
 		if(GameKeys.isPressed(GameKeys.U)){
 			player2.jump();
+			this.particleEngine.createParticles(player2.getPosition().x, player2.getPosition().y);
 		}
 		if(GameKeys.isDown(GameKeys.H)){
 			player2.moveLeft();

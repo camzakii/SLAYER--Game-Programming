@@ -54,6 +54,12 @@ public class CollisionComponent {
 				shuriken.setDead();
 				player.hit();
 			}
+			if(shuriken.getBoundingBox().overlaps(player2.getBoundingRectangle())){
+				if(player2.getState() == PlayerState.BLOCKING) return;
+				
+				shuriken.setDead();
+				player2.hit();
+			}
 		}
 		
 		// Player 1 shurikens hit player 2
@@ -65,10 +71,21 @@ public class CollisionComponent {
 				shuriken.setDead();
 				player2.hit();
 			}
+			if(shuriken.getBoundingBox().overlaps(player.getBoundingRectangle())){
+				if(player.getState() == PlayerState.BLOCKING) return;
+				
+				shuriken.setDead();
+				player.hit();
+			}
 		}
 		
 		if(player.getBoundingRectangle().overlaps(powerup.getBoundingBox())){
 			player.getSword().setPowerup(true);
+			powerup.remove();
+		}
+		
+		if(player2.getBoundingRectangle().overlaps(powerup.getBoundingBox())){
+			player2.getSword().setPowerup(true);
 			powerup.remove();
 		}
 		
