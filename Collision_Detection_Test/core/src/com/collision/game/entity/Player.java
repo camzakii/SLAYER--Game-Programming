@@ -313,7 +313,7 @@ public class Player extends PlayerEntity {
 	public void shurikenAction(){
 		Vector2 dir = new Vector2(direction.x, 0);
 		Vector2 pos = new Vector2(position.x, position.y);
-		Shuriken shuriken = new Shuriken();
+		Shuriken shuriken = new Shuriken(level, layer);
 		shuriken.action(dir, pos);
 		shurikens.add(shuriken);
 	}

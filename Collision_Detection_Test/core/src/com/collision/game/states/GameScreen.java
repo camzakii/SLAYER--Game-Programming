@@ -146,5 +146,8 @@ public class GameScreen extends GameState{
 		return powerup;
 	}
 	
+	public GameLevel getLevel(){
+		return level;
+	}
 	
 }

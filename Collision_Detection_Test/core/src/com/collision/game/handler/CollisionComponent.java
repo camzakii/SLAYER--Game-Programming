@@ -3,6 +3,7 @@ package com.collision.game.handler;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.collision.game.ability.Shuriken;
+import com.collision.game.entity.GameLevel;
 import com.collision.game.entity.Player;
 import com.collision.game.entity.Player2;
 import com.collision.game.entity.PlayerEntity.PlayerState;
@@ -15,12 +16,14 @@ public class CollisionComponent {
 	private Player2 player2;
 	private Powerup powerup;
 	private GameScreen game;
+	private GameLevel level;
 	
 	public CollisionComponent(GameScreen game){
 		this.game = game;
 		this.powerup = game.getPowerup();
 		this.player = game.getPlayer();
 		this.player2 = game.getPlayer2();
+		this.level = game.getLevel();
 	}
 	
 	public void update(float dt){
