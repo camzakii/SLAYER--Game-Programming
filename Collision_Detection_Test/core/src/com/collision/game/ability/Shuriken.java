@@ -59,7 +59,7 @@ public class Shuriken {
 		this.direction = direction;
 		this.position = position;
 		this.alive = true;
-		this.timer = 200;
+		this.timer = 120;
 		
 		if(direction.x > 0) {
 			boundingBox = new Rectangle(this.position.x + 17, this.position.y + 8, 8, 8);
