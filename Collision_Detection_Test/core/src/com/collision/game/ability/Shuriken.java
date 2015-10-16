@@ -27,6 +27,7 @@ public class Shuriken {
 	private Vector2 direction;
 	private Vector2 position;
 	private boolean alive;
+	private int timer;
 	
 	private Rectangle boundingBox;
 	
@@ -40,6 +41,7 @@ public class Shuriken {
 		this.currentAnimation = new Animation();
 		
 		this.alive = false;
+		this.timer = 0;
 		
 		Texture texture = new Texture(Gdx.files.internal("shuriken_throw.png"));
 		this.shurikenRightRegion = TextureRegion.split(texture, 43, 20)[0];
@@ -57,6 +59,7 @@ public class Shuriken {
 		this.direction = direction;
 		this.position = position;
 		this.alive = true;
+		this.timer = 200;
 		
 		if(direction.x > 0) {
 			boundingBox = new Rectangle(this.position.x + 17, this.position.y + 8, 8, 8);
@@ -74,16 +77,17 @@ public class Shuriken {
 	
 	public void update(float dt){
 		
-		currentAnimation.setPlaying(true);
-		currentAnimation.update(dt);
 		if(!alive) return;
 		
-		if(alive) {
-			boundingBox.x += VELOCITY * direction.x;
-		}
+		if(alive) boundingBox.x += VELOCITY * direction.x;
+		
+		currentAnimation.setPlaying(true);
+		currentAnimation.update(dt);
+		
+		timer--;
+		if(timer <= 0) setDead();
 		
 		mapCollision();
-		
 		mapWarping();
 	}
 	
@@ -100,9 +104,9 @@ public class Shuriken {
 					boundingBox.y - 4);
 		batch.end();
 		
-//		sr.begin(ShapeType.Line);
-//		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
-//		sr.end();
+		sr.begin(ShapeType.Line);
+		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
+		sr.end();
 	}
 
 	private void mapCollision(){
@@ -139,6 +143,6 @@ public class Shuriken {
 	
 	public void setDead(){
 		alive = false;
-		boundingBox.x = -500;
+		boundingBox = new Rectangle(-100, -100, 0, 0);
 	}
 }

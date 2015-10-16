@@ -79,17 +79,17 @@ public class CollisionComponent {
 		for(Shuriken shuriken: player1_shurikens){
 			if(shuriken.getBoundingBox().overlaps(player2.getBoundingRectangle())){
 				if(player2.getState() == PlayerState.BLOCKING) return;
-				
+
+				player1_shurikens.removeValue(shuriken, true);
 				shuriken.setDead();
 				player2.hit();
-				player1_shurikens.removeValue(shuriken, true);
 			}
 			if(shuriken.getBoundingBox().overlaps(player.getBoundingRectangle())){
 				if(player.getState() == PlayerState.BLOCKING) return;
 				
+				player1_shurikens.removeValue(shuriken, true);
 				shuriken.setDead();
 				player.hit();
-				player1_shurikens.removeValue(shuriken, true);
 			}
 		}
 		

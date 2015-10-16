@@ -390,6 +390,10 @@ public class Player2 extends PlayerEntity {
 		this.state = state;
 	}
 	
+	public boolean isDead(){
+		return !alive;
+	}
+	
 	public void setDirection(Vector2 direction){
 		this.direction = direction;
 	}

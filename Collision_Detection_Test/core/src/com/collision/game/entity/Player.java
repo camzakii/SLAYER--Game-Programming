@@ -231,6 +231,7 @@ public class Player extends PlayerEntity {
 		if(collisionX) {
 			position.x = prevX;
 			velocity.x = 0;
+			velocity.y *= 0.55;
 		}
 		
 		position.y += velocity.y * dt * 4;
@@ -351,7 +352,7 @@ public class Player extends PlayerEntity {
 	
 	public void hit(){
 		alive = false;
-		boundingRectangle.x = -400;
+		boundingRectangle = new Rectangle(0, 0, 0, 0);
 	}
 	
 	public void setVelocityX(float x){
@@ -407,6 +408,10 @@ public class Player extends PlayerEntity {
 
 	public PlayerState getState(){
 		return state;
+	}
+	
+	public boolean isDead(){
+		return !alive;
 	}
 	
 	public void setState(PlayerState moving){

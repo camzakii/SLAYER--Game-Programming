@@ -82,51 +82,57 @@ public class GameScreen extends GameState{
 		
 		// Player 1 Controls
 		
-		if(GameKeys.isPressed(GameKeys.W)){
-			player.jump();
-		}
-		if(GameKeys.isDown(GameKeys.A)){
-			player.moveLeft();
-		}
-		if(GameKeys.isDown(GameKeys.D)){
-			player.moveRight();
-		}
-		if(GameKeys.isPressed(GameKeys.S)){
-			player.swordAction();
-		}
-		if(GameKeys.isPressed(GameKeys.C)){
-			player.parryAction();
-		}
-		if(GameKeys.isUp(GameKeys.A) && GameKeys.isUp(GameKeys.D)){
-			player.setVelocityX(0);
-		}
-		if(GameKeys.isPressed(GameKeys.V)){
-			player.shurikenAction();
+		if(!player.isDead()){
+		
+			if(GameKeys.isPressed(GameKeys.W)){
+				player.jump();
+			}
+			if(GameKeys.isDown(GameKeys.A)){
+				player.moveLeft();
+			}
+			if(GameKeys.isDown(GameKeys.D)){
+				player.moveRight();
+			}
+			if(GameKeys.isPressed(GameKeys.S)){
+				player.swordAction();
+			}
+			if(GameKeys.isPressed(GameKeys.C)){
+				player.parryAction();
+			}
+			if(GameKeys.isUp(GameKeys.A) && GameKeys.isUp(GameKeys.D)){
+				player.setVelocityX(0);
+			}
+			if(GameKeys.isPressed(GameKeys.V)){
+				player.shurikenAction();
+			}
 		}
 		
 		// Player 2 Controls
-		if(GameKeys.isPressed(GameKeys.UP)){
-			player2.jump();
+		
+		if(!player2.isDead()){
+		
+			if(GameKeys.isPressed(GameKeys.UP)){
+				player2.jump();
+			}
+			if(GameKeys.isDown(GameKeys.LEFT)){
+				player2.moveLeft();
+			}
+			if(GameKeys.isDown(GameKeys.RIGHT)){
+				player2.moveRight();
+			}
+			if(GameKeys.isPressed(GameKeys.DOWN)){
+				player2.swordAction();
+			}
+			if(GameKeys.isPressed(GameKeys.M)){
+				player2.parryAction();
+			}
+			if(GameKeys.isPressed(GameKeys.N)){
+				player2.shurikenAction();
+			}
+			if(GameKeys.isUp(GameKeys.LEFT) && GameKeys.isUp(GameKeys.RIGHT)){
+				player2.setVelocityX(0);
+			}
 		}
-		if(GameKeys.isDown(GameKeys.LEFT)){
-			player2.moveLeft();
-		}
-		if(GameKeys.isDown(GameKeys.RIGHT)){
-			player2.moveRight();
-		}
-		if(GameKeys.isPressed(GameKeys.DOWN)){
-			player2.swordAction();
-		}
-		if(GameKeys.isPressed(GameKeys.M)){
-			player2.parryAction();
-		}
-		if(GameKeys.isPressed(GameKeys.N)){
-			player2.shurikenAction();
-		}
-		if(GameKeys.isUp(GameKeys.LEFT) && GameKeys.isUp(GameKeys.RIGHT)){
-			player2.setVelocityX(0);
-		}
-	
 	}
 
 	@Override
