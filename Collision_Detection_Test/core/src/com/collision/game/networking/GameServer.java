@@ -11,6 +11,7 @@ import com.collision.game.networking.Network.Login;
 import com.collision.game.networking.Network.PlayerAttack;
 import com.collision.game.networking.Network.PlayerHit;
 import com.collision.game.networking.Network.PlayerMovement;
+import com.collision.game.networking.Network.PlayerShoot;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -112,6 +113,10 @@ public class GameServer {
 		} else if(message instanceof PlayerHit){
 			PlayerHit msg = (PlayerHit) message;
 			handler.playerHit(msg);
+			server.sendToAllExceptTCP(connection.getID(), msg);
+		} else if(message instanceof PlayerShoot){
+			PlayerShoot msg = (PlayerShoot)message;
+			msg.playerId = connection.getID();
 			server.sendToAllExceptTCP(connection.getID(), msg);
 		}
 	}

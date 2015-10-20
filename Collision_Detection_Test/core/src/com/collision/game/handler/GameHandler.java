@@ -64,17 +64,27 @@ public class GameHandler {
 		for(Player mpPlayer : players.values()){	
 			mpPlayer.update(dt);
 			for(Player player2 : players.values()){
-			if(mpPlayer.getSwordRect().overlaps(player2.getBoundingRectangle())){	
-				if(mpPlayer.getState() != PlayerState.BLOCKING){
-					if(isClient){
-					PlayerHit hit = new PlayerHit(player2.getID(), mpPlayer.getID());
-					playerHit(hit);
-					client.sendMessage(hit);
+				if(mpPlayer.getSwordRect().overlaps(player2.getBoundingRectangle())){	
+					if(mpPlayer.getState() != PlayerState.BLOCKING){
+						if(isClient){
+							PlayerHit hit = new PlayerHit(player2.getID(), mpPlayer.getID());
+							playerHit(hit);
+							client.sendMessage(hit);
 					
-				}}
-			}
+						}
+					}
+				}
 			}
 		}	
+		
+		for(Shuriken shuriken: shurikens){
+			shuriken.update(dt);
+			for(Player currentPlayer : players.values()){
+				if(shuriken.getBoundingBox().overlaps(currentPlayer.getBoundingRectangle())){
+					System.out.println("PLAYER HIT!!");
+				}
+			}
+		}
 	}
 	
 	// removed synchronized 
@@ -85,6 +95,10 @@ public class GameHandler {
 		
 		for(Player mpPlayer : players.values()){
 			mpPlayer.render(batch);
+		}
+		
+		for(Shuriken shuriken: shurikens){
+			shuriken.render(batch);
 		}
 		
 	}
@@ -110,7 +124,7 @@ public class GameHandler {
 			if(!Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.D)){
 				player.setVelocityX(0);
 			}
-			if(Gdx.input.isKeyPressed(Keys.V)){
+			if(Gdx.input.isKeyJustPressed(Keys.V)){
 				player.shurikenAction();
 			}
 		}
@@ -157,24 +171,16 @@ public class GameHandler {
 	}
 	
 	public synchronized void playerAttack(PlayerAttack msg){
-		Player player = getPlayerById(msg.playerId);
-		if(player != null){
-			player.setBoundingRectangle(msg.boundingBox);
+		Player currentPlayer = getPlayerById(msg.playerId);
+		if(currentPlayer != null){
+			currentPlayer.setBoundingRectangle(msg.boundingBox);
 		}
 	}
 	
 	public synchronized void playerHit(PlayerHit msg){
-		Player player = getPlayerById(msg.playerIdVicitm);
-		player.setDead();
+		Player currentPlayer = getPlayerById(msg.playerIdVicitm);
+		currentPlayer.setDead();
 		System.out.println("Player Killed!");
-	}
-	
-	public synchronized boolean playerShoot(PlayerShoot msg){
-		Player curr = getPlayerById(msg.playerId);
-//		if(player != null){
-//			if
-//		}
-		return true;
 	}
 	
 	public Player getPlayer(){

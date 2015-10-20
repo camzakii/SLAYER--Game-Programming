@@ -95,7 +95,7 @@ public class Shuriken {
 		if(boundingBox.x < 0) boundingBox.x = 400;
 	}
 	
-	public void render(SpriteBatch batch, ShapeRenderer sr){
+	public void render(SpriteBatch batch){
 		if(!alive) return;
 		
 		batch.begin();

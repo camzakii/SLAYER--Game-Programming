@@ -82,8 +82,7 @@ public class GameClient {
 		} else if(msg instanceof PlayerAttack){
 			PlayerAttack message = (PlayerAttack) msg;
 			game.playerAttack(message);
-		} 
-		else if(msg instanceof PlayerHit){
+		} else if(msg instanceof PlayerHit){
 			PlayerHit message = (PlayerHit) msg;
 			game.playerHit(message);
 		}

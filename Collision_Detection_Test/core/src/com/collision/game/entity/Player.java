@@ -360,13 +360,12 @@ public class Player extends PlayerEntity {
 		
 		PlayerShoot msg = new PlayerShoot(id, position.cpy(), direction.cpy());
 		game.addShuriken(msg);
+		numBullets--;
 		
-//		Vector2 dir = new Vector2(direction.x, 0);
-//		Vector2 pos = new Vector2(position.x, position.y);
-//		Shuriken shuriken = new Shuriken(level, layer);
-//		shuriken.action(dir, pos);
-//		numBullets--;
-//		shurikens.add(shuriken);
+		if(isLocal){
+			game.clientSendMessage(msg);
+		}
+		
 	}
 	
 	public Rectangle getBoundingRectangle(){
@@ -376,11 +375,7 @@ public class Player extends PlayerEntity {
 	public void setBoundingRectangle(Rectangle boundingRectangle){
 		this.boundingRectangle = boundingRectangle;
 	}
-	
-//	public void hit(){
-//		alive = false;
-//		boundingRectangle = new Rectangle(0, 0, 0, 0);
-//	}
+
 	
 	public void setPlayerMovement(PlayerMovement msg){
 		this.position = msg.position;

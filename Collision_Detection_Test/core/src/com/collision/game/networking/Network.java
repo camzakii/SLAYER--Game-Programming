@@ -22,6 +22,7 @@ public class Network {
 		kryo.register(PlayerAttack.class);
 		kryo.register(Rectangle.class);
 		kryo.register(PlayerHit.class);
+		kryo.register(PlayerShoot.class);
 	}
 	
 	public static class Login{
