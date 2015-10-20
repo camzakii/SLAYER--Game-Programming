@@ -7,15 +7,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.collision.game.MyGdxGame;
 import com.collision.game.ability.Shuriken;
 import com.collision.game.entity.GameLevel;
 import com.collision.game.entity.Player;
+import com.collision.game.entity.Player.PlayerState;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
 import com.collision.game.networking.Network.LeaveJoin;
 import com.collision.game.networking.Network.PlayerAttack;
+import com.collision.game.networking.Network.PlayerHit;
 import com.collision.game.networking.Network.PlayerMovement;
 import com.collision.game.networking.Network.PlayerShoot;
 
@@ -29,6 +32,7 @@ public class GameHandler {
 	
 	private GameClient client;
 	private GameServer server;
+	private CollisionHandler collisionHandler;
 	
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
@@ -53,18 +57,24 @@ public class GameHandler {
 	public synchronized void update(float dt){
 		
 		if(client != null && player != null){
-		
 			handleInput();
-			
 			client.sendMessageUDP(player.getPlayerMovement());
-			
-			for(Player mpPlayer : players.values()){
-				mpPlayer.update(dt);
-				if(player.getBoundingRectangle().overlaps(mpPlayer.getSwordRect())){
-					System.out.println("HIT!");
-				}
-			}
 		}
+
+		for(Player mpPlayer : players.values()){	
+			mpPlayer.update(dt);
+			for(Player player2 : players.values()){
+			if(mpPlayer.getSwordRect().overlaps(player2.getBoundingRectangle())){	
+				if(mpPlayer.getState() != PlayerState.BLOCKING){
+					if(isClient){
+					PlayerHit hit = new PlayerHit(player2.getID(), mpPlayer.getID());
+					playerHit(hit);
+					client.sendMessage(hit);
+					
+				}}
+			}
+			}
+		}	
 	}
 	
 	// removed synchronized 
@@ -128,6 +138,7 @@ public class GameHandler {
 		Player newPlayer = new Player(camera, level, this, false);
 		newPlayer.setID(msg.playerId);
 		newPlayer.setName(msg.name);
+		newPlayer.setPosition(new Vector2(250, 100));
 		this.players.put(msg.playerId, newPlayer);
 		
 		System.out.println("Player Added: " + msg.playerId);
@@ -147,7 +158,15 @@ public class GameHandler {
 	
 	public synchronized void playerAttack(PlayerAttack msg){
 		Player player = getPlayerById(msg.playerId);
-		
+		if(player != null){
+			player.setBoundingRectangle(msg.boundingBox);
+		}
+	}
+	
+	public synchronized void playerHit(PlayerHit msg){
+		Player player = getPlayerById(msg.playerIdVicitm);
+		player.setDead();
+		System.out.println("Player Killed!");
 	}
 	
 	public synchronized boolean playerShoot(PlayerShoot msg){
@@ -181,6 +200,7 @@ public class GameHandler {
 		this.camera.setToOrtho(false, MyGdxGame.WIDTH * 1.3f, MyGdxGame.HEIGHT * 1.3f );
 		this.level = new GameLevel(camera);
 		this.batch = new SpriteBatch();
+		this.collisionHandler = new CollisionHandler();
 	}
 	
 }

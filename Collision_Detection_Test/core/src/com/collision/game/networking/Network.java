@@ -19,6 +19,9 @@ public class Network {
 		kryo.register(LeaveJoin.class);
 		kryo.register(PlayerMovement.class);
 		kryo.register(PlayerState.class);
+		kryo.register(PlayerAttack.class);
+		kryo.register(Rectangle.class);
+		kryo.register(PlayerHit.class);
 	}
 	
 	public static class Login{
@@ -89,6 +92,17 @@ public class Network {
 			this.playerId = playerId;
 			this.boundingBox = boundingBox;
 			this.position = position;
+		}
+	}
+	
+	public static class PlayerHit{
+		public int playerIdVicitm;
+		public int playerIdSource;
+		
+		public PlayerHit(){}
+		public PlayerHit(int playerIdVicitm, int playerIdSource){
+			this.playerIdVicitm = playerIdVicitm;
+			this.playerIdSource = playerIdSource;
 		}
 	}
 	

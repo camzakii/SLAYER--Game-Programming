@@ -150,16 +150,13 @@ public class Player extends PlayerEntity {
 		velocity.y -= 400 * 2 * dt;
 		collisionHandling(dt);
 		
-		System.out.println("Box Position x: " + boundingRectangle.x + " Box Position y: " + boundingRectangle.y);
-		System.out.println("Position x: " + position.x + " Position y: " + position.y);
-		
 		mapWarping();
 
 		animationHandler();
 		sword.update(dt);
 		block.update(dt);
 		
-		boundingRectangle.setPosition(position);
+		boundingRectangle.setPosition(this.position);
 		
 		currentAnimation.setPlaying(true);
 		currentAnimation.update(dt);
@@ -338,12 +335,12 @@ public class Player extends PlayerEntity {
 		
 		sword.action(position, direction, this);
 		
-		Vector2 pos = new Vector2(sword.getBoundingBox().x, sword.getBoundingBox().y);
-		PlayerAttack playerAttack = new PlayerAttack(id, sword.getBoundingBox(), pos);
-		
-		if(isLocal){
-			game.clientSendMessage(playerAttack);
-		}
+//		Vector2 pos = new Vector2(sword.getBoundingBox().x, sword.getBoundingBox().y);
+//		PlayerAttack playerAttack = new PlayerAttack(id, sword.getBoundingBox(), pos);
+//		
+//		if(isLocal){
+//			game.clientSendMessage(playerAttack);
+//		}
 		
 		state = PlayerState.ATTACKING;
 	}
@@ -374,6 +371,10 @@ public class Player extends PlayerEntity {
 	
 	public Rectangle getBoundingRectangle(){
 		return boundingRectangle;
+	}
+	
+	public void setBoundingRectangle(Rectangle boundingRectangle){
+		this.boundingRectangle = boundingRectangle;
 	}
 	
 //	public void hit(){
@@ -469,6 +470,11 @@ public class Player extends PlayerEntity {
 	
 	public boolean isDead(){
 		return !alive;
+	}
+	
+	public void setDead(){
+		alive = false;
+		boundingRectangle.x = -300;
 	}
 	
 	public void setState(PlayerState moving){

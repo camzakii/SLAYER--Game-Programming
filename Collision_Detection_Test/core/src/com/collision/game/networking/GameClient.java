@@ -7,6 +7,7 @@ import com.collision.game.handler.GameHandler;
 import com.collision.game.networking.Network.LeaveJoin;
 import com.collision.game.networking.Network.Login;
 import com.collision.game.networking.Network.PlayerAttack;
+import com.collision.game.networking.Network.PlayerHit;
 import com.collision.game.networking.Network.PlayerMovement;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -80,6 +81,11 @@ public class GameClient {
 			game.playerMoved(message);
 		} else if(msg instanceof PlayerAttack){
 			PlayerAttack message = (PlayerAttack) msg;
+			game.playerAttack(message);
+		} 
+		else if(msg instanceof PlayerHit){
+			PlayerHit message = (PlayerHit) msg;
+			game.playerHit(message);
 		}
 	}
 	

@@ -8,6 +8,8 @@ import com.collision.game.entity.Player;
 import com.collision.game.handler.GameHandler;
 import com.collision.game.networking.Network.LeaveJoin;
 import com.collision.game.networking.Network.Login;
+import com.collision.game.networking.Network.PlayerAttack;
+import com.collision.game.networking.Network.PlayerHit;
 import com.collision.game.networking.Network.PlayerMovement;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -102,6 +104,15 @@ public class GameServer {
 			handler.playerMoved(msg);
 			
 			server.sendToAllExceptUDP(connection.getID(), msg);
+		} else if(message instanceof PlayerAttack){
+			PlayerAttack msg = (PlayerAttack) message;
+			msg.playerId = connection.getID();
+			handler.playerAttack(msg);
+			server.sendToAllExceptTCP(connection.getID(), msg);
+		} else if(message instanceof PlayerHit){
+			PlayerHit msg = (PlayerHit) message;
+			handler.playerHit(msg);
+			server.sendToAllExceptTCP(connection.getID(), msg);
 		}
 	}
 	
@@ -111,6 +122,10 @@ public class GameServer {
 	
 	public static class GameConnection extends Connection{
 		public String name;
+	}
+	
+	public void sendMessage(Object message) {
+		server.sendToAllTCP(message);
 	}
 	
 }
