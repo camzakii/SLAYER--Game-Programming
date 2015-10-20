@@ -34,16 +34,18 @@ public class Shuriken {
 	private TiledMapTileLayer layer;
 	private GameLevel level;
 	
-	public Shuriken(GameLevel level, TiledMapTileLayer layer){
+	public Shuriken(GameLevel level, TiledMapTileLayer layer, Vector2 direction, Vector2 position){
 		this.boundingBox = new Rectangle();
 		this.rightAnimation = new Animation();
 		this.leftAnimation = new Animation();
 		this.currentAnimation = new Animation();
 		
-		this.alive = false;
-		this.timer = 0;
+		this.direction = direction;
+		this.position = position;
+		this.alive = true;
+		this.timer = 120;
 		
-		Texture texture = new Texture(Gdx.files.internal("shuriken_throw.png"));
+		Texture texture = new Texture(Gdx.files.internal("player_sprites/shuriken_throw.png"));
 		this.shurikenRightRegion = TextureRegion.split(texture, 43, 20)[0];
 		this.rightAnimation.setAnimation(shurikenRightRegion, 1/3f, rightAnimation);
 		
@@ -53,13 +55,10 @@ public class Shuriken {
 		this.layer = layer;
 		this.level = level;
 		
+		init();
 	}
 	
-	public void action(Vector2 direction, Vector2 position){
-		this.direction = direction;
-		this.position = position;
-		this.alive = true;
-		this.timer = 120;
+	private void init(){
 		
 		if(direction.x > 0) {
 			boundingBox = new Rectangle(this.position.x + 17, this.position.y + 8, 8, 8);
@@ -104,9 +103,9 @@ public class Shuriken {
 					boundingBox.y - 4);
 		batch.end();
 		
-		sr.begin(ShapeType.Line);
-		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
-		sr.end();
+//		sr.begin(ShapeType.Line);
+//		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
+//		sr.end();
 	}
 
 	private void mapCollision(){

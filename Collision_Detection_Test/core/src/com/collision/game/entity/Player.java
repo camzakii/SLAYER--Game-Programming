@@ -10,16 +10,24 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.collision.game.ability.Block;
-import com.collision.game.ability.Shuriken;
 import com.collision.game.ability.Sword;
 import com.collision.game.handler.Animation;
-import com.collision.game.handler.CollisionComponent;
+import com.collision.game.handler.GameHandler;
 import com.collision.game.handler.GameKeys;
+import com.collision.game.networking.Network.PlayerAttack;
+import com.collision.game.networking.Network.PlayerMovement;
+import com.collision.game.networking.Network.PlayerShoot;
 
 public class Player extends PlayerEntity {
 
+	public enum PlayerState{
+		IDLE,
+		BLOCKING,
+		MOVING, 
+		ATTACKING
+	}
+	
 	private static final int WIDTH = 43;
 	private static final int HEIGHT = 20;
 	
@@ -34,10 +42,12 @@ public class Player extends PlayerEntity {
 	
 	private Block block;
 	private Sword sword;
-	private Array<Shuriken> shurikens;
 	private PlayerState state;
+	private GameHandler game;
 	
 	private boolean alive;
+	private int id;
+	private String name;
 	
 	private TextureRegion[] rightSpriteRegion;
 	private TextureRegion[] leftSpriteRegion;
@@ -61,10 +71,12 @@ public class Player extends PlayerEntity {
 	private Animation currentAnimation;
 
 	// Testing
+	
+	private boolean isLocal;
 	private ShapeRenderer sr;
 	private TiledMapTileLayer layer;
 	
-	public Player(OrthographicCamera camera, GameLevel level){
+	public Player(OrthographicCamera camera, GameLevel level, GameHandler game, boolean isLocal){
 		
 		this.boundingRectangle = new Rectangle(100, 150, 16, 16);
 		
@@ -72,10 +84,11 @@ public class Player extends PlayerEntity {
 		this.direction = new Vector2(1, 0);
 		this.level = level;
 		this.layer = level.getLayer();
+		this.game = game;
+		this.isLocal = isLocal;
 		
 		this.numBullets = 3;
 		
-		this.shurikens = new Array<Shuriken>();
 		this.alive = true;
 		this.state = PlayerState.IDLE;
 		
@@ -94,28 +107,28 @@ public class Player extends PlayerEntity {
 		this.leftExtSwordAnimation = new Animation();
 		this.rightExtSwordAnimation = new Animation();
 		
-		Texture texture = new Texture(Gdx.files.internal("idle_fight_ninja1.png"));
+		Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja1.png"));
 		this.rightSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
 		this.rightAnimation.setAnimation(rightSpriteRegion, 1/3f, rightAnimation);
 		
 		this.leftSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
 		this.leftAnimation.setAnimation(leftSpriteRegion, 1/3f, leftAnimation);
 		
-		texture = new Texture(Gdx.files.internal("attack_fight_ninja1.png"));
+		texture = new Texture(Gdx.files.internal("player_sprites/attack_fight_ninja1.png"));
 		this.rightSwordRegion = TextureRegion.split(texture,43, 25)[0];
 		this.rightSwordAnimation.setAnimation(rightSwordRegion, 1/8f, rightSwordAnimation);
 		
 		this.leftSwordRegion = TextureRegion.split(texture, 43, 25)[1];
 		this.leftSwordAnimation.setAnimation(leftSwordRegion, 1/8f, leftSwordAnimation);
 		
-		texture = new Texture(Gdx.files.internal("block_fight_ninja1.png"));
+		texture = new Texture(Gdx.files.internal("player_sprites/block_fight_ninja1.png"));
 		this.leftBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
 		this.blockLeftAnimation.setAnimation(leftBlockRegion, 1/8f, blockLeftAnimation);
 		
 		this.rightBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
 		this.blockRightAnimation.setAnimation(rightBlockRegion, 1/8f, blockRightAnimation);
 		
-		texture = new Texture(Gdx.files.internal("attack_fight_ninja1_extended.png"));
+		texture = new Texture(Gdx.files.internal("player_sprites/attack_fight_ninja1_extended.png"));
 		this.rightExtSwordRegion = TextureRegion.split(texture, 50, 30)[0];
 		this.rightExtSwordAnimation.setAnimation(rightExtSwordRegion, 1/8f, rightExtSwordAnimation);
 		
@@ -124,7 +137,7 @@ public class Player extends PlayerEntity {
 		
 		currentAnimation = rightAnimation;
 		
-		// Testing
+//		 Testing
 		this.sr = new ShapeRenderer();
 		sr.setProjectionMatrix(camera.combined);
 	}
@@ -137,12 +150,14 @@ public class Player extends PlayerEntity {
 		velocity.y -= 400 * 2 * dt;
 		collisionHandling(dt);
 		
+		System.out.println("Box Position x: " + boundingRectangle.x + " Box Position y: " + boundingRectangle.y);
+		System.out.println("Position x: " + position.x + " Position y: " + position.y);
+		
 		mapWarping();
 
 		animationHandler();
 		sword.update(dt);
 		block.update(dt);
-		for(Shuriken shuriken: shurikens) shuriken.update(dt);
 		
 		boundingRectangle.setPosition(position);
 		
@@ -152,6 +167,7 @@ public class Player extends PlayerEntity {
 	}
 	
 	public void render(SpriteBatch batch){
+
 		
 		if(!alive) return;
 		
@@ -159,14 +175,14 @@ public class Player extends PlayerEntity {
 		batch.draw(currentAnimation.getFrame(), position.x - WIDTH / 3, position.y);
 		batch.end();
 		
-//		sr.begin(ShapeType.Line);
-//		sr.rect(position.x, position.y, 16, 16);
-//		sr.end();
+		sr.begin(ShapeType.Line);
+		sr.rect(boundingRectangle.x, boundingRectangle.y, 16, 16);
+		sr.end();
 	
 		sword.render(sr);
 		block.render(sr);
-		for(Shuriken shuriken: shurikens) shuriken.render(batch, sr);
 	}
+	
 	
 	private void animationHandler(){
 		
@@ -178,7 +194,6 @@ public class Player extends PlayerEntity {
 			else currentAnimation = leftAnimation;
 		}
 		if(state == PlayerState.ATTACKING){
-			
 			
 			if(sword.getPowerup()){
 				if(direction.x > 0) currentAnimation = rightExtSwordAnimation;
@@ -322,6 +337,14 @@ public class Player extends PlayerEntity {
 		if(block.getTimer() > 0) return;
 		
 		sword.action(position, direction, this);
+		
+		Vector2 pos = new Vector2(sword.getBoundingBox().x, sword.getBoundingBox().y);
+		PlayerAttack playerAttack = new PlayerAttack(id, sword.getBoundingBox(), pos);
+		
+		if(isLocal){
+			game.clientSendMessage(playerAttack);
+		}
+		
 		state = PlayerState.ATTACKING;
 	}
 	
@@ -338,21 +361,33 @@ public class Player extends PlayerEntity {
 		
 		if(numBullets <= 0) return;
 		
-		Vector2 dir = new Vector2(direction.x, 0);
-		Vector2 pos = new Vector2(position.x, position.y);
-		Shuriken shuriken = new Shuriken(level, layer);
-		shuriken.action(dir, pos);
-		numBullets--;
-		shurikens.add(shuriken);
+		PlayerShoot msg = new PlayerShoot(id, position.cpy(), direction.cpy());
+		game.addShuriken(msg);
+		
+//		Vector2 dir = new Vector2(direction.x, 0);
+//		Vector2 pos = new Vector2(position.x, position.y);
+//		Shuriken shuriken = new Shuriken(level, layer);
+//		shuriken.action(dir, pos);
+//		numBullets--;
+//		shurikens.add(shuriken);
 	}
 	
 	public Rectangle getBoundingRectangle(){
 		return boundingRectangle;
 	}
 	
-	public void hit(){
-		alive = false;
-		boundingRectangle = new Rectangle(0, 0, 0, 0);
+//	public void hit(){
+//		alive = false;
+//		boundingRectangle = new Rectangle(0, 0, 0, 0);
+//	}
+	
+	public void setPlayerMovement(PlayerMovement msg){
+		this.position = msg.position;
+		this.velocity = msg.velocity;
+		this.direction = msg.direction;
+		this.state = msg.state;
+		if(state == PlayerState.ATTACKING) this.sword.setTimer(msg.timer);
+		if(state == PlayerState.BLOCKING) this.block.setTimer(msg.timer);
 	}
 	
 	public void setVelocityX(float x){
@@ -378,6 +413,10 @@ public class Player extends PlayerEntity {
 		return position.y;
 	}
 	
+	public int getID(){
+		return this.id;
+	}
+	
 	public void setPosition(Vector2 position){
 		this.position = position;
 	}
@@ -393,13 +432,23 @@ public class Player extends PlayerEntity {
 	public Vector2 getDirection(){
 		return direction;
 	}
-
-	public Array<Shuriken> getShurikens(){
-		return shurikens;
-	}
 	
 	public Sword getSword(){
 		return sword;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public PlayerMovement getPlayerMovement(){
+		
+		int time = 0;
+		
+		if(state == PlayerState.ATTACKING) time = this.sword.getTimer();
+		if(state == PlayerState.BLOCKING) time = this.block.getTimer();
+		
+		return new PlayerMovement(this.id, this.position, this.direction, this.velocity, this.state, time);
 	}
 	
 	public Rectangle getSwordRect(){
@@ -408,6 +457,14 @@ public class Player extends PlayerEntity {
 
 	public PlayerState getState(){
 		return state;
+	}
+	
+	public void setID(int id){
+		this.id = id;
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 	
 	public boolean isDead(){

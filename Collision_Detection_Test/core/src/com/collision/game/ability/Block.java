@@ -28,8 +28,8 @@ public class Block {
 		if(direction.x > 0) boundingBox = new Rectangle(position.x + (direction.x * 16), position.y, 5, 15);
 		else boundingBox = new Rectangle(position.x - 5, position.y, 5, 15);
 		
-		this.blockTimer = 80;
-		this.timer = 30;
+		this.blockTimer = 60;
+		this.timer = 20;
 	}
 	
 	public void update(float dt){
@@ -48,13 +48,17 @@ public class Block {
 	}
 	
 	public void render(ShapeRenderer sr){
-//		sr.begin(ShapeType.Line);
-//		sr.rect(boundingBox.x, boundingBox.y, 5, 15);
-//		sr.end();
+		sr.begin(ShapeType.Line);
+		sr.rect(boundingBox.x, boundingBox.y, 5, 15);
+		sr.end();
 	}
 	
 	public int getTimer(){
 		return timer;
+	}
+	
+	public void setTimer(int timer){
+		this.timer = timer;
 	}
 	
 	public int getBlockTimer(){

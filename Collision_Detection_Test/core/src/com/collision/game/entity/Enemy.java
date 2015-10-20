@@ -29,7 +29,7 @@ public class Enemy {
 		this.sr = new ShapeRenderer();
 		this.animation = new Animation();
 		
-		Texture texture = new Texture(Gdx.files.internal("enemy.png"));
+		Texture texture = new Texture(Gdx.files.internal("player_sprites/enemy.png"));
 		this.spriteRegion = TextureRegion.split(texture, 16, 15)[1];
 		this.animation.setAnimation(spriteRegion, 1/3f, animation);
 		animation.setPlaying(true);

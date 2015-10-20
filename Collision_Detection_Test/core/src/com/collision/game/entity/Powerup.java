@@ -23,7 +23,7 @@ public class Powerup {
 		this.boundingBox = new Rectangle(position.x, position.y, WIDTH, WIDTH);
 		this.animation = new Animation();
 		
-		Texture texture = new Texture(Gdx.files.internal("power_up.png"));
+		Texture texture = new Texture(Gdx.files.internal("player_sprites/power_up.png"));
 		this.powerupRegion = TextureRegion.split(texture, 43, 20)[0];
 		this.animation.setAnimation(powerupRegion, 1/3f, animation);
 		

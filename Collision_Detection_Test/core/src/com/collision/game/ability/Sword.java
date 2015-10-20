@@ -18,7 +18,7 @@ public class Sword {
 	
 	public Sword(){
 		
-		this.boundingBox = new Rectangle();
+		this.boundingBox = new Rectangle(-100, 00, 16, 10);
 		this.powerup = false;
 	}
 	
@@ -80,14 +80,18 @@ public class Sword {
 	
 	public void render(ShapeRenderer sr){
 		
-//		sr.begin(ShapeType.Line);
-//		if(!powerup)	sr.rect(boundingBox.x, boundingBox.y, 16, 10);
-//		else sr.rect(boundingBox.x, boundingBox.y, 30, 10);
-//		sr.end();
+		sr.begin(ShapeType.Line);
+		if(!powerup) sr.rect(boundingBox.x, boundingBox.y, 16, 10);
+		else sr.rect(boundingBox.x, boundingBox.y, 30, 10);
+		sr.end();
 	}
 	
 	public int getTimer(){
 		return this.timer;
+	}
+	
+	public void setTimer(int timer){
+		this.timer = timer;
 	}
 	
 	public int getInterval(){
