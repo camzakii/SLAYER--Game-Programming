@@ -9,6 +9,7 @@ import com.collision.game.networking.Network.Login;
 import com.collision.game.networking.Network.PlayerAttack;
 import com.collision.game.networking.Network.PlayerHit;
 import com.collision.game.networking.Network.PlayerMovement;
+import com.collision.game.networking.Network.PlayerShoot;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -85,6 +86,8 @@ public class GameClient {
 		} else if(msg instanceof PlayerHit){
 			PlayerHit message = (PlayerHit) msg;
 			game.playerHit(message);
+		} else if(msg instanceof PlayerShoot){
+			
 		}
 	}
 	

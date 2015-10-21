@@ -50,6 +50,8 @@ public class GameScreen extends GameState{
 			System.out.println("Client starting");
 		}
 		
+		sr = new ShapeRenderer();
+		
 //		Gdx.input.setInputProcessor(new CustomInputProcessor());
 	}
 
@@ -61,6 +63,16 @@ public class GameScreen extends GameState{
 		gameHandler.update(dt);
 		if(isHost) server.update(dt);
 	
+		
+//		collision.update(dt);
+//		player.update(dt);
+//		player2.update(dt);
+//		powerup.update(dt);
+//		enemy.update(dt);
+		
+		
+		sr.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(camera.combined);
 	}
 
 	@Override

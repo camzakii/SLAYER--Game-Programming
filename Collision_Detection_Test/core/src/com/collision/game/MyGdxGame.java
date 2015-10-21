@@ -8,7 +8,7 @@ import com.collision.game.handler.GameStateManager;
 
 public class MyGdxGame extends ApplicationAdapter {
 	
-	public static final int WIDTH = 320;
+	public static final int WIDTH = 420;
 	public static final int HEIGHT = 240;
 	public static final int SCALE = 2;
 	public static final float STEP = 1/60f;
@@ -24,7 +24,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		this.batch = new SpriteBatch();
 		this.camera = new OrthographicCamera();
-		this.camera.setToOrtho(false, WIDTH * 1.3f, HEIGHT * 1.3f );
+		this.camera.setToOrtho(false, WIDTH * 1.1f, HEIGHT * 1.1f );
 		this.gsm = new GameStateManager(this);
 	}
 
