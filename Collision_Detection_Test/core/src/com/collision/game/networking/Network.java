@@ -87,7 +87,7 @@ public class Network {
 		public int playerId;
 		public Rectangle boundingBox;
 		public Vector2 position;
-		
+
 		public PlayerAttack(){}
 		public PlayerAttack(int playerId, Rectangle boundingBox, Vector2 position){
 			this.playerId = playerId;
@@ -97,12 +97,12 @@ public class Network {
 	}
 	
 	public static class PlayerHit{
-		public int playerIdVicitm;
+		public int playerIdVictim;
 		public int playerIdSource;
 		
 		public PlayerHit(){}
 		public PlayerHit(int playerIdVicitm, int playerIdSource){
-			this.playerIdVicitm = playerIdVicitm;
+			this.playerIdVictim = playerIdVictim;
 			this.playerIdSource = playerIdSource;
 		}
 	}
