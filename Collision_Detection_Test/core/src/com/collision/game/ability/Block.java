@@ -44,7 +44,7 @@ public class Block {
 		if(timer > 0) timer--;
 		if(blockTimer > 0) blockTimer--;
 		
-		if(timer <=0 ) boundingBox = new Rectangle();
+		if(timer <= 0 ) boundingBox = new Rectangle();
 	}
 	
 	public void render(ShapeRenderer sr){
