@@ -29,7 +29,7 @@ public class Block {
 		else boundingBox = new Rectangle(position.x - 5, position.y, 5, 15);
 		
 		this.blockTimer = 60;
-		this.timer = 20;
+		this.timer = 35;
 	}
 	
 	public void update(float dt){
