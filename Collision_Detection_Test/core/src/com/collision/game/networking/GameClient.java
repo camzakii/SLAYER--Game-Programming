@@ -87,7 +87,8 @@ public class GameClient {
 			PlayerHit message = (PlayerHit) msg;
 			game.playerHit(message);
 		} else if(msg instanceof PlayerShoot){
-			
+			PlayerShoot message = (PlayerShoot) msg;
+			game.addShuriken(message);
 		}
 	}
 	
