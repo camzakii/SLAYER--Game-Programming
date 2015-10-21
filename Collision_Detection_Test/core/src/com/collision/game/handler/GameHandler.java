@@ -178,7 +178,7 @@ public class GameHandler {
 	}
 	
 	public synchronized void playerHit(PlayerHit msg){
-		Player currentPlayer = getPlayerById(msg.playerIdVicitm);
+		Player currentPlayer = getPlayerById(msg.playerIdVictim);
 		currentPlayer.setDead();
 		System.out.println("Player Killed!");
 	}
