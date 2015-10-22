@@ -30,7 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		this.camera.setToOrtho(false, WIDTH * 1.1f, HEIGHT * 1.1f );
 		this.gsm = new GameStateManager(this);
 
-		//this.controller = Controllers.getControllers().first();
+		//controller = Controllers.getControllers().first();
 	}
 
 	@Override
