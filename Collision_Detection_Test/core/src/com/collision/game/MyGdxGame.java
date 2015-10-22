@@ -2,6 +2,8 @@ package com.collision.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.collision.game.handler.GameStateManager;
@@ -18,6 +20,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private GameStateManager gsm;
+	private Controller controller;
 	
 	@Override
 	public void create () {
@@ -26,6 +29,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, WIDTH * 1.1f, HEIGHT * 1.1f );
 		this.gsm = new GameStateManager(this);
+
+		//this.controller = Controllers.getControllers().first();
 	}
 
 	@Override

@@ -144,10 +144,10 @@ public class Player extends PlayerEntity {
 		this.leftExtSwordAnimation.setAnimation(leftExtSwordRegion, 1/8f, leftExtSwordAnimation);
 
 		texture = new Texture(Gdx.files.internal("player_sprites/P1_wall_slide.png"));
-		this.rightWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
+		this.rightWallSlideRegion = TextureRegion.split(texture, 43, 20)[1];
 		this.rightWallSlideAnimation.setAnimation(rightWallSlideRegion, 1/3f, rightWallSlideAnimation);
 
-		this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[1];
+		this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
 		this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/3f, leftWallSlideAnimation);
 		
 		currentAnimation = rightAnimation;
