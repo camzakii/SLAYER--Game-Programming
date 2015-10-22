@@ -9,7 +9,8 @@ public abstract class PlayerEntity {
 		IDLE,
 		ATTACKING,
 		BLOCKING,
-		MOVING
+		MOVING,
+		SLIDING
 	}
 
 	

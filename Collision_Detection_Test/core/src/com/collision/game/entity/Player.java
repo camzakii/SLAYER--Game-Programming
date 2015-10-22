@@ -57,6 +57,8 @@ public class Player extends PlayerEntity {
 	private TextureRegion[] rightBlockRegion;
 	private TextureRegion[] leftExtSwordRegion;
 	private TextureRegion[] rightExtSwordRegion;
+	private TextureRegion[] leftWallSlideRegion;
+	private TextureRegion[] rightWallSlideRegion;
 	
 	
 	private Animation rightAnimation;
@@ -67,6 +69,8 @@ public class Player extends PlayerEntity {
 	private Animation rightExtSwordAnimation;
 	private Animation blockLeftAnimation;
 	private Animation blockRightAnimation;
+	private Animation leftWallSlideAnimation;
+	private Animation rightWallSlideAnimation;
 	
 	private Animation currentAnimation;
 
@@ -106,6 +110,9 @@ public class Player extends PlayerEntity {
 		this.blockRightAnimation = new Animation();
 		this.leftExtSwordAnimation = new Animation();
 		this.rightExtSwordAnimation = new Animation();
+		this.leftWallSlideAnimation = new Animation();
+		this.rightWallSlideAnimation = new Animation();
+
 		
 		Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja1.png"));
 		this.rightSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
@@ -134,6 +141,13 @@ public class Player extends PlayerEntity {
 		
 		this.leftExtSwordRegion = TextureRegion.split(texture, 50, 30)[1];
 		this.leftExtSwordAnimation.setAnimation(leftExtSwordRegion, 1/8f, leftExtSwordAnimation);
+
+		texture = new Texture(Gdx.files.internal("player_sprites/P1_wall_slide.png"));
+		this.rightWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
+		this.rightWallSlideAnimation.setAnimation(rightWallSlideRegion, 1/3f, rightWallSlideAnimation);
+
+		this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[1];
+		this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/3f, leftWallSlideAnimation);
 		
 		currentAnimation = rightAnimation;
 		
