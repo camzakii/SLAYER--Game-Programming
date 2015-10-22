@@ -25,7 +25,8 @@ public class Player extends PlayerEntity {
 		IDLE,
 		BLOCKING,
 		MOVING, 
-		ATTACKING
+		ATTACKING,
+		SLIDING
 	}
 	
 	private static final int WIDTH = 43;
@@ -230,6 +231,16 @@ public class Player extends PlayerEntity {
 			}
 			
 		}
+		if(state == PlayerState.SLIDING) {
+
+			if(direction.x > 0) currentAnimation = rightWallSlideAnimation;
+			else currentAnimation = leftWallSlideAnimation;
+
+			if(block.getTimer() == 0){
+				currentAnimation.setCurrentFrame(0);
+				state = PlayerState.MOVING;
+			}
+		}
 	}
 	
 	public void mapWarping(){
@@ -258,6 +269,7 @@ public class Player extends PlayerEntity {
 			position.x = prevX;
 			velocity.x = 0;
 			velocity.y *= 0.55;
+			state = PlayerState.SLIDING;
 		}
 		
 		position.y += velocity.y * dt * 4;
