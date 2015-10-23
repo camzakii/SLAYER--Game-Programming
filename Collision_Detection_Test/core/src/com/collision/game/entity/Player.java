@@ -44,6 +44,7 @@ public class Player extends PlayerEntity {
 	private Block block;
 	private Sword sword;
 	private PlayerState state;
+	private PlayerState lastState;
 	private GameHandler game;
 	
 	private boolean alive;
@@ -145,10 +146,10 @@ public class Player extends PlayerEntity {
 
 		texture = new Texture(Gdx.files.internal("player_sprites/P1_wall_slide.png"));
 		this.rightWallSlideRegion = TextureRegion.split(texture, 43, 20)[1];
-		this.rightWallSlideAnimation.setAnimation(rightWallSlideRegion, 1/3f, rightWallSlideAnimation);
+		this.rightWallSlideAnimation.setAnimation(rightWallSlideRegion, 1/2f, rightWallSlideAnimation);
 
 		this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
-		this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/3f, leftWallSlideAnimation);
+		this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/4f, leftWallSlideAnimation);
 		
 		currentAnimation = rightAnimation;
 		
@@ -171,6 +172,8 @@ public class Player extends PlayerEntity {
 		sword.update(dt);
 		block.update(dt);
 		
+		System.out.println(state);
+		
 		boundingRectangle.setPosition(this.position);
 		
 		currentAnimation.setPlaying(true);
@@ -187,9 +190,9 @@ public class Player extends PlayerEntity {
 		batch.draw(currentAnimation.getFrame(), position.x - WIDTH / 3, position.y);
 		batch.end();
 		
-		sr.begin(ShapeType.Line);
-		sr.rect(boundingRectangle.x, boundingRectangle.y, 16, 16);
-		sr.end();
+//		sr.begin(ShapeType.Line);
+//		sr.rect(boundingRectangle.x, boundingRectangle.y, 16, 16);
+//		sr.end();
 	
 		sword.render(sr);
 		block.render(sr);
@@ -201,6 +204,8 @@ public class Player extends PlayerEntity {
 		if(state == PlayerState.MOVING){
 			
 			if(sword.getTimer() > 0) return;
+			
+			if(state == PlayerState.SLIDING) return;
 			
 			if(direction.x > 0) currentAnimation = rightAnimation;
 			else currentAnimation = leftAnimation;
@@ -236,10 +241,7 @@ public class Player extends PlayerEntity {
 			if(direction.x > 0) currentAnimation = rightWallSlideAnimation;
 			else currentAnimation = leftWallSlideAnimation;
 
-			if(block.getTimer() == 0){
-				currentAnimation.setCurrentFrame(0);
-				state = PlayerState.MOVING;
-			}
+			
 		}
 	}
 	
@@ -250,6 +252,8 @@ public class Player extends PlayerEntity {
 	}
 	
 	public void collisionHandling(float dt){
+		
+		if(state != PlayerState.SLIDING) lastState = state;
 		
 		boolean collisionX = false;
 		boolean collisionY = false;
@@ -270,6 +274,8 @@ public class Player extends PlayerEntity {
 			velocity.x = 0;
 			velocity.y *= 0.55;
 			state = PlayerState.SLIDING;
+		}else{
+			state = lastState;
 		}
 		
 		position.y += velocity.y * dt * 4;
