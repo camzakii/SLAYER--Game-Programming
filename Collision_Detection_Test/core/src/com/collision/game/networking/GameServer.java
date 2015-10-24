@@ -32,18 +32,11 @@ public class GameServer {
 		this.handler = new GameHandler(this);
 		Network.register(server);
 	
-		
 		Listener listener = new Listener(){	
 			public void received(Connection c, Object message){
 				handleRecieved(c, message);
 			}
 		};
-		
-//		server.addListener(new Listener(){
-//			public void received(Connection c, Object message){
-//				handleRecieved(c, message);
-//			}
-//		});
 		
 		server.addListener(new Listener.QueuedListener(listener) {
 			@Override

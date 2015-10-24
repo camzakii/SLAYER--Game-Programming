@@ -10,7 +10,7 @@ import com.collision.game.handler.GameStateManager;
 
 public class MyGdxGame extends ApplicationAdapter {
 	
-	public static final int WIDTH = 320;
+	public static final int WIDTH = 370;
 	public static final int HEIGHT = 240;
 	public static final int SCALE = 2;
 	public static final float STEP = 1/60f;

@@ -23,10 +23,11 @@ public class GameLevel {
 	public GameLevel(OrthographicCamera camera){
 		this.camera = camera;
 	
-		this.tileMap = new TmxMapLoader().load("level/level_1.tmx");
+		this.tileMap = new TmxMapLoader().load("level/level_3.tmx");
 		this.renderer = new OrthogonalTiledMapRenderer(tileMap);
 		
-		layer = (TiledMapTileLayer) tileMap.getLayers().get("layer1");
+		this.layer = (TiledMapTileLayer) tileMap.getLayers().get(2);
+		
 		this.tileSize = layer.getTileWidth();
 		this.levelWidth = tileMap.getProperties().get("width", Integer.class);
 		this.levelHeight = tileMap.getProperties().get("height", Integer.class);
@@ -40,10 +41,12 @@ public class GameLevel {
 	
 	public boolean isCellBlocked(float x, float y){
 		
-		Cell cell = layer.getCell((int) (x / layer.getTileWidth()), (int) (y / layer.getTileHeight()));
+		Cell cell = this.layer.getCell((int) (x / this.layer.getTileWidth()), (int) (y / this.layer.getTileHeight()));
 		if(cell != null && 
-				cell.getTile() != null &&
-				cell.getTile().getProperties().containsKey("blocked")){
+//				cell.getTile() != null && cell.getTile().getProperties().containsKey("blocked")){
+
+				cell.getTile() != null){
+			
 			return true;
 		}
 		return false;

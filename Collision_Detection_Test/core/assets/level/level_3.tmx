@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="20" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="forest" tilewidth="16" tileheight="16">
+  <image source="forest_tileset.png" width="128" height="128"/>
+ </tileset>
+ <layer name="backgroundLayer" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJyzZmBgsB7Fo3gUj+JRPIpH8SimISYGUKKXEkAL+wAyUH7D
+  </data>
+ </layer>
+ <layer name="middleLayer" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzFlU9PAkEMxevBI3oyckIvegA9wBIwRNzv/62cxja8bV7LbKLxJc3OzM7Mj/5bRHKdmp2b7cJ6nDOdO/b4PWtY+zTuV8f5NVnTc1sbn+w+nd/b2q09jzL1w7kjuTP6wvzHc87dN3sxJtod4TL1xADlXCFMtadmG8IdCu6b+TEke5GrvnoclPfa7BD2Vv6y2Fdy7qNM/VzCHs+d1wSrmbnCOGN+MTajMb1WenpG5PI78Szjus8iPCeZ9sW7D3vGekeuAJf1eNX3N2F+tOdCpn3h/kSuSuPC+oKtefxGGD/IJV+rZs/y0xcoxvV72FpP/LFGvT7xvl3CHYr7YzwzvQNXOdvwHrne6xnzWh1j/rU3VsXeyL2mio35V+4y2yh5fl1z+mnuN6tHMf6spyrukIx7uKi5/z+/pb+I6X/pGxJ2HXQ=
+  </data>
+ </layer>
+ <layer name="a" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJy9VrsKwzAMPBMv7dbHkm7plv7/BxZTRNUgKWeq+EAkJGc9LdkFQNmRM35xI9b8K3f4sOxHfEHjPQheNpaBdk/4xDlhfLy6Lk/1/bLxSZ5XR8+WL+8eX9Dy/Ap8Ksb/iGvFYkF4o7Eq23u5ycSMvr5r9ZzA1TDC0snX9WT9HJFH6dGK7x5n/NPIyqkHr+d6c8pAYtE9d+Tcsuwx84HRF9WDOfeYWsp8ZOfU6vA9aTFUw5dIT1VrM85/jaPvGt6emxN0vgEBDQXF
+  </data>
+ </layer>
+</map>

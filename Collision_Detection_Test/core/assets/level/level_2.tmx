@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="22" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="Forest" tilewidth="16" tileheight="16">
+  <image source="../../../../../../libGDX/SDP/Kelvins World/core/assets/level/forest_tileset.png" width="128" height="128"/>
+ </tileset>
+ <layer name="layer1" width="30" height="22">
+  <data encoding="base64" compression="zlib">
+   eJyzZmBgsB7Fo3gUj+JRPODYZoTYOYpH8UjAuAC5+igFtLYXADZPjfs=
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="30" height="22">
+  <data encoding="base64" compression="zlib">
+   eJztlDkOwjAQRU1ByVZBAx1ULEoCQkIhyf1PBZb8xfDlGZuwVDxplHh9HtuJczr1PS5G+7usxHuZ8JZO52q01TR2GLyHyPypfH2fQpSbSFsZ5qhp7DDE9B5nWrP0WrmATqm3vD7GtGZ4K6rf0hwot+FZGV60ed/GWDPyhZedYKbUsxd4716UW/d54J1E3BrW/Y31LagM78g9zrMvuPvanjPIdy68Ba1Rg+9KTju+AXm+J6WPVu4D7krsXmGvOmWMxS7T773H8H60OmaC8/KxeGOeip4a8gzW7vn7Z5DfQIkcH5D/rqVL56o5tXUAvmNd5vpedbK3cXlgT+W+pRzs6uO1iOWT4hv/7D+/4QaO1BYj
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="30" height="22">
+  <data encoding="base64" compression="zlib">
+   eJzFVcEOwjAIpW4nb1MvetN40av//2+ziUR8AdrN0pG8rBmMN+C1TUSUHOzp17zYpTiJvEfjveavyYF+9l2U3NGWeZ8b8aaG+V7GWuP1+jy9MdL3/3iNWptIn/lBiRs+vpvD6+mjFKf1EuMG5d8irVRHJG+23crv87wi+8S6QY4z+Tr611gPOAupk6yRJWdQD01xv0Z4enuphT2o7p5o1QPrPPFQ6oE8eyxN1dYpYd0XyGfF31dwensD904UsI5rJ16ccy/eDHnv9eJMUG+rnDMVagaE
+  </data>
+ </layer>
+</map>

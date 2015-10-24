@@ -39,6 +39,7 @@ public class Player extends PlayerEntity {
 	private Vector2 position;
 	private Vector2 velocity;
 	
+	private int lifes;
 	private int numBullets;
 	
 	private Block block;
@@ -94,6 +95,7 @@ public class Player extends PlayerEntity {
 		this.isLocal = isLocal;
 		
 		this.numBullets = 3;
+		this.lifes = 5;
 		
 		this.alive = true;
 		this.state = PlayerState.IDLE;
@@ -172,9 +174,9 @@ public class Player extends PlayerEntity {
 		sword.update(dt);
 		block.update(dt);
 		
-		System.out.println(state);
-		
 		boundingRectangle.setPosition(this.position);
+		
+		System.out.println("Y: " + position.y);
 		
 		currentAnimation.setPlaying(true);
 		currentAnimation.update(dt);
@@ -246,9 +248,9 @@ public class Player extends PlayerEntity {
 	}
 	
 	public void mapWarping(){
-		if(position.x + 16 < 0) position.x = 420;
-		if(position.x > 420) position.x = 0;
-		if(position.y + 15 < 0) position.y = 420;
+		if(position.x < 0) position.x = 465;
+		if(position.x > 465) position.x = 0;
+		if(position.y + 15 < 0) position.y = 320;
 	}
 	
 	public void collisionHandling(float dt){
@@ -273,7 +275,9 @@ public class Player extends PlayerEntity {
 			position.x = prevX;
 			velocity.x = 0;
 			velocity.y *= 0.55;
-			state = PlayerState.SLIDING;
+			if(velocity.y < -10) {
+				state = PlayerState.SLIDING;
+			}
 		}else{
 			state = lastState;
 		}
@@ -500,8 +504,8 @@ public class Player extends PlayerEntity {
 	}
 	
 	public void setDead(){
-		alive = false;
-		boundingRectangle.x = -300;
+		lifes--;
+		position = new Vector2(300, 300);
 	}
 	
 	public void setState(PlayerState moving){

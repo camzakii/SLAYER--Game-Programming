@@ -64,19 +64,20 @@ public class GameHandler {
 			client.sendMessageUDP(player.getPlayerMovement());
 		}
 
-		for(Player mpPlayer : players.values()){	
+		for (Map.Entry<Integer, Player> playerEntry : players.entrySet()) {
+			Player mpPlayer = playerEntry.getValue();
 			mpPlayer.update(dt);
 			for(Player player2 : players.values()){
-				if(mpPlayer.getSwordRect().overlaps(player2.getBoundingRectangle())){	
-					if(mpPlayer.getState() != PlayerState.BLOCKING){
+				
+				if(mpPlayer.getSwordRect().overlaps(player2.getBoundingRectangle()) && player2.getState() != PlayerState.BLOCKING){	
+					
 						if(isClient){
 							PlayerHit hit = new PlayerHit(player2.getID(), mpPlayer.getID());
-							playerHit(hit);
+							this.playerHit(hit);
 							client.sendMessage(hit);
-					
 						}
 					}
-				}
+				
 			}
 		}	
 		
@@ -187,7 +188,8 @@ public class GameHandler {
 	}
 	
 	public synchronized void playerHit(PlayerHit msg){
-		Player currentPlayer = getPlayerById(msg.playerIdVictim);
+		Player currentPlayer = players.get(msg.playerIdVictim);
+//		Player currentPlayer = getPlayerById(msg.playerIdVictim);
 		currentPlayer.setDead();
 		System.out.println("Player Killed!");
 	}

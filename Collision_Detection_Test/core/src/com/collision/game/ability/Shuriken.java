@@ -91,8 +91,8 @@ public class Shuriken {
 	}
 	
 	private void mapWarping(){
-		if(boundingBox.x > 400) boundingBox.x = 0;
-		if(boundingBox.x < 0) boundingBox.x = 400;
+		if(boundingBox.x > 465) boundingBox.x = 0;
+		if(boundingBox.x < 0) boundingBox.x = 465;
 	}
 	
 	public void render(SpriteBatch batch){

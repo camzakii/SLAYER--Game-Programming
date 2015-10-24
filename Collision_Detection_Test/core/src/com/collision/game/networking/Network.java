@@ -102,7 +102,7 @@ public class Network {
 		
 		public PlayerHit(){}
 		public PlayerHit(int playerIdVicitm, int playerIdSource){
-			this.playerIdVictim = playerIdVictim;
+			this.playerIdVictim = playerIdVicitm;
 			this.playerIdSource = playerIdSource;
 		}
 	}
