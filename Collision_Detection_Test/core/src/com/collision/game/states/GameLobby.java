@@ -3,14 +3,11 @@ package com.collision.game.states;
 import java.net.InetAddress;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -63,15 +60,6 @@ public class GameLobby extends GameState{
 
 	public void initComponents(){
 		
-		LabelStyle  style = new LabelStyle(font, Color.RED);
-		Label label = new Label("SLAYER", style);
-		label.setFontScale(9);
-		label.setPosition(100, 350);
-		
-		final Label labelTitle = new Label("SLAYER", skin);
-		labelTitle.setPosition(200f, 300f);
-		labelTitle.setColor(Color.RED);
-		
 		final TextButton buttonFind = new TextButton("Find Game", skin, "default");
 		buttonFind.setWidth(200f);
 		buttonFind.setHeight(20f);
@@ -122,8 +110,6 @@ public class GameLobby extends GameState{
 		stage.addActor(buttonHost);
 		stage.addActor(textFieldName);
 		stage.addActor(textFieldIP);
-//		stage.addActor(labelTitle);
-		stage.addActor(label);
 	}
 	
 	private void find(){

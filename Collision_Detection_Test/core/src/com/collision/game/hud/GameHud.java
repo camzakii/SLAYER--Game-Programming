@@ -42,7 +42,7 @@ public class GameHud {
 		
 		for(Player mpPlayer : players.values()){
 			for(int i = 0; i < mpPlayer.getLifes(); i++){
-				batch.draw(healthSprite, 10 * index, 30 * i);	
+				batch.draw(healthSprite, 14 * index, 14 * i);	
 			}
 			index += 30;
 		}

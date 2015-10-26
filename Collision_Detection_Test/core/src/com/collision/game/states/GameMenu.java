@@ -61,7 +61,7 @@ public class GameMenu extends GameState {
 				gsm.setState(gsm.LOBBY, false, "", "");
 			}
 		});
-		this.startButton.setPosition(100, 100);
+		this.startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2, 240);
 		
 		Texture texture = new Texture(Gdx.files.internal("menu_assets/title.png"));
 		this.titleSprite = new Sprite(texture);
