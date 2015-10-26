@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.collision.game.entity.GameLevel;
-import com.collision.game.entity.PlayerEntity;
 import com.collision.game.handler.Animation;
 
 public class Shuriken {
@@ -95,17 +94,17 @@ public class Shuriken {
 		if(boundingBox.x < 0) boundingBox.x = 465;
 	}
 	
-	public void render(SpriteBatch batch){
+	public void render(SpriteBatch batch, ShapeRenderer sr){
 		if(!alive) return;
 		
 		batch.begin();
 		batch.draw(currentAnimation.getFrame() , boundingBox.x - 13,
-					boundingBox.y - 4);
+					boundingBox.y - 6);
 		batch.end();
 		
-//		sr.begin(ShapeType.Line);
-//		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
-//		sr.end();
+		sr.begin(ShapeType.Line);
+		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
+		sr.end();
 	}
 
 	private void mapCollision(){

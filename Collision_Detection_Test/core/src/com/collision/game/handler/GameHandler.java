@@ -14,16 +14,11 @@ import com.collision.game.ability.Shuriken;
 import com.collision.game.entity.GameLevel;
 import com.collision.game.entity.Player;
 import com.collision.game.entity.Player.PlayerState;
+import com.collision.game.hud.GameHud;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
-import com.collision.game.networking.Network.LeaveJoin;
-import com.collision.game.networking.Network.PlayerAttack;
-import com.collision.game.networking.Network.PlayerHit;
-import com.collision.game.networking.Network.PlayerMovement;
-import com.collision.game.networking.Network.PlayerShoot;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.controllers.ControllerListener;
+import com.collision.game.networking.Network.*;
+import com.collision.game.utils.ParticleEngine;
 
 public class GameHandler {
 
@@ -32,10 +27,12 @@ public class GameHandler {
 	
 	private Player player;
 	private GameLevel level;
+	private GameHud gameHud;
 	
 	private GameClient client;
 	private GameServer server;
 	private CollisionHandler collisionHandler;
+	private ParticleEngine particleEngine;
 	
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
@@ -63,6 +60,10 @@ public class GameHandler {
 			handleInput();
 			client.sendMessageUDP(player.getPlayerMovement());
 		}
+		
+		gameHud.update(dt, players);
+		
+		particleEngine.update();
 
 		for (Map.Entry<Integer, Player> playerEntry : players.entrySet()) {
 			Player mpPlayer = playerEntry.getValue();
@@ -84,7 +85,7 @@ public class GameHandler {
 		for(Shuriken shuriken: shurikens){
 			shuriken.update(dt);
 			for(Player currentPlayer : players.values()){
-				if(shuriken.getBoundingBox().overlaps(currentPlayer.getBoundingRectangle())){
+				if(shuriken.getBoundingBox().overlaps(currentPlayer.getBoundingRectangle()) && currentPlayer.getState() != PlayerState.BLOCKING){
 					System.out.println("PLAYER HIT!!");
 				}
 			}
@@ -97,12 +98,16 @@ public class GameHandler {
 		batch.setProjectionMatrix(camera.combined);
 		level.render();
 		
+		gameHud.render(batch);
+		
+		particleEngine.render(batch);
+		
 		for(Player mpPlayer : players.values()){
 			mpPlayer.render(batch);
 		}
 		
 		for(Shuriken shuriken: shurikens){
-			shuriken.render(batch);
+			shuriken.render(batch, player.getSR());
 		}
 		
 	}
@@ -124,6 +129,7 @@ public class GameHandler {
 			}
 			if(Gdx.input.isKeyPressed(Keys.S)){
 				player.swordAction();
+				particleEngine.createParticles(player.getSword().getBoundingBox().x, player.getSword().getBoundingBox().y);
 			}
 			if(Gdx.input.isKeyPressed(Keys.C)){
 				player.parryAction();
@@ -133,6 +139,9 @@ public class GameHandler {
 			}
 			if(Gdx.input.isKeyJustPressed(Keys.V)){
 				player.shurikenAction();
+			}
+			if(Gdx.input.isKeyJustPressed(Keys.B)){
+				player.dashAction();
 			}
 //			if(Gdx.input.isButtonPressed(XboxController.BUTTON_X)){
 //				player.shurikenAction();
@@ -189,8 +198,10 @@ public class GameHandler {
 	
 	public synchronized void playerHit(PlayerHit msg){
 		Player currentPlayer = players.get(msg.playerIdVictim);
-//		Player currentPlayer = getPlayerById(msg.playerIdVictim);
-		currentPlayer.setDead();
+		if(currentPlayer != null){
+			currentPlayer.setPosition(level.randomSpawn(players));
+			currentPlayer.setDead();
+		}
 		System.out.println("Player Killed!");
 	}
 	
@@ -211,13 +222,24 @@ public class GameHandler {
 	}
 	
 	private void init(){
+		
 		this.players = new HashMap<Integer, Player>();
 		this.shurikens = new Array<Shuriken>();
+		
+		// Libgdx Components
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, MyGdxGame.WIDTH * 1.3f, MyGdxGame.HEIGHT * 1.3f );
-		this.level = new GameLevel(camera);
 		this.batch = new SpriteBatch();
+		
+		// Game components
+		this.level = new GameLevel(camera);
 		this.collisionHandler = new CollisionHandler();
+		this.particleEngine = new ParticleEngine();
+		this.gameHud = new GameHud(camera, this);
+	}
+	
+	public Map<Integer, Player> getPlayers(){
+		return players;
 	}
 	
 }

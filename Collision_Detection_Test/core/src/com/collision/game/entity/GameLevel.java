@@ -1,5 +1,9 @@
 package com.collision.game.entity;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -10,6 +14,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameLevel {
 
+	private static final Vector2 SPAWN_1 = new Vector2(300, 250);
+	private static final Vector2 SPAWN_2 = new Vector2(100, 150);
+	private static final Vector2 SPAWN_3 = new Vector2(330, 100);
+	private static final Vector2 SPAWN_4 = new Vector2(100, 250);
+	private ArrayList<Vector2> spawns = new ArrayList<Vector2>();
+	
 	private TiledMap tileMap;
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera camera;
@@ -23,6 +33,11 @@ public class GameLevel {
 	public GameLevel(OrthographicCamera camera){
 		this.camera = camera;
 	
+		spawns.add(SPAWN_1);
+		spawns.add(SPAWN_2);
+		spawns.add(SPAWN_3);
+		spawns.add(SPAWN_4);
+		
 		this.tileMap = new TmxMapLoader().load("level/level_3.tmx");
 		this.renderer = new OrthogonalTiledMapRenderer(tileMap);
 		
@@ -42,11 +57,7 @@ public class GameLevel {
 	public boolean isCellBlocked(float x, float y){
 		
 		Cell cell = this.layer.getCell((int) (x / this.layer.getTileWidth()), (int) (y / this.layer.getTileHeight()));
-		if(cell != null && 
-//				cell.getTile() != null && cell.getTile().getProperties().containsKey("blocked")){
-
-				cell.getTile() != null){
-			
+		if(cell != null && cell.getTile() != null){
 			return true;
 		}
 		return false;
@@ -54,6 +65,36 @@ public class GameLevel {
 	
 	public TiledMapTileLayer getLayer(){
 		return layer;
+	}
+	
+	public Vector2 randomSpawn(Map<Integer, Player> players){
+		
+		TreeMap<Float, Vector2> distanceSpawns = new TreeMap<Float, Vector2>();
+		
+		for(Player player: players.values()){
+			
+			if(players.isEmpty()) System.out.println("NO PLAYERS!");
+			
+			for(Vector2 spawnPosition: spawns){
+				
+				if(spawnPosition == null) System.out.println("SPAWN POSITION IS NULL");
+				
+				float x = player.getPosition().x - spawnPosition.x;
+				x *= x;
+				
+				float y = player.getPosition().y - spawnPosition.y;
+				y *= y;
+				
+				distanceSpawns.put((float) Math.sqrt(x + y), spawnPosition);
+			}
+		}
+		
+		if(distanceSpawns.isEmpty()) {
+			System.out.println("IS EMPTY!");
+			return SPAWN_1;
+		}
+		
+		return distanceSpawns.lastEntry().getValue();
 	}
 	
 }

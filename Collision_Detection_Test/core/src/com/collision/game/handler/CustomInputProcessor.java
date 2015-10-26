@@ -22,29 +22,14 @@ public class CustomInputProcessor implements InputProcessor {
 		if(keycode == Keys.R){
 			GameKeys.setKey(GameKeys.R, true);
 		}
-		if(keycode == Keys.M){
-			GameKeys.setKey(GameKeys.M, true);
-		}
-		if(keycode == Keys.LEFT){
-			GameKeys.setKey(GameKeys.LEFT, true);
-		}
-		if(keycode == Keys.UP){
-			GameKeys.setKey(GameKeys.UP, true);
-		}
-		if(keycode == Keys.RIGHT){
-			GameKeys.setKey(GameKeys.RIGHT, true);
-		}
-		if(keycode == Keys.DOWN){
-			GameKeys.setKey(GameKeys.DOWN, true);
-		}
 		if(keycode == Keys.C){
 			GameKeys.setKey(GameKeys.C, true);
 		}
 		if(keycode == Keys.V){
 			GameKeys.setKey(GameKeys.V, true);
 		}
-		if(keycode == Keys.N){
-			GameKeys.setKey(GameKeys.N, true);
+		if(keycode == Keys.B){
+			GameKeys.setKey(GameKeys.B, true);
 		}
 		return true;
 	}
@@ -66,29 +51,14 @@ public class CustomInputProcessor implements InputProcessor {
 		if(keycode == Keys.R){
 			GameKeys.setKey(GameKeys.R, false);
 		}
-		if(keycode == Keys.M){
-			GameKeys.setKey(GameKeys.M, false);
-		}
-		if(keycode == Keys.LEFT){
-			GameKeys.setKey(GameKeys.LEFT, false);
-		}
-		if(keycode == Keys.UP){
-			GameKeys.setKey(GameKeys.UP, false);
-		}
-		if(keycode == Keys.RIGHT){
-			GameKeys.setKey(GameKeys.RIGHT, false);
-		}
-		if(keycode == Keys.DOWN){
-			GameKeys.setKey(GameKeys.DOWN, false);
-		}
 		if(keycode == Keys.C){
 			GameKeys.setKey(GameKeys.C, false);
 		}
 		if(keycode == Keys.V){
 			GameKeys.setKey(GameKeys.V, false);
 		}
-		if(keycode == Keys.N){
-			GameKeys.setKey(GameKeys.N, false);
+		if(keycode == Keys.B){
+			GameKeys.setKey(GameKeys.B, false);
 		}
 		return true;
 	}

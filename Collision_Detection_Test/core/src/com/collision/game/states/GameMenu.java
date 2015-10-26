@@ -1,41 +1,72 @@
 package com.collision.game.states;
 
-import java.net.InetAddress;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.collision.game.handler.GameStateManager;
-import com.collision.game.networking.Network;
-import com.esotericsoftware.kryonet.Client;
 
-public class GameMenu extends GameState{
+public class GameMenu extends GameState {
 
+	private Stage stage;
+	private BitmapFont font;
+	private BitmapFont black_font;
+	private TextureAtlas atlas;
+	private Skin skin;
 	private SpriteBatch batch;
-    private Skin skin;
-    private Stage stage;
-
-    private TextField textFieldIP;
-    private TextField textFieldName;
-    
+	private Sprite titleSprite;
+	
+	private TextButton startButton;
+	private TextButton quitButton;
+	
 	public GameMenu(GameStateManager gsm){
 		super(gsm);
 		
-		  batch = new SpriteBatch();
-		  skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-		  stage = new Stage();
+		this.stage = new Stage();
+		this.batch = new SpriteBatch();
+		
+		this.atlas = new TextureAtlas("menu_assets/button.pack");
+		this.skin = new Skin(atlas);
+		
+		this.font = new BitmapFont(Gdx.files.internal("menu_assets/white_font.fnt"), false);
+		this.black_font = new BitmapFont(Gdx.files.internal("menu_assets/menu_font.fnt"), false);
+		
+		initMenu();
+		
+		Gdx.input.setInputProcessor(stage);
+	}
 
-		  initComponents();
-	        
-		  Gdx.input.setInputProcessor(stage);
+	private void initMenu() {
+		
+		TextButtonStyle textButtonStyle = new TextButtonStyle();
+		textButtonStyle.up = skin.getDrawable("button.press");
+		textButtonStyle.down = skin.getDrawable("button.press");
+		textButtonStyle.pressedOffsetX = 1;
+		textButtonStyle.pressedOffsetX = -1;
+		textButtonStyle.font = black_font;
+		
+		this.startButton = new TextButton("Play", textButtonStyle);
+		this.startButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				gsm.setState(gsm.LOBBY, false, "", "");
+			}
+		});
+		this.startButton.setPosition(100, 100);
+		
+		Texture texture = new Texture(Gdx.files.internal("menu_assets/title.png"));
+		this.titleSprite = new Sprite(texture);
+		
+		this.stage.addActor(startButton);
 	}
 
 	@Override
@@ -45,10 +76,15 @@ public class GameMenu extends GameState{
 
 	@Override
 	public void render() {
+
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		stage.act(Gdx.graphics.getDeltaTime());
+		batch.begin();
+		batch.draw(titleSprite, 150, 300, 600, 250);
+		batch.end();
+		
+		stage.act();
 		stage.draw();
 	}
 
@@ -57,93 +93,9 @@ public class GameMenu extends GameState{
 		
 	}
 
-	public void initComponents(){
-		
-		final Label labelTitle = new Label("SLAYER", skin);
-		labelTitle.setPosition(200f, 10f);
-		labelTitle.setColor(Color.RED);
-		
-		final TextButton buttonFind = new TextButton("Find Game", skin, "default");
-		buttonFind.setWidth(200f);
-		buttonFind.setHeight(20f);
-		buttonFind.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 + 70f);
-		
-		final TextButton buttonJoin = new TextButton("Join Game", skin, "default");
-		buttonJoin.setWidth(200f);
-		buttonJoin.setHeight(20f);
-		buttonJoin.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 + 130f);
-		
-		final TextButton buttonHost = new TextButton("Host Game", skin, "default");
-		buttonHost.setWidth(200f);
-		buttonHost.setHeight(20f);
-		buttonHost.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 + 200f);
-		
-		textFieldIP = new TextField("localhost", skin, "default");
-		textFieldIP.setPosition(200f, 50f);
-		
-		textFieldName = new TextField("", skin, "default");
-		textFieldName.setPosition(200f, 100f);
-		
-		buttonFind.addListener(new ClickListener(){
-			@Override 
-			public void clicked(InputEvent event, float x, float y){
-				System.out.println("find game");
-				find();
-			}
-		});
-		
-		buttonJoin.addListener(new ClickListener(){
-			@Override 
-			public void clicked(InputEvent event, float x, float y){
-				System.out.println("join game");
-				join();
-			}
-		});
-		
-		buttonHost.addListener(new ClickListener(){
-			@Override 
-			public void clicked(InputEvent event, float x, float y){
-				System.out.println("host game");
-				host();
-			}
-		});
-	        
-		stage.addActor(buttonFind);
-		stage.addActor(buttonJoin);
-		stage.addActor(buttonHost);
-		stage.addActor(textFieldName);
-		stage.addActor(textFieldIP);
-		stage.addActor(labelTitle);
-	}
-	
-	private void find(){
-		Client client = new Client();
-		client.start();
-		InetAddress found = client.discoverHost(Network.UDP, 5000);
-		if(found != null) textFieldIP.setText(found.getHostAddress().toString());
-		client.stop();
-		client.close();
-	}
-	
-	private void join(){
-		gsm.setState(gsm.PLAY, false, textFieldIP.getText(), getName());
-	}
-	
-	private void host(){
-		gsm.setState(gsm.PLAY, true, "localhost", getName());
-	}
-	
-	private String getName(){
-		String name = textFieldName.getText();
-		if(name.isEmpty()){
-			name = "Guest" + Math.random() + 10000; // default name
-		}
-		textFieldName.setText(name);
-		return name;
-	}
-	
 	@Override
 	public void dispose() {
 		
 	}
+	
 }

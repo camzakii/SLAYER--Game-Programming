@@ -3,8 +3,7 @@ package com.collision.game.handler;
 import java.util.Stack;
 
 import com.collision.game.MyGdxGame;
-import com.collision.game.networking.GameClient;
-import com.collision.game.networking.GameServer;
+import com.collision.game.states.GameLobby;
 import com.collision.game.states.GameMenu;
 import com.collision.game.states.GameScreen;
 import com.collision.game.states.GameState;
@@ -13,6 +12,7 @@ public class GameStateManager {
 
 	public static final int PLAY = 2;
 	public static final int MENU = 4;
+	public static final int LOBBY = 6;
 	
 	private MyGdxGame game;
 	private Stack<GameState> gameStates;
@@ -39,6 +39,10 @@ public class GameStateManager {
 		}
 		if(state == MENU){
 			return new GameMenu(this);
+		}
+		
+		if(state == LOBBY){
+			return new GameLobby(this);
 		}
 		
 		return null;

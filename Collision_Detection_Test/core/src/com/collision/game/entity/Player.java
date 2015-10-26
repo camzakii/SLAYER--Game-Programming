@@ -41,6 +41,7 @@ public class Player extends PlayerEntity {
 	
 	private int lifes;
 	private int numBullets;
+	private int jumpCount;
 	
 	private Block block;
 	private Sword sword;
@@ -85,9 +86,9 @@ public class Player extends PlayerEntity {
 	
 	public Player(OrthographicCamera camera, GameLevel level, GameHandler game, boolean isLocal){
 		
-		this.boundingRectangle = new Rectangle(100, 150, 16, 16);
-		
-		this.position = new Vector2(100, 150);
+//		this.boundingRectangle = new Rectangle(100, 150, 16, 16);
+//		
+//		this.position = new Vector2(100, 150);
 		this.direction = new Vector2(1, 0);
 		this.level = level;
 		this.layer = level.getLayer();
@@ -96,6 +97,7 @@ public class Player extends PlayerEntity {
 		
 		this.numBullets = 3;
 		this.lifes = 5;
+		this.jumpCount = 0;
 		
 		this.alive = true;
 		this.state = PlayerState.IDLE;
@@ -104,6 +106,7 @@ public class Player extends PlayerEntity {
 		this.block = new Block();
 		
 		this.velocity = new Vector2();
+		initPlayerPosition();
 		
 		this.rightAnimation = new Animation();
 		this.leftAnimation = new Animation();
@@ -176,8 +179,6 @@ public class Player extends PlayerEntity {
 		
 		boundingRectangle.setPosition(this.position);
 		
-		System.out.println("Y: " + position.y);
-		
 		currentAnimation.setPlaying(true);
 		currentAnimation.update(dt);
 		GameKeys.update();
@@ -192,9 +193,9 @@ public class Player extends PlayerEntity {
 		batch.draw(currentAnimation.getFrame(), position.x - WIDTH / 3, position.y);
 		batch.end();
 		
-//		sr.begin(ShapeType.Line);
-//		sr.rect(boundingRectangle.x, boundingRectangle.y, 16, 16);
-//		sr.end();
+		sr.begin(ShapeType.Line);
+		sr.rect(boundingRectangle.x, boundingRectangle.y, 16, 16);
+		sr.end();
 	
 		sword.render(sr);
 		block.render(sr);
@@ -247,10 +248,19 @@ public class Player extends PlayerEntity {
 		}
 	}
 	
+	public void initPlayerPosition(){
+		
+		Vector2 position = level.randomSpawn(game.getPlayers());
+		
+		this.boundingRectangle = new Rectangle(position.x, position.y, 16, 16);
+		
+		this.position = new Vector2(position.x, position.y);
+	}
+	
 	public void mapWarping(){
 		if(position.x < 0) position.x = 465;
 		if(position.x > 465) position.x = 0;
-		if(position.y + 15 < 0) position.y = 320;
+		if(position.y < 0) position.y = 310;
 	}
 	
 	public void collisionHandling(float dt){
@@ -275,6 +285,7 @@ public class Player extends PlayerEntity {
 			position.x = prevX;
 			velocity.x = 0;
 			velocity.y *= 0.55;
+			jumpCount = 0;
 			if(velocity.y < -10) {
 				state = PlayerState.SLIDING;
 			}
@@ -327,7 +338,10 @@ public class Player extends PlayerEntity {
 	private boolean collisionBottom(){
 		for(float step = 0; step < 17; step += layer.getTileWidth() / 2){
 			if(level.isCellBlocked(position.x + step, position.y)){
+				
+				jumpCount = 0;
 				return true;
+				
 			}
 		}
 		
@@ -337,14 +351,18 @@ public class Player extends PlayerEntity {
 	// Player Actions
 	
 	public void jump(){
+		
+		if(jumpCount >= 2) return;
+
 		velocity.y = 150;
+		jumpCount++;
 	}
 	
 	public void moveLeft(){
 			
 		velocity.x = -40;
 		direction.x = -1;
-
+		
 		if(sword.getTimer() > 0) state = PlayerState.ATTACKING;
 		else state = PlayerState.MOVING;
 		
@@ -371,13 +389,6 @@ public class Player extends PlayerEntity {
 		
 		sword.action(position, direction, this);
 		
-//		Vector2 pos = new Vector2(sword.getBoundingBox().x, sword.getBoundingBox().y);
-//		PlayerAttack playerAttack = new PlayerAttack(id, sword.getBoundingBox(), pos);
-//		
-//		if(isLocal){
-//			game.clientSendMessage(playerAttack);
-//		}
-		
 		state = PlayerState.ATTACKING;
 	}
 	
@@ -402,6 +413,10 @@ public class Player extends PlayerEntity {
 			game.clientSendMessage(msg);
 		}
 		
+	}
+	
+	public void dashAction(){
+		velocity.x = direction.x * 300;
 	}
 	
 	public Rectangle getBoundingRectangle(){
@@ -505,11 +520,20 @@ public class Player extends PlayerEntity {
 	
 	public void setDead(){
 		lifes--;
-		position = new Vector2(300, 300);
+//		position = level.randomSpawn();
+	}
+	
+	public int getLifes(){
+		return lifes;
 	}
 	
 	public void setState(PlayerState moving){
 		this.state = moving;
+	}
+	
+	// helper method
+	public ShapeRenderer getSR(){
+		return this.sr;
 	}
 	
 }

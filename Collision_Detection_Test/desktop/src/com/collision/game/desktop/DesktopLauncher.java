@@ -7,8 +7,9 @@ import com.collision.game.MyGdxGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = MyGdxGame.WIDTH * MyGdxGame.SCALE;
-		config.height = MyGdxGame.HEIGHT * MyGdxGame.SCALE;
+		config.width = (int) (MyGdxGame.WIDTH * MyGdxGame.SCALE);
+		config.height = (int) (MyGdxGame.HEIGHT * MyGdxGame.SCALE);
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 }
+ 

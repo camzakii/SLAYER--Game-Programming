@@ -10,10 +10,12 @@ public class Particle {
 	private int life;
 	private int yvel;
 	private int xvel;
+	private boolean xaxis;
+	private boolean yaxis;
 	
 	private Sprite sprite;
 	
-	public Particle(Sprite sprite, float x, float y, int life, int xvel, int yvel){
+	public Particle(Sprite sprite, float x, float y, int life, int xvel, int yvel, boolean xaxis, boolean yaxis){
 		
 		this.sprite = sprite;
 		
@@ -22,17 +24,23 @@ public class Particle {
 		this.life = life;
 		this.xvel = xvel;
 		this.yvel = yvel;
+		this.xaxis = xaxis;
+		this.yaxis = yaxis;
 	}
 	
 	public void update(){
-		y += yvel;
-//		x += xvel;
+		if(yaxis) y += yvel;
+		else y -= yvel;
+		
+		if(xaxis) x += xvel;
+		else x -= xvel;
+		
 		life--;
 	}
 	
 	public void render(SpriteBatch batch){
 		batch.begin();
-		batch.draw(sprite, x, y);
+		batch.draw(sprite, x - 20, y + 20);
 		batch.end();
 	}
 	
