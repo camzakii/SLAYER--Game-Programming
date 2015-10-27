@@ -1,8 +1,11 @@
 package com.collision.game.entity;
 
+import sun.rmi.transport.LiveRef;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,7 +18,6 @@ import com.collision.game.ability.Sword;
 import com.collision.game.handler.Animation;
 import com.collision.game.handler.GameHandler;
 import com.collision.game.handler.GameKeys;
-import com.collision.game.networking.Network.PlayerAttack;
 import com.collision.game.networking.Network.PlayerMovement;
 import com.collision.game.networking.Network.PlayerShoot;
 
@@ -38,6 +40,7 @@ public class Player extends PlayerEntity {
 	private Vector2 direction;
 	private Vector2 position;
 	private Vector2 velocity;
+	private Sprite playerIcon;
 	
 	private int lifes;
 	private int numBullets;
@@ -158,6 +161,9 @@ public class Player extends PlayerEntity {
 		
 		currentAnimation = rightAnimation;
 		
+		texture = new Texture(Gdx.files.internal("hud_sprites/player_tag.png"));
+		playerIcon = new Sprite(texture);
+		
 //		 Testing
 		this.sr = new ShapeRenderer();
 		sr.setProjectionMatrix(camera.combined);
@@ -166,6 +172,8 @@ public class Player extends PlayerEntity {
 	public void update(float dt){
 
 		if(!alive) return;
+		
+		if(lifes <= 0) alive = false;
 		
 		// Gravity
 		velocity.y -= 400 * 2 * dt;
@@ -191,6 +199,7 @@ public class Player extends PlayerEntity {
 		
 		batch.begin();
 		batch.draw(currentAnimation.getFrame(), position.x - WIDTH / 3, position.y);
+		if(isLocal) batch.draw(playerIcon, position.x , position.y + HEIGHT);
 		batch.end();
 		
 		sr.begin(ShapeType.Line);
@@ -520,7 +529,7 @@ public class Player extends PlayerEntity {
 	
 	public void setDead(){
 		lifes--;
-//		position = level.randomSpawn();
+		boundingRectangle.x = -300;
 	}
 	
 	public int getLifes(){

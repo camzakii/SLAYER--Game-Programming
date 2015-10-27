@@ -27,6 +27,7 @@ public class Shuriken {
 	private Vector2 position;
 	private boolean alive;
 	private int timer;
+	private int onHitTimer;
 	
 	private Rectangle boundingBox;
 	
@@ -77,6 +78,8 @@ public class Shuriken {
 		
 		if(!alive) return;
 		
+		if(onHitTimer > 0) onHitTimer--;
+		
 		if(alive) boundingBox.x += VELOCITY * direction.x;
 		
 		currentAnimation.setPlaying(true);
@@ -109,10 +112,10 @@ public class Shuriken {
 
 	private void mapCollision(){
 		if(direction.x > 0) {
-			if(collisionRight()) alive = false;
+			if(collisionRight()) setDead();
 		}
 		else{
-			if(collisionLeft()) alive = false;
+			if(collisionLeft()) setDead();
 		}
 	}
 	
@@ -142,5 +145,13 @@ public class Shuriken {
 	public void setDead(){
 		alive = false;
 		boundingBox = new Rectangle(-100, -100, 0, 0);
+	}
+	
+	public int getOnHitTimer(){
+		return onHitTimer;
+	}
+	
+	public void setOnHitTimer(int timer){
+		this.onHitTimer = timer;
 	}
 }

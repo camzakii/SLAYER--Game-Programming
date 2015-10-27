@@ -17,7 +17,11 @@ import com.collision.game.entity.Player.PlayerState;
 import com.collision.game.hud.GameHud;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
-import com.collision.game.networking.Network.*;
+import com.collision.game.networking.Network.LeaveJoin;
+import com.collision.game.networking.Network.PlayerAttack;
+import com.collision.game.networking.Network.PlayerHit;
+import com.collision.game.networking.Network.PlayerMovement;
+import com.collision.game.networking.Network.PlayerShoot;
 import com.collision.game.utils.ParticleEngine;
 
 public class GameHandler {
@@ -70,23 +74,36 @@ public class GameHandler {
 			mpPlayer.update(dt);
 			for(Player player2 : players.values()){
 				
-				if(mpPlayer.getSwordRect().overlaps(player2.getBoundingRectangle()) && player2.getState() != PlayerState.BLOCKING){	
+				if(mpPlayer.getSwordRect().overlaps(player2.getBoundingRectangle()) &&
+						player2.getState() != PlayerState.BLOCKING &&
+						mpPlayer.getSword().getSwordOnHit() <= 0){	
 					
-						if(isClient){
-							PlayerHit hit = new PlayerHit(player2.getID(), mpPlayer.getID());
-							this.playerHit(hit);
-							client.sendMessage(hit);
-						}
+					mpPlayer.getSword().setSwordOnHit(5);
+					
+					if(isClient){
+						PlayerHit hit = new PlayerHit(player2.getID(), mpPlayer.getID());
+						this.playerHit(hit);
+						client.sendMessage(hit);
 					}
-				
+				}				
 			}
 		}	
 		
 		for(Shuriken shuriken: shurikens){
 			shuriken.update(dt);
 			for(Player currentPlayer : players.values()){
-				if(shuriken.getBoundingBox().overlaps(currentPlayer.getBoundingRectangle()) && currentPlayer.getState() != PlayerState.BLOCKING){
-					System.out.println("PLAYER HIT!!");
+				if(shuriken.getBoundingBox().overlaps(currentPlayer.getBoundingRectangle()) && 
+						currentPlayer.getState() != PlayerState.BLOCKING &&
+						shuriken.getOnHitTimer() <= 0){
+					
+					shuriken.setOnHitTimer(5);
+					shuriken.setDead();
+					
+					if(isClient){
+						PlayerHit hit = new PlayerHit(currentPlayer.getID(), -1);
+						this.playerHit(hit);
+						client.sendMessage(hit);
+					}
 				}
 			}
 		}
@@ -173,11 +190,7 @@ public class GameHandler {
 		newPlayer.setName(msg.name);
 		newPlayer.setPosition(new Vector2(250, 100));
 		this.players.put(msg.playerId, newPlayer);
-		
-		System.out.println("Player Added: " + msg.playerId);
-		
-//		return newPlayer;
-	}
+		}
 	
 	public synchronized void removePlayer(LeaveJoin msg){
 		System.out.println("Player removed");

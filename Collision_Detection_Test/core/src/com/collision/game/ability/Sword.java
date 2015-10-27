@@ -14,6 +14,7 @@ public class Sword {
 	
 	private boolean powerup;
 	private int timer;
+	private int swordOnHit;
 	private int attackInterval;
 	
 	public Sword(){
@@ -53,6 +54,8 @@ public class Sword {
 	}
 	
 	public void update(float dt){
+		
+		if(swordOnHit > 0) swordOnHit--;
 		
 		if(player != null){
 			if(!powerup){
@@ -110,4 +113,11 @@ public class Sword {
 		return powerup;
 	}
 	
+	public void setSwordOnHit(int swordOnHit){
+		this.swordOnHit = swordOnHit;
+	}
+	
+	public int getSwordOnHit(){
+		return swordOnHit;
+	}
 }
