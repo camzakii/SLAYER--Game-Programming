@@ -65,6 +65,7 @@ public class GameHandler {
 			client.sendMessageUDP(player.getPlayerMovement());
 		}
 		
+		checkWin();
 		gameHud.update(dt, players);
 		
 		particleEngine.update();
@@ -164,6 +165,17 @@ public class GameHandler {
 //				player.shurikenAction();
 //			}
 		}
+	}
+	
+	public void checkWin(){
+		
+		int index = 0;
+		
+		for(Player player: players.values()){
+			if(!player.isDead()) index++;
+		}
+		
+		if(index < 2) System.out.println("Game is over!");
 	}
 	
 	public void connect(String name){

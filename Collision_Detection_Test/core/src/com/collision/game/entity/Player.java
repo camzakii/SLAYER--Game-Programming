@@ -202,9 +202,9 @@ public class Player extends PlayerEntity {
 		if(isLocal) batch.draw(playerIcon, position.x , position.y + HEIGHT);
 		batch.end();
 		
-		sr.begin(ShapeType.Line);
-		sr.rect(boundingRectangle.x, boundingRectangle.y, 16, 16);
-		sr.end();
+//		sr.begin(ShapeType.Line);
+//		sr.rect(boundingRectangle.x, boundingRectangle.y, 16, 16);
+//		sr.end();
 	
 		sword.render(sr);
 		block.render(sr);
