@@ -106,6 +106,10 @@ public class GameServer {
 			PlayerShoot msg = (PlayerShoot)message;
 			msg.playerId = connection.getID();
 			server.sendToAllExceptTCP(connection.getID(), msg);
+		} else if(message instanceof PlayerPowerup){
+			PlayerPowerup msg = (PlayerPowerup) message;
+			msg.playerId = connection.getID();
+			server.sendToAllExceptTCP(connection.getID(), msg);
 		}
 	}
 	

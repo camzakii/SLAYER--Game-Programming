@@ -31,10 +31,11 @@ public class Powerup {
 	}
 	
 	public void update(float dt){
+		animation.setPlaying(true);
 		animation.update(dt);
 	}
 	
-	public void render(SpriteBatch batch, ShapeRenderer sr){
+	public void render(SpriteBatch batch){
 
 		
 		batch.begin();

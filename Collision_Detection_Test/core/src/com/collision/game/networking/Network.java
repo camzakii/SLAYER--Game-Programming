@@ -23,6 +23,8 @@ public class Network {
 		kryo.register(Rectangle.class);
 		kryo.register(PlayerHit.class);
 		kryo.register(PlayerShoot.class);
+		kryo.register(PlayerPowerup.class);
+		kryo.register(PowerupData.class);
 	}
 	
 	public static class Login{
@@ -104,6 +106,24 @@ public class Network {
 		public PlayerHit(int playerIdVicitm, int playerIdSource){
 			this.playerIdVictim = playerIdVicitm;
 			this.playerIdSource = playerIdSource;
+		}
+	}
+	
+	public static class PlayerPowerup{
+		public int playerId;
+		
+		public PlayerPowerup(){}
+		public PlayerPowerup(int playerId){
+			this.playerId = playerId;
+		}
+	}
+	
+	public static class PowerupData{
+		public Vector2 position;
+		
+		public PowerupData(){}
+		public PowerupData(Vector2 position){
+			this.position = position;
 		}
 	}
 	

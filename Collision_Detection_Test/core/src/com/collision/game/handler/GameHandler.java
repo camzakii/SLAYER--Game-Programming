@@ -14,6 +14,7 @@ import com.collision.game.ability.Shuriken;
 import com.collision.game.entity.GameLevel;
 import com.collision.game.entity.Player;
 import com.collision.game.entity.Player.PlayerState;
+import com.collision.game.entity.Powerup;
 import com.collision.game.hud.GameHud;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
@@ -21,18 +22,23 @@ import com.collision.game.networking.Network.LeaveJoin;
 import com.collision.game.networking.Network.PlayerAttack;
 import com.collision.game.networking.Network.PlayerHit;
 import com.collision.game.networking.Network.PlayerMovement;
+import com.collision.game.networking.Network.PlayerPowerup;
 import com.collision.game.networking.Network.PlayerShoot;
+import com.collision.game.networking.Network.PowerupData;
 import com.collision.game.utils.ParticleEngine;
 
 public class GameHandler {
 
 	private Map<Integer, Player> players;
 	private Array<Shuriken> shurikens;
+	private Array<Powerup> powerups;
 	
 	private Player player;
 	private GameLevel level;
 	private GameHud gameHud;
+	
 	private boolean gameStarted;
+	private int powerupCooldown;
 	
 	private GameClient client;
 	private GameServer server;
@@ -109,6 +115,36 @@ public class GameHandler {
 				}
 			}
 		}
+		
+		for(Powerup powerup: powerups){
+			powerup.update(dt);
+			for(Player currentPlayer : players.values()){
+				if(powerup.getBoundingBox().overlaps(currentPlayer.getBoundingRectangle())){
+					
+					powerups.removeValue(powerup, true);
+					
+					if(isClient){
+						PlayerPowerup msg = new PlayerPowerup(currentPlayer.getID());
+						this.playerPowerup(msg);
+						client.sendMessage(msg);
+					}
+					
+				}
+			}
+		}
+		
+		if(!isClient){
+			
+			System.out.println(powerupCooldown);
+			
+			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
+				PowerupData powerupData = new PowerupData(new Vector2(200, 100));
+				server.sendMessage(powerupData);
+				powerupCooldown = 400;
+			}
+			
+			powerupCooldown --;
+		}
 	}
 	
 	// removed synchronized 
@@ -127,6 +163,10 @@ public class GameHandler {
 		
 		for(Shuriken shuriken: shurikens){
 			shuriken.render(batch, player.getSR());
+		}
+		
+		for(Powerup powerup: powerups){
+			powerup.render(batch);
 		}
 		
 	}
@@ -177,8 +217,6 @@ public class GameHandler {
 		for(Player player: players.values()){
 			if(!player.isDead()) index++;
 		}
-		
-		System.out.println(index);
 		
 		if(index == 1) System.out.println("Player wins!");
 	}
@@ -248,6 +286,17 @@ public class GameHandler {
 		shurikens.add(new Shuriken(level, level.getLayer(), msg.direction, msg.position));
 	}
 	
+	public synchronized void addPowerup(PowerupData msg){
+		System.out.println("Powerup ADDED!");
+		
+		powerups.add(new Powerup(msg.position));
+	}
+	
+	public synchronized void playerPowerup(PlayerPowerup msg){
+		Player player = players.get(msg.playerId);
+		player.getSword().setPowerup(true);
+	}
+	
 	public synchronized Player getPlayerById(int id){
 		return players.get(id);
 	}
@@ -260,6 +309,7 @@ public class GameHandler {
 		
 		this.players = new HashMap<Integer, Player>();
 		this.shurikens = new Array<Shuriken>();
+		this.powerups = new Array<Powerup>();
 		
 		// Libgdx Components
 		this.camera = new OrthographicCamera();
