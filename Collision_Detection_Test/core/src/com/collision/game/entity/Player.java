@@ -249,11 +249,8 @@ public class Player extends PlayerEntity {
 			
 		}
 		if(state == PlayerState.SLIDING) {
-
 			if(direction.x > 0) currentAnimation = rightWallSlideAnimation;
 			else currentAnimation = leftWallSlideAnimation;
-
-			
 		}
 	}
 	
@@ -347,18 +344,14 @@ public class Player extends PlayerEntity {
 	private boolean collisionBottom(){
 		for(float step = 0; step < 17; step += layer.getTileWidth() / 2){
 			if(level.isCellBlocked(position.x + step, position.y)){
-				
 				jumpCount = 0;
 				return true;
-				
 			}
 		}
-		
 		return false;
 	}
 	
 	// Player Actions
-	
 	public void jump(){
 		
 		if(jumpCount >= 2) return;
@@ -421,7 +414,6 @@ public class Player extends PlayerEntity {
 		if(isLocal){
 			game.clientSendMessage(msg);
 		}
-		
 	}
 	
 	public void dashAction(){
@@ -453,6 +445,7 @@ public class Player extends PlayerEntity {
 	public void setVelocityY(float y){
 		this.velocity.y = y;
 	}
+	
 	public void setX(float x){
 		this.position.x = x;
 	}

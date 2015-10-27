@@ -32,6 +32,7 @@ public class GameHandler {
 	private Player player;
 	private GameLevel level;
 	private GameHud gameHud;
+	private boolean gameStarted;
 	
 	private GameClient client;
 	private GameServer server;
@@ -169,13 +170,17 @@ public class GameHandler {
 	
 	public void checkWin(){
 		
+		if(!gameStart()) return;
+		
 		int index = 0;
 		
 		for(Player player: players.values()){
 			if(!player.isDead()) index++;
 		}
 		
-		if(index < 2) System.out.println("Game is over!");
+		System.out.println(index);
+		
+		if(index == 1) System.out.println("Player wins!");
 	}
 	
 	public void connect(String name){
@@ -184,10 +189,10 @@ public class GameHandler {
 			player.setID(client.id);
 			player.setName(name);
 			players.put(client.id, player);
-			System.out.println("Player created");
-		}else{
-			System.out.println("Player not created");
 		}
+//		else{
+//			System.out.println("Player not created"); // debugging
+//		}
 	}
 	
 	public void onDisconnect(){
@@ -195,7 +200,6 @@ public class GameHandler {
 		this.players.clear();
 	}
 	
-	// removed synchronized 
 	public synchronized void addPlayer(LeaveJoin msg){
 		Player newPlayer = new Player(camera, level, this, false);
 		newPlayer.setID(msg.playerId);
@@ -203,6 +207,12 @@ public class GameHandler {
 		newPlayer.setPosition(new Vector2(250, 100));
 		this.players.put(msg.playerId, newPlayer);
 		}
+	
+	private boolean gameStart(){
+		
+		if(players.size() >= 2) return true;
+		return false;
+	}
 	
 	public synchronized void removePlayer(LeaveJoin msg){
 		System.out.println("Player removed");
@@ -223,11 +233,11 @@ public class GameHandler {
 	
 	public synchronized void playerHit(PlayerHit msg){
 		Player currentPlayer = players.get(msg.playerIdVictim);
+		
 		if(currentPlayer != null){
 			currentPlayer.setPosition(level.randomSpawn(players));
 			currentPlayer.setDead();
 		}
-		System.out.println("Player Killed!");
 	}
 	
 	public Player getPlayer(){
@@ -261,6 +271,7 @@ public class GameHandler {
 		this.collisionHandler = new CollisionHandler();
 		this.particleEngine = new ParticleEngine();
 		this.gameHud = new GameHud(camera, this);
+		this.gameStarted = false;
 	}
 	
 	public Map<Integer, Player> getPlayers(){
