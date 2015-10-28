@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.collision.game.handler.Animation;
 import com.collision.game.handler.GameStateManager;
 
 public class GameMenu extends GameState {
@@ -23,7 +25,10 @@ public class GameMenu extends GameState {
 	private TextureAtlas atlas;
 	private Skin skin;
 	private SpriteBatch batch;
+	
 	private Sprite titleSprite;
+	private Animation menuAnimation;
+	private TextureRegion[] menuAnimationRegion;
 	
 	private TextButton startButton;
 	private TextButton quitButton;
@@ -33,12 +38,18 @@ public class GameMenu extends GameState {
 		
 		this.stage = new Stage();
 		this.batch = new SpriteBatch();
+		this.menuAnimation = new Animation();
 		
 		this.atlas = new TextureAtlas("menu_assets/button.pack");
 		this.skin = new Skin(atlas);
 		
 		this.font = new BitmapFont(Gdx.files.internal("menu_assets/white_font.fnt"), false);
 		this.black_font = new BitmapFont(Gdx.files.internal("menu_assets/menu_font.fnt"), false);
+		
+		Texture texture = new Texture(Gdx.files.internal("menu_assets/ani_menu_sprite.png"));
+		this.menuAnimationRegion = TextureRegion.split(texture, 924, 600)[0];
+		this.menuAnimation.setAnimation(menuAnimationRegion, 1/7f, menuAnimation);
+		this.menuAnimation.setPlaying(true);
 		
 		initMenu();
 		
@@ -71,7 +82,7 @@ public class GameMenu extends GameState {
 
 	@Override
 	public void update(float dt) {
-		
+		menuAnimation.update(dt);
 	}
 
 	@Override
@@ -81,6 +92,7 @@ public class GameMenu extends GameState {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
+		batch.draw(menuAnimation.getFrame(), 0, 200);
 		batch.draw(titleSprite, 150, 300, 600, 250);
 		batch.end();
 		
