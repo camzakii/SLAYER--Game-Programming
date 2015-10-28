@@ -324,7 +324,6 @@ public class GameHandler {
 	public synchronized void addPlayer(LeaveJoin msg){
 		
 		Player newPlayer = new Player(camera, level, this, false, msg.playerId);
-//		newPlayer.setID(msg.playerId);
 		newPlayer.setName(msg.name);
 		newPlayer.setPosition(new Vector2(250, 100));
 		this.players.put(msg.playerId, newPlayer);
