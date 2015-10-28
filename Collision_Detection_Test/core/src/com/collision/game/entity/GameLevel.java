@@ -41,7 +41,7 @@ public class GameLevel {
 		this.tileMap = new TmxMapLoader().load("level/level_4.tmx");
 		this.renderer = new OrthogonalTiledMapRenderer(tileMap);
 		
-		this.layer = (TiledMapTileLayer) tileMap.getLayers().get(2);
+		this.layer = (TiledMapTileLayer) tileMap.getLayers().get("a");
 		
 		this.tileSize = layer.getTileWidth();
 		this.levelWidth = tileMap.getProperties().get("width", Integer.class);

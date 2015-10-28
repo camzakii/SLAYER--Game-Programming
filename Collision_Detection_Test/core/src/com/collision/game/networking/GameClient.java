@@ -4,15 +4,7 @@ import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
 import com.collision.game.handler.GameHandler;
-import com.collision.game.networking.Network.LeaveJoin;
-import com.collision.game.networking.Network.Login;
-import com.collision.game.networking.Network.PlayerAttack;
-import com.collision.game.networking.Network.PlayerHit;
-import com.collision.game.networking.Network.PlayerMovement;
-import com.collision.game.networking.Network.PlayerPowerup;
-import com.collision.game.networking.Network.PlayerShoot;
-import com.collision.game.networking.Network.PowerupData;
-import com.collision.game.networking.Network.StartRound;
+import com.collision.game.networking.Network.*;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -98,10 +90,7 @@ public class GameClient {
 		} else if(msg instanceof PowerupData){
 			PowerupData message = (PowerupData) msg;
 			game.addPowerup(message);
-		} else if(msg instanceof StartRound){
-			StartRound message = (StartRound) msg;
-			game.roundStart(message);
-		}
+		} 
 	}
 	
 	public void connectLocal() {

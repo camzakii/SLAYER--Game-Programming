@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
- <tileset firstgid="1" name="forest" tilewidth="16" tileheight="16" tilecount="64">
+<map version="1.0" orientation="orthogonal" width="30" height="20" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="forest" tilewidth="16" tileheight="16">
   <image source="forest_tileset.png" width="128" height="128"/>
  </tileset>
- <tileset firstgid="65" name="tileset-fairy" tilewidth="16" tileheight="16" tilecount="108">
+ <tileset firstgid="65" name="tileset-fairy" tilewidth="16" tileheight="16">
   <image source="tileset-fairy.png" width="144" height="192"/>
  </tileset>
- <tileset firstgid="173" name="Untitled-1" tilewidth="16" tileheight="16" tilecount="108">
+ <tileset firstgid="173" name="Untitled-1" tilewidth="16" tileheight="16">
   <image source="Untitled-1.png" width="144" height="192"/>
  </tileset>
- <tileset firstgid="281" name="256px-SMA4UnusedBG7" tilewidth="16" tileheight="16" tilecount="240">
+ <tileset firstgid="281" name="256px-SMA4UnusedBG7" tilewidth="16" tileheight="16">
   <image source="256px-SMA4UnusedBG7.png" width="256" height="248"/>
  </tileset>
  <layer name="backgroundLayer" width="30" height="20">

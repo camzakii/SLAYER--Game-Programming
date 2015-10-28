@@ -70,11 +70,14 @@ public class GameHandler {
 	// removed synchronized 
 	public synchronized void update(float dt){
 		
-		if(!gameStarted && startTimer > 0) startTimer--;
-		
-		if(roundStarted && startTimer <= 0) gameStarted = true;
-		
-		System.out.println(startTimer);
+//		if(!gameStarted && startTimer > 0) {
+//			startTimer--;
+//		}
+//		
+//		if(roundStarted && startTimer <= 0) gameStarted = true;
+//		
+//		System.out.println(startTimer);
+//		System.out.println(gameStarted);
 		
 		if(client != null && player != null){
 			handleInput();
@@ -152,10 +155,11 @@ public class GameHandler {
 			}
 			powerupCooldown --;
 			
-			if(players.size() >= 2 && !gameStarted){
-				StartRound roundStart = new StartRound();
-				server.sendMessage(roundStart);
-			}
+//			if(players.size() >= 2 && !roundStarted){
+//				StartRound roundStart = new StartRound();
+//				server.sendMessage(roundStart);
+//				System.out.println("Start round");
+//			}
 		}
 	}
 	
@@ -184,7 +188,7 @@ public class GameHandler {
 	}
 	
 	public void handleInput(){
-		if(!player.isDead() && gameStarted){
+		if(!player.isDead()){
 			
 			if(Gdx.input.isKeyJustPressed(Keys.W)){
 				player.jump();
@@ -239,6 +243,9 @@ public class GameHandler {
 			player.setName(name);
 			players.put(client.id, player);
 		}
+		if(!isClient){
+			
+		}
 	}
 	
 	public void onDisconnect(){
@@ -252,7 +259,7 @@ public class GameHandler {
 		newPlayer.setName(msg.name);
 		newPlayer.setPosition(new Vector2(250, 100));
 		this.players.put(msg.playerId, newPlayer);
-		}
+	}
 	
 	private boolean gameStart(){
 		
@@ -309,10 +316,10 @@ public class GameHandler {
 		return players.get(id);
 	}
 	
-	public synchronized void roundStart(StartRound msg){
-		this.startTimer = 100;
-		roundStarted = true;
-	}
+//	public synchronized void roundStart(StartRound msg){
+//		this.startTimer = 100;
+//		roundStarted = true;
+//	}
 	
 	public synchronized void clientSendMessage(Object msg){
 		client.sendMessage(msg);

@@ -161,8 +161,7 @@ public class Player extends PlayerEntity {
 		
 		currentAnimation = rightAnimation;
 		
-		texture = new Texture(Gdx.files.internal("hud_sprites/player_tag.png"));
-		playerIcon = new Sprite(texture);
+		setIcon();
 		
 //		 Testing
 		this.sr = new ShapeRenderer();
@@ -532,6 +531,25 @@ public class Player extends PlayerEntity {
 	
 	public void setState(PlayerState moving){
 		this.state = moving;
+	}
+	
+	private void setIcon(){
+		if(this.id == 0){
+			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag.png"));
+			this.playerIcon = new Sprite(texture);
+		}
+		if(this.id == 1 ){
+			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_2.png"));
+			this.playerIcon = new Sprite(texture);
+		}
+		if(this.id == 2 ){
+			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_3.png"));
+			this.playerIcon = new Sprite(texture);
+		}
+		if(this.id == 3 ){
+			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag.png"));
+			this.playerIcon = new Sprite(texture);
+		}
 	}
 	
 	// helper method

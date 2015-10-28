@@ -43,7 +43,6 @@ public class GameServer {
 		try {
 			server.start();
 			server.bind(Network.PORT, Network.UDP);
-			System.out.println("Trying to bind");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
