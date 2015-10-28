@@ -190,7 +190,7 @@ public class GameHandler {
 		}
 		
 		batch.begin();
-		if(gameWon) batch.draw(gameWonSprite, 50, 200);
+		if(gameWon) batch.draw(gameWonSprite, 0, 200);
 		batch.end();
 	}
 	
