@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_collision_detection_test" default="compile.module.collision_detection_test">
+  <dirname property="module.collision_detection_test.basedir" file="${ant.file.module_collision_detection_test}"/>
+  
+  <property name="module.jdk.home.collision_detection_test" value="${jdk.home.1.7}"/>
+  <property name="module.jdk.bin.collision_detection_test" value="${jdk.bin.1.7}"/>
+  <property name="module.jdk.classpath.collision_detection_test" value="jdk.classpath.1.7"/>
+  
+  <property name="compiler.args.collision_detection_test" value="-encoding windows-1252 -source 1.6 ${compiler.args}"/>
+  
+  <property name="collision_detection_test.output.dir" value="${module.collision_detection_test.basedir}/build"/>
+  <property name="collision_detection_test.testoutput.dir" value="${module.collision_detection_test.basedir}/build"/>
+  
+  <path id="collision_detection_test.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="collision_detection_test.module.production.classpath">
+    <path refid="${module.jdk.classpath.collision_detection_test}"/>
+  </path>
+  
+  <path id="collision_detection_test.runtime.production.module.classpath">
+    <pathelement location="${collision_detection_test.output.dir}"/>
+  </path>
+  
+  <path id="collision_detection_test.module.classpath">
+    <path refid="${module.jdk.classpath.collision_detection_test}"/>
+    <pathelement location="${collision_detection_test.output.dir}"/>
+  </path>
+  
+  <path id="collision_detection_test.runtime.module.classpath">
+    <pathelement location="${collision_detection_test.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.collision_detection_test">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.collision_detection_test">
+    <patternset refid="excluded.from.module.collision_detection_test"/>
+  </patternset>
+  
+  
+  <target name="compile.module.collision_detection_test" depends="compile.module.collision_detection_test.production,compile.module.collision_detection_test.tests" description="Compile module Collision_Detection_Test"/>
+  
+  <target name="compile.module.collision_detection_test.production" depends="register.custom.compilers" description="Compile module Collision_Detection_Test; production classes"/>
+  
+  <target name="compile.module.collision_detection_test.tests" depends="register.custom.compilers,compile.module.collision_detection_test.production" description="compile module Collision_Detection_Test; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.collision_detection_test" description="cleanup module">
+    <delete dir="${collision_detection_test.output.dir}"/>
+    <delete dir="${collision_detection_test.testoutput.dir}"/>
+  </target>
+</project>

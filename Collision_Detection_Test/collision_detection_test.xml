@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="collision_detection_test" default="all">
+  
+  
+  <property file="collision_detection_test.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.apk"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.7" value="${jdk.home.1.7}/bin"/>
+  <path id="jdk.classpath.1.7">
+    <fileset dir="${jdk.home.1.7}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxrt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value=""/>
+  <property name="project.jdk.bin" value=""/>
+  <property name="project.jdk.classpath" value=""/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.gdx-controllers-desktop.classpath">
+    <pathelement location="${basedir}/core/libs/gdx-controllers-desktop.jar"/>
+    <pathelement location="${basedir}/core/libs/gdx-controllers.jar"/>
+  </path>
+  
+  <path id="library.gdx-controllers.classpath">
+    <pathelement location="${basedir}/core/libs/gdx-controllers.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.badlogicgames.gdx:gdx-backend-lwjgl:1.6.5.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-lwjgl/1.6.5/3b435f75bbc525be3d6aba5a2ae888a20e65c9ca/gdx-backend-lwjgl-1.6.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.badlogicgames.gdx:gdx-platform:1.6.5:natives-desktop.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-platform/1.6.5/e36705dc77ff6d585be5f7c78f85fe94ea278d7a/gdx-platform-1.6.5-natives-desktop.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.badlogicgames.gdx:gdx:1.6.5.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.6.5/b56ebcc34d39c4bb0a828c5ed04f46a04314bb4d/gdx-1.6.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_com.badlogicgames.jlayer:jlayer:1.0.1-gdx.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/com.badlogicgames.jlayer/jlayer/1.0.1-gdx/7cca83cec5c1b2f011362f4d85aabd71a73b049d/jlayer-1.0.1-gdx.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.java.jinput:jinput-platform:2.0.5:natives-linux.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/7ff832a6eb9ab6a767f1ade2b548092d0fa64795/jinput-platform-2.0.5-natives-linux.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.java.jinput:jinput-platform:2.0.5:natives-osx.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/53f9c919f34d2ca9de8c51fc4e1e8282029a9232/jinput-platform-2.0.5-natives-osx.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.java.jinput:jinput-platform:2.0.5:natives-windows.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/385ee093e01f587f30ee1c8a2ee7d408fd732e16/jinput-platform-2.0.5-natives-windows.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.java.jinput:jinput:2.0.5.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput/2.0.5/39c7796b469a600f72380316f6b1f11db6c2c7c4/jinput-2.0.5.jar"/>
+  </path>
+  
+  <path id="library.gradle:_net.java.jutils:jutils:1.0.0.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/net.java.jutils/jutils/1.0.0/e12fe1fda814bd348c1579329c86943d2cd3c6a6/jutils-1.0.0.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.jcraft:jorbis:0.0.17.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/org.jcraft/jorbis/0.0.17/8872d22b293e8f5d7d56ff92be966e6dc28ebdc6/jorbis-0.0.17.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.lwjgl.lwjgl:lwjgl-platform:2.9.2:natives-linux.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.2/d276cdf61fe2b516c7b7f4aa1b8dea91dbdc8d56/lwjgl-platform-2.9.2-natives-linux.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.lwjgl.lwjgl:lwjgl-platform:2.9.2:natives-osx.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.2/d55b46b40b40249d627a83a7f7f22649709d70c3/lwjgl-platform-2.9.2-natives-osx.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.lwjgl.lwjgl:lwjgl-platform:2.9.2:natives-windows.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.2/510c7d317f5e9e700b9cfaac5fd38bdebf0702e0/lwjgl-platform-2.9.2-natives-windows.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.lwjgl.lwjgl:lwjgl:2.9.2.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl/2.9.2/a9d80fe5935c7a9149f6584d9777cfd471f65489/lwjgl-2.9.2.jar"/>
+  </path>
+  
+  <path id="library.gradle:_org.lwjgl.lwjgl:lwjgl_util:2.9.2.classpath">
+    <pathelement location="${basedir}/../../../../.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl_util/2.9.2/4b9e37300a87799856e0bd15ed81663cdb6b0947/lwjgl_util-2.9.2.jar"/>
+  </path>
+  
+  <path id="library.kryonet-2.21-all.classpath">
+    <pathelement location="${basedir}/core/libs/kryonet-2.21-all.jar"/>
+  </path>
+  
+  <path id="library.kryonet-2.21-all_(2).classpath">
+    <pathelement location="${basedir}/desktop/libs/kryonet-2.21-all.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  <import file="${basedir}/module_collision_detection_test.xml"/>
+  
+  <import file="${basedir}/core/module_core.xml"/>
+  
+  <import file="${basedir}/desktop/module_desktop.xml"/>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.collision_detection_test, clean.module.core, clean.module.desktop" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.collision_detection_test, compile.module.core, compile.module.desktop" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
