@@ -556,6 +556,7 @@ public class Player extends PlayerEntity {
 			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_4.png"));
 			this.playerIcon = new Sprite(texture);
 		}
+		
 	}
 	
 	// helper method

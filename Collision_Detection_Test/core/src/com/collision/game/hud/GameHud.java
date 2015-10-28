@@ -58,7 +58,6 @@ public class GameHud {
 				index -= 62;
 			}
 			
-			
 			index += 31;
 		}
 		
