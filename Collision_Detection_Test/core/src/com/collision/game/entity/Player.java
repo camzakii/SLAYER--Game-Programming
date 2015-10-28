@@ -87,7 +87,7 @@ public class Player extends PlayerEntity {
 	private ShapeRenderer sr;
 	private TiledMapTileLayer layer;
 	
-	public Player(OrthographicCamera camera, GameLevel level, GameHandler game, boolean isLocal){
+	public Player(OrthographicCamera camera, GameLevel level, GameHandler game, boolean isLocal, int id){
 		
 //		this.boundingRectangle = new Rectangle(100, 150, 16, 16);
 //		
@@ -97,6 +97,8 @@ public class Player extends PlayerEntity {
 		this.layer = level.getLayer();
 		this.game = game;
 		this.isLocal = isLocal;
+		
+		this.id = id;
 		
 		this.numBullets = 3;
 		this.lifes = 5;
@@ -510,6 +512,7 @@ public class Player extends PlayerEntity {
 	
 	public void setID(int id){
 		this.id = id;
+		System.out.println("ID Changed to: " + id);
 	}
 	
 	public void setName(String name){
@@ -534,20 +537,23 @@ public class Player extends PlayerEntity {
 	}
 	
 	private void setIcon(){
-		if(this.id == 0){
+		
+		System.out.println("Player ID: " + id);
+		
+		if(this.id == 1){
 			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag.png"));
-			this.playerIcon = new Sprite(texture);
-		}
-		if(this.id == 1 ){
-			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_2.png"));
 			this.playerIcon = new Sprite(texture);
 		}
 		if(this.id == 2 ){
-			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_3.png"));
+			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_2.png"));
 			this.playerIcon = new Sprite(texture);
 		}
 		if(this.id == 3 ){
-			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag.png"));
+			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_3.png"));
+			this.playerIcon = new Sprite(texture);
+		}
+		if(this.id == 4 ){
+			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_4.png"));
 			this.playerIcon = new Sprite(texture);
 		}
 	}

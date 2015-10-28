@@ -238,8 +238,9 @@ public class GameHandler {
 	
 	public void connect(String name){
 		if(this.player == null){
-			player = new Player(camera, level, this, true);
-			player.setID(client.id);
+			
+			player = new Player(camera, level, this, true, client.id);
+//			player.setID(client.id);
 			player.setName(name);
 			players.put(client.id, player);
 		}
@@ -254,8 +255,11 @@ public class GameHandler {
 	}
 	
 	public synchronized void addPlayer(LeaveJoin msg){
-		Player newPlayer = new Player(camera, level, this, false);
-		newPlayer.setID(msg.playerId);
+		
+		System.out.println("Add Player, ID: " + msg.playerId);
+		
+		Player newPlayer = new Player(camera, level, this, false, msg.playerId);
+//		newPlayer.setID(msg.playerId);
 		newPlayer.setName(msg.name);
 		newPlayer.setPosition(new Vector2(250, 100));
 		this.players.put(msg.playerId, newPlayer);

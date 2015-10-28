@@ -38,7 +38,7 @@ public class GameLevel {
 		spawns.add(SPAWN_3);
 		spawns.add(SPAWN_4);
 		
-		this.tileMap = new TmxMapLoader().load("level/level_4.tmx");
+		this.tileMap = new TmxMapLoader().load("level/level_3.tmx");
 		this.renderer = new OrthogonalTiledMapRenderer(tileMap);
 		
 		this.layer = (TiledMapTileLayer) tileMap.getLayers().get("a");
