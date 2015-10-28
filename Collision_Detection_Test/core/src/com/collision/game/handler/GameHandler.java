@@ -6,6 +6,8 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -25,7 +27,6 @@ import com.collision.game.networking.Network.PlayerMovement;
 import com.collision.game.networking.Network.PlayerPowerup;
 import com.collision.game.networking.Network.PlayerShoot;
 import com.collision.game.networking.Network.PowerupData;
-import com.collision.game.networking.Network.StartRound;
 import com.collision.game.utils.ParticleEngine;
 
 public class GameHandler {
@@ -38,10 +39,13 @@ public class GameHandler {
 	private GameLevel level;
 	private GameHud gameHud;
 	
+	private Sprite gameWonSprite;
+	
 	private boolean gameStarted;
 	private int powerupCooldown;
-	private int startTimer;
-	private boolean roundStarted;
+//	private int startTimer;
+//	private boolean roundStarted;
+	private boolean gameWon;
 	
 	private GameClient client;
 	private GameServer server;
@@ -185,6 +189,9 @@ public class GameHandler {
 			powerup.render(batch);
 		}
 		
+		batch.begin();
+		if(gameWon) batch.draw(gameWonSprite, 50, 200);
+		batch.end();
 	}
 	
 	public void handleInput(){
@@ -233,7 +240,32 @@ public class GameHandler {
 			if(!player.isDead()) index++;
 		}
 		
-		if(index == 1) System.out.println("Player wins!");
+		if(index == 1) {
+			for(Player player: players.values()){
+				if(!player.isDead()){
+					
+					if(player.getID() == 1){
+						Texture texture = new Texture(Gdx.files.internal("screen_sprites/P1_wins.png"));
+						gameWonSprite = new Sprite(texture);
+					}
+					if(player.getID() == 2){
+						Texture texture = new Texture(Gdx.files.internal("screen_sprites/P2_wins.png"));
+						gameWonSprite = new Sprite(texture);
+					}
+					if(player.getID() == 3){
+						Texture texture = new Texture(Gdx.files.internal("screen_sprites/P3_wins.png"));
+						gameWonSprite = new Sprite(texture);
+					}
+					if(player.getID() == 4){
+						Texture texture = new Texture(Gdx.files.internal("screen_sprites/P4_wins.png"));
+						gameWonSprite = new Sprite(texture);
+					}
+				}
+			}
+			
+			gameWon = true;
+			
+		}
 	}
 	
 	public void connect(String name){
@@ -243,9 +275,6 @@ public class GameHandler {
 //			player.setID(client.id);
 			player.setName(name);
 			players.put(client.id, player);
-		}
-		if(!isClient){
-			
 		}
 	}
 	
@@ -346,7 +375,8 @@ public class GameHandler {
 		this.particleEngine = new ParticleEngine();
 		this.gameHud = new GameHud(camera, this);
 		this.gameStarted = false;
-		this.roundStarted = false;
+//		this.roundStarted = false;
+		this.gameWon = false;
 	}
 	
 	public Map<Integer, Player> getPlayers(){
