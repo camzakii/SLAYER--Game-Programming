@@ -98,7 +98,6 @@ public class GameServer {
 			PlayerMovement msg = (PlayerMovement)message;
 			msg.playerId = connection.getID();
 			handler.playerMoved(msg);
-			
 			server.sendToAllExceptUDP(connection.getID(), msg);
 		} else if(message instanceof PlayerAttack){
 			PlayerAttack msg = (PlayerAttack) message;
@@ -136,6 +135,11 @@ public class GameServer {
 	
 	public static class GameConnection extends Connection{
 		public String name;
+	}
+	
+	public void stop(){
+		server.close();
+		server.stop();
 	}
 	
 	public void sendMessage(Object message) {

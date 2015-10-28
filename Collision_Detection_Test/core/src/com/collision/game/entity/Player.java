@@ -46,6 +46,8 @@ public class Player{
 	
 	private Block block;
 	private Sword sword;
+	private boolean speed;
+	private double speedTimer;
 	private PlayerState state;
 	private PlayerState lastState;
 	private GameHandler game;
@@ -101,7 +103,7 @@ public class Player{
 		this.id = id;
 		
 		this.numBullets = 3;
-		this.lifes = 1;
+		this.lifes = 2;
 		this.jumpCount = 0;
 		
 		this.alive = true;
@@ -174,10 +176,16 @@ public class Player{
 
 		if(!alive) return;
 		
+		
+		if(speed){
+			if(speedTimer > 5) speed = false;
+			speedTimer += dt;
+		}
+		
 		if(lifes <= 0) alive = false;
 		
 		// Gravity
-		velocity.y -= 400 * 2 * dt;
+		velocity.y -= 300 * 2 * dt;
 		collisionHandling(dt);
 		
 		mapWarping();
@@ -357,14 +365,17 @@ public class Player{
 	public void jump(){
 		
 		if(jumpCount >= 2) return;
-
-		velocity.y = 150;
+		
+		if(speed) velocity.y = 225;
+		else velocity.y = 150;
+		
 		jumpCount++;
 	}
 	
 	public void moveLeft(){
-			
-		velocity.x = -40;
+		if(speed) velocity.x = -80;	
+		else velocity.x = -40;
+		
 		direction.x = -1;
 		
 		if(sword.getTimer() > 0) state = PlayerState.ATTACKING;
@@ -376,7 +387,9 @@ public class Player{
 	
 	public void moveRight(){
 		
-		velocity.x = 40;
+		if(speed) velocity.x = 80;
+		else velocity.x = 40;
+		
 		direction.x = 1;
 		
 		if(sword.getTimer() > 0) state = PlayerState.ATTACKING;
@@ -557,6 +570,10 @@ public class Player{
 			this.playerIcon = new Sprite(texture);
 		}
 		
+	}
+	
+	public void setSpeed(boolean speed){
+		this.speed = speed;
 	}
 	
 	// helper method

@@ -70,6 +70,7 @@ public class GameClient {
 			if(message.hasJoined){
 				game.addPlayer(message);
 			}else{
+				System.out.println("Remove player disconnected!!!");
 				game.removePlayer(message);
 			}
 		} else if(msg instanceof PlayerMovement){
@@ -116,6 +117,11 @@ public class GameClient {
 		if (client.isConnected()) {
 			client.sendUDP(message);
 		}
+	}
+	
+	public void stop(){
+		client.stop();
+		client.close();
 	}
 	
 	public GameHandler getHandler(){

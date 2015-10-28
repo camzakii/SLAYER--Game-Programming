@@ -17,6 +17,7 @@ import com.collision.game.entity.GameLevel;
 import com.collision.game.entity.Player;
 import com.collision.game.entity.Player.PlayerState;
 import com.collision.game.entity.Powerup;
+import com.collision.game.entity.Powerup.PowerupType;
 import com.collision.game.hud.GameHud;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
@@ -41,7 +42,7 @@ public class GameHandler {
 	
 	private Sprite gameWonSprite;
 	
-	private int powerupCooldown;
+	private double powerupCooldown;
 	private boolean gameWon;
 	
 	private GameClient client;
@@ -86,9 +87,6 @@ public class GameHandler {
 //		System.out.println(startTimer);
 //		System.out.println(gameStarted);
 		
-		
-		System.out.println("Camera Position: " + camera.position.x + " " + camera.position.y);
-		
 		if(client != null && player != null){
 			handleInput();
 			client.sendMessageUDP(player.getPlayerMovement());
@@ -115,6 +113,8 @@ public class GameHandler {
 						mpPlayer.getSword().getSwordOnHit() <= 0){	
 					
 					mpPlayer.getSword().setSwordOnHit(5);
+					
+					if(player2.getSword().getPowerup()) player2.getSword().setPowerup(false);
 					
 					particleEngine.createParticles(mpPlayer.getSword().getBoundingBox().x, player.getSword().getBoundingBox().y);
 					
@@ -154,7 +154,7 @@ public class GameHandler {
 					powerups.removeValue(powerup, true);
 					
 					if(isClient){
-						PlayerPowerup msg = new PlayerPowerup(currentPlayer.getID());
+						PlayerPowerup msg = new PlayerPowerup(currentPlayer.getID(), powerup.getType());
 						this.playerPowerup(msg);
 						client.sendMessage(msg);
 					}
@@ -167,15 +167,11 @@ public class GameHandler {
 			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
 				PowerupData powerupData = new PowerupData(new Vector2(200, 100));
 				server.sendMessage(powerupData);
-				powerupCooldown = 400 * 10;
+				powerupCooldown = 20;
 			}
-			powerupCooldown --;
 			
-//			if(players.size() >= 2 && !roundStarted){
-//				StartRound roundStart = new StartRound();
-//				server.sendMessage(roundStart);
-//				System.out.println("Start round");
-//			}
+			powerupCooldown -= dt;
+			System.out.println("Powerup Cooldown " + powerupCooldown);
 		}
 	}
 	
@@ -376,7 +372,8 @@ public class GameHandler {
 	
 	public synchronized void playerPowerup(PlayerPowerup msg){
 		Player player = players.get(msg.playerId);
-		player.getSword().setPowerup(true);
+		if(msg.type == PowerupType.RANGE) player.getSword().setPowerup(true);
+		else player.setSpeed(true);
 	}
 	
 	public synchronized Player getPlayerById(int id){

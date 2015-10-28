@@ -3,6 +3,7 @@ package com.collision.game.networking;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.collision.game.entity.Player.PlayerState;
+import com.collision.game.entity.Powerup.PowerupType;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
@@ -26,6 +27,7 @@ public class Network {
 		kryo.register(PlayerPowerup.class);
 		kryo.register(PowerupData.class);
 		kryo.register(StartRound.class);
+		kryo.register(PowerupType.class);
 	}
 	
 	public static class Login{
@@ -112,10 +114,12 @@ public class Network {
 	
 	public static class PlayerPowerup{
 		public int playerId;
+		public PowerupType type;
 		
 		public PlayerPowerup(){}
-		public PlayerPowerup(int playerId){
+		public PlayerPowerup(int playerId, PowerupType type){
 			this.playerId = playerId;
+			this.type = type;
 		}
 	}
 	

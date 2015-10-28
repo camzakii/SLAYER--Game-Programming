@@ -1,17 +1,14 @@
 package com.collision.game.states;
 
-import java.io.IOException;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.collision.game.handler.CustomInputProcessor;
 import com.collision.game.handler.GameHandler;
-import com.collision.game.handler.GameKeys;
 import com.collision.game.handler.GameStateManager;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
+import com.collision.game.networking.Network.LeaveJoin;
 
 public class GameScreen extends GameState{
 
@@ -79,6 +76,12 @@ public class GameScreen extends GameState{
 	@Override
 	public void handleInput() {
 		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			client.stop();
+			
+			if(server != null){
+				server.stop();
+			}
+			
 			gsm.setState(gsm.LOBBY, false, "", "");
 		}
 	}

@@ -1,18 +1,25 @@
 package com.collision.game.entity;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.collision.game.handler.Animation;
 
 public class Powerup {
 
+	public enum PowerupType{
+		RANGE,
+		SPEED
+	}
+	
 	private static final int WIDTH = 16;
+	
+	private PowerupType powerup_type;
 	
 	private Rectangle boundingBox;
 	private Animation animation;
@@ -26,6 +33,8 @@ public class Powerup {
 		Texture texture = new Texture(Gdx.files.internal("player_sprites/power_up.png"));
 		this.powerupRegion = TextureRegion.split(texture, 43, 20)[0];
 		this.animation.setAnimation(powerupRegion, 1/3f, animation);
+		
+		randomPowerup();
 		
 		animation.setPlaying(true);
 	}
@@ -46,6 +55,21 @@ public class Powerup {
 //		sr.rect(boundingBox.x, boundingBox.y, WIDTH, WIDTH);
 //		sr.end();
 	}
+
+	private void randomPowerup(){
+		
+		Random rand = new Random();
+		int randomNum = rand.nextInt(2) + 1;
+		
+		System.out.println("RAND: " + rand);
+		
+		if(randomNum == 1){
+			powerup_type = PowerupType.RANGE;
+		}else{
+			powerup_type = PowerupType.SPEED;
+		}
+		
+	}
 	
 	public Rectangle getBoundingBox(){
 		return boundingBox;
@@ -53,6 +77,10 @@ public class Powerup {
 	
 	public void remove(){
 		this.boundingBox.x = -500;
+	}
+	
+	public PowerupType getType(){
+		return powerup_type;
 	}
 	
 }
