@@ -12,6 +12,7 @@ import com.collision.game.networking.Network.PlayerMovement;
 import com.collision.game.networking.Network.PlayerPowerup;
 import com.collision.game.networking.Network.PlayerShoot;
 import com.collision.game.networking.Network.PowerupData;
+import com.collision.game.networking.Network.StartRound;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -97,6 +98,9 @@ public class GameClient {
 		} else if(msg instanceof PowerupData){
 			PowerupData message = (PowerupData) msg;
 			game.addPowerup(message);
+		} else if(msg instanceof StartRound){
+			StartRound message = (StartRound) msg;
+			game.roundStart(message);
 		}
 	}
 	

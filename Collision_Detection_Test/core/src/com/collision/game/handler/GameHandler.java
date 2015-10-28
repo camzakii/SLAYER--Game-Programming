@@ -155,7 +155,6 @@ public class GameHandler {
 			if(players.size() >= 2 && !gameStarted){
 				StartRound roundStart = new StartRound();
 				server.sendMessage(roundStart);
-				System.out.println("Round start");
 			}
 		}
 	}
