@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="forest" tilewidth="16" tileheight="16" tilecount="64">
+  <image source="forest_tileset.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="65" name="tileset-fairy" tilewidth="16" tileheight="16" tilecount="108">
+  <image source="tileset-fairy.png" width="144" height="192"/>
+ </tileset>
+ <tileset firstgid="173" name="256px-SMA4UnusedBG7" tilewidth="16" tileheight="16" tilecount="240">
+  <image source="../../../../../../../Desktop/256px-SMA4UnusedBG7.png" width="256" height="248"/>
+ </tileset>
+ <tileset firstgid="413" name="Untitled-1" tilewidth="16" tileheight="16" tilecount="108">
+  <image source="../../../../../../../Desktop/Untitled-1.png" width="144" height="192"/>
+ </tileset>
+ <layer name="backgroundLayer" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxzZGBgcBzFo3gUj+JRPIpH8SgexVTDAIB1mFk=
+  </data>
+ </layer>
+ <layer name="Copy of middleLayer" width="30" height="20" opacity="0.39">
+  <data encoding="base64" compression="zlib">
+   eJzt09sNgCAMheEyECqKN2T/XXAK/wXwTWmAk3yvPWnSiuRjjciAERMcZizwWLFhx4ETAReieRmsJAl3gdm995/UuG/vbbf3y7T2v6V6Nd5Vjb1a8gB+WzhA
+  </data>
+ </layer>
+ <layer name="middleLayer" width="30" height="20" opacity="0.89">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAOjiPhE1AaH0BXT0icELgOxDeooP46CWaAwHMgfkFD9YPVXncg9sODPYlQ78lAPICZEwzETnhwCA71cVjUEGvvMyg7EA/2RVPvhUcNqfbSQv2ovbS3F1ce8aSxvbjyiC8V7CWUj9HTvBOSOTA3kGMvNj/hy8fY/E9NewmVYZSGM67yg5DfaZWuCJVhA5V/vwPxNxqqxwXYGRkYOBgpV8+OJgYAaK9neg==
+  </data>
+ </layer>
+ <layer name="a" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztVtEKgCAMXOv/wUIKofrWChrZcmoyCqGDe1t3w50zAwBG4AxXTEq1xAYBHNw5MC0bqHlai3j6LvAe/HPgvRK6jaPHXsHXHp4us7fQDEsR89zBZySdy480pNzwTHHmZIw0QrpSbkL3PjVr3muLsq6kVZIpaUf5vqSrCWlH1XAPUrnS3GE+ct4TzR1GiL09tc3uK5RmJvZdTm2LZZnR/M9ZASZhfvE=
+  </data>
+ </layer>
+</map>
