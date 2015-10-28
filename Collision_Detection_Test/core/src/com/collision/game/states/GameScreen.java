@@ -3,6 +3,7 @@ package com.collision.game.states;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.collision.game.handler.CustomInputProcessor;
@@ -57,8 +58,7 @@ public class GameScreen extends GameState{
 	@Override
 	public void update(float dt) {
 		
-		GameKeys.update();
-		
+		handleInput();
 		gameHandler.update(dt);
 		if(isHost) server.update(dt);
 		
@@ -78,7 +78,9 @@ public class GameScreen extends GameState{
 
 	@Override
 	public void handleInput() {
-	
+		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			gsm.setState(gsm.LOBBY, false, "", "");
+		}
 	}
 
 	@Override

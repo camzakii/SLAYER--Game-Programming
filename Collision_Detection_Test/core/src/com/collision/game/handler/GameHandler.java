@@ -167,7 +167,6 @@ public class GameHandler {
 		}
 	}
 	
-	// removed synchronized 
 	public synchronized void render(){
 			
 		batch.setProjectionMatrix(camera.combined);
@@ -224,6 +223,7 @@ public class GameHandler {
 			if(Gdx.input.isKeyJustPressed(Keys.B)){
 				player.dashAction();
 			}
+			
 //			if(Gdx.input.isButtonPressed(XboxController.BUTTON_X)){
 //				player.shurikenAction();
 //			}

@@ -60,7 +60,7 @@ public class GameClient {
 	}
 	
 	protected void handleDisconnect(Connection c){
-		
+		game.onDisconnect();
 	}
 	
 	public void handleMessage(int playerId, Object msg){
@@ -70,7 +70,7 @@ public class GameClient {
 			if(message.hasJoined){
 				game.addPlayer(message);
 			}else{
-				System.out.println("Player left");
+				game.removePlayer(message);
 			}
 		} else if(msg instanceof PlayerMovement){
 			PlayerMovement message = (PlayerMovement) msg;

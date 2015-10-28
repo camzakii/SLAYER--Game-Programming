@@ -31,6 +31,9 @@ public class GameServer {
 			public void received(Connection c, Object message){
 				handleRecieved(c, message);
 			}
+			public void disconnected(Connection c){
+				handleDisconnected(c);
+			}
 		};
 		
 		server.addListener(new Listener.QueuedListener(listener) {
@@ -109,6 +112,16 @@ public class GameServer {
 			PlayerPowerup msg = (PlayerPowerup) message;
 			msg.playerId = connection.getID();
 			server.sendToAllExceptTCP(connection.getID(), msg);
+		}
+	}
+	
+	public void handleDisconnected(Connection c){
+		GameConnection connection = (GameConnection) c;
+		
+		if(connection.name != null){
+			LeaveJoin msg = new LeaveJoin(connection.getID(), connection.name, false, null);
+			server.sendToAllExceptTCP(connection.getID(), msg);
+			handler.removePlayer(msg);
 		}
 	}
 	
