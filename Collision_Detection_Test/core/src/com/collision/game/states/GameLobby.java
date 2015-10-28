@@ -4,10 +4,13 @@ import java.net.InetAddress;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -22,7 +25,11 @@ public class GameLobby extends GameState{
     private Skin skin;
     private Stage stage;
     private BitmapFont font;
+    private BitmapFont samuraiFont;
 
+    private Sprite enterIp;
+    private Sprite enterName;
+    
     private TextField textFieldIP;
     private TextField textFieldName;
     
@@ -33,6 +40,13 @@ public class GameLobby extends GameState{
 		  this.skin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		  this.stage = new Stage();
 		  this.font = new BitmapFont(Gdx.files.internal("data/default.fnt"));
+		  this.samuraiFont = new BitmapFont(Gdx.files.internal("menu_assets/white_font.fnt"));
+		  
+		  Texture texture = new Texture(Gdx.files.internal("menu_assets/enter_ip.png"));
+		  enterIp = new Sprite(texture);
+		  
+		  texture = new Texture(Gdx.files.internal("menu_assets/enter_name.png"));
+		  enterName = new Sprite(texture);
 		  
 		  initComponents();
 	        
@@ -51,6 +65,11 @@ public class GameLobby extends GameState{
 		
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+		
+		batch.begin();
+		batch.draw(enterIp, Gdx.graphics.getWidth() / 2 - 220, 150, 150, 40);
+		batch.draw(enterName, Gdx.graphics.getWidth() / 2 - 220, 200, 170, 50);
+		batch.end();
 	}
 
 	@Override
@@ -73,13 +92,17 @@ public class GameLobby extends GameState{
 		final TextButton buttonHost = new TextButton("Host Game", skin, "default");
 		buttonHost.setWidth(200f);
 		buttonHost.setHeight(20f);
-		buttonHost.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 + 200f);
+		buttonHost.setPosition(Gdx.graphics.getWidth() /2 - buttonHost.getWidth() / 2, Gdx.graphics.getHeight()/2 + 200f);
 		
 		textFieldIP = new TextField("localhost", skin, "default");
-		textFieldIP.setPosition(200f, 50f);
+		textFieldIP.setPosition(Gdx.graphics.getWidth() / 2 - buttonHost.getWidth() / 4, 150f);
 		
 		textFieldName = new TextField("", skin, "default");
-		textFieldName.setPosition(200f, 100f);
+		textFieldName.setPosition(Gdx.graphics.getWidth() / 2 - buttonHost.getWidth() / 4 , 200f);
+		
+		LabelStyle labelStyle = new LabelStyle();
+		labelStyle.font = samuraiFont;
+		
 		
 		buttonFind.addListener(new ClickListener(){
 			@Override 
