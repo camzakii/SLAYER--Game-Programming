@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.collision.game.handler.Animation;
 
 public class Powerup {
@@ -16,6 +17,10 @@ public class Powerup {
 		RANGE,
 		SPEED
 	}
+	
+	public final static Vector2 PU_SPAWN_1 = new Vector2(200, 100);
+	public final static Vector2 PU_SPAWN_2 = new Vector2(100, 250);
+	public final static Array<Vector2> powerup_spawns = new Array<Vector2>(new Vector2[] {PU_SPAWN_1, PU_SPAWN_2});
 	
 	private static final int WIDTH = 16;
 	

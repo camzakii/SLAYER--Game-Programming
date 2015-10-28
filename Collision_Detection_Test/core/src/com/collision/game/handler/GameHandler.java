@@ -52,6 +52,7 @@ public class GameHandler {
 	
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
+	private OrthographicCamera camera2;
 	
 	private boolean isClient;
 	
@@ -75,17 +76,7 @@ public class GameHandler {
 		init();
 	}
 	
-	// removed synchronized 
 	public synchronized void update(float dt){
-		
-//		if(!gameStarted && startTimer > 0) {
-//			startTimer--;
-//		}
-//		
-//		if(roundStarted && startTimer <= 0) gameStarted = true;
-//		
-//		System.out.println(startTimer);
-//		System.out.println(gameStarted);
 		
 		if(client != null && player != null){
 			handleInput();
@@ -113,8 +104,6 @@ public class GameHandler {
 						mpPlayer.getSword().getSwordOnHit() <= 0){	
 					
 					mpPlayer.getSword().setSwordOnHit(5);
-					
-					if(player2.getSword().getPowerup()) player2.getSword().setPowerup(false);
 					
 					particleEngine.createParticles(mpPlayer.getSword().getBoundingBox().x, player.getSword().getBoundingBox().y);
 					
@@ -165,7 +154,7 @@ public class GameHandler {
 		
 		if(!isClient){	
 			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
-				PowerupData powerupData = new PowerupData(new Vector2(200, 100));
+				PowerupData powerupData = new PowerupData(Powerup.powerup_spawns.random());
 				server.sendMessage(powerupData);
 				powerupCooldown = 20;
 			}
@@ -195,6 +184,8 @@ public class GameHandler {
 		for(Powerup powerup: powerups){
 			powerup.render(batch);
 		}
+		
+		batch.setProjectionMatrix(camera2.combined);
 		
 		batch.begin();
 		if(gameWon) batch.draw(gameWonSprite, 0, 200);
@@ -421,6 +412,8 @@ public class GameHandler {
 		// Libgdx Components
 		this.camera = new OrthographicCamera();
 		this.camera.setToOrtho(false, MyGdxGame.WIDTH * 1.3f, MyGdxGame.HEIGHT * 1.3f );
+		this.camera2 = new OrthographicCamera();
+		this.camera2.setToOrtho(false, MyGdxGame.WIDTH * 1.3f, MyGdxGame.HEIGHT * 1.3f );
 		this.batch = new SpriteBatch();
 		
 		// Game components

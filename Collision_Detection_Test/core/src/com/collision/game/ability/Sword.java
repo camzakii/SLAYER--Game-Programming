@@ -14,6 +14,7 @@ public class Sword {
 	
 	private boolean powerup;
 	private int timer;
+	private double removeTimer;
 	private int swordOnHit;
 	private int attackInterval;
 	
@@ -54,6 +55,11 @@ public class Sword {
 	}
 	
 	public void update(float dt){
+		
+		if(powerup){
+			removeTimer -= dt;
+			if(removeTimer <= 0) powerup = false;
+		}
 		
 		if(swordOnHit > 0) swordOnHit--;
 		
@@ -107,6 +113,7 @@ public class Sword {
 	
 	public void setPowerup(boolean bool){
 		this.powerup = bool;
+		this.removeTimer = 10;
 	}
 	
 	public boolean getPowerup(){
