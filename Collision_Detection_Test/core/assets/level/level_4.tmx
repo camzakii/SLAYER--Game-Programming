@@ -6,11 +6,11 @@
  <tileset firstgid="65" name="tileset-fairy" tilewidth="16" tileheight="16" tilecount="108">
   <image source="tileset-fairy.png" width="144" height="192"/>
  </tileset>
- <tileset firstgid="173" name="256px-SMA4UnusedBG7" tilewidth="16" tileheight="16" tilecount="240">
-  <image source="../../../../../../../Desktop/256px-SMA4UnusedBG7.png" width="256" height="248"/>
+ <tileset firstgid="173" name="Untitled-1" tilewidth="16" tileheight="16" tilecount="108">
+  <image source="Untitled-1.png" width="144" height="192"/>
  </tileset>
- <tileset firstgid="413" name="Untitled-1" tilewidth="16" tileheight="16" tilecount="108">
-  <image source="../../../../../../../Desktop/Untitled-1.png" width="144" height="192"/>
+ <tileset firstgid="281" name="256px-SMA4UnusedBG7" tilewidth="16" tileheight="16" tilecount="240">
+  <image source="256px-SMA4UnusedBG7.png" width="256" height="248"/>
  </tileset>
  <layer name="backgroundLayer" width="30" height="20">
   <data encoding="base64" compression="zlib">
@@ -19,17 +19,17 @@
  </layer>
  <layer name="Copy of middleLayer" width="30" height="20" opacity="0.39">
   <data encoding="base64" compression="zlib">
-   eJzt09sNgCAMheEyECqKN2T/XXAK/wXwTWmAk3yvPWnSiuRjjciAERMcZizwWLFhx4ETAReieRmsJAl3gdm995/UuG/vbbf3y7T2v6V6Nd5Vjb1a8gB+WzhA
+   eJxjYMAPDBgZGAyB2AiIjRnpp9YBKOYIxE5A7EzALHLVYgMBQPFAIA4iYA611SaQYBa11RJrFrXV0sreRKC6pAGwtxCormgQhjOh8KCVWkLhQQ+19AT4yhVaAlLCg5pupFV6HrV3eNtLqB4ktgyiptoCRuLzESlqAbtWJ2s=
   </data>
  </layer>
- <layer name="middleLayer" width="30" height="20" opacity="0.89">
+ <layer name="middleLayer" width="30" height="20" opacity="0.27">
   <data encoding="base64" compression="zlib">
-   eJxjYMAOjiPhE1AaH0BXT0icELgOxDeooP46CWaAwHMgfkFD9YPVXncg9sODPYlQ78lAPICZEwzETnhwCA71cVjUEGvvMyg7EA/2RVPvhUcNqfbSQv2ovbS3F1ce8aSxvbjyiC8V7CWUj9HTvBOSOTA3kGMvNj/hy8fY/E9NewmVYZSGM67yg5DfaZWuCJVhA5V/vwPxNxqqxwXYGRkYOBgpV8+OJgYAaK9neg==
+   eJxjYBgFo4CBwR2I/dDYyNgTh3p8aogBwWhsJzQcgkU9SDwOjxpSgRcQB6JhXzLUjILhDbCleXLTPSkAW74AYWqkP0L5GD3NOyHJUeIGYvI6MsDmf2raS+u4xFV+UKsMIxWMlmH0AQDldRy1
   </data>
  </layer>
  <layer name="a" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJztVtEKgCAMXOv/wUIKofrWChrZcmoyCqGDe1t3w50zAwBG4AxXTEq1xAYBHNw5MC0bqHlai3j6LvAe/HPgvRK6jaPHXsHXHp4us7fQDEsR89zBZySdy480pNzwTHHmZIw0QrpSbkL3PjVr3muLsq6kVZIpaUf5vqSrCWlH1XAPUrnS3GE+ct4TzR1GiL09tc3uK5RmJvZdTm2LZZnR/M9ZASZhfvE=
+   eJztVtEKgCAMnJ+Q/rhFFEH1reXDyJZTs1EIHdyT87bcObMAYBkucMYsFItsFMAEVw5Eqw/E3I3V6si7wnvAc3DfSmtFtDtHj51AXncOOpLTr43r4ZPcqfVYD3/kg/MN9RRljsdQI6TL+SZ071O9prUaxetyWiWe4maUnxd1JcHNqBruQcpXkjPMR857IjnDELG3p7befYVSz8T25cQaVeYZyf+cDajOfio=
   </data>
  </layer>
 </map>
