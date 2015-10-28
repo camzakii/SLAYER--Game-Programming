@@ -92,7 +92,7 @@ public class GameMenu extends GameState {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		batch.draw(menuAnimation.getFrame(), 0, 200);
+		batch.draw(menuAnimation.getFrame(), 0, 20);
 		batch.draw(titleSprite, 150, 300, 600, 250);
 		batch.end();
 		
