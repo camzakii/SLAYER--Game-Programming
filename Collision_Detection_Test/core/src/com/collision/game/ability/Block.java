@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.collision.game.entity.PlayerEntity;
+import com.collision.game.entity.Player;
 
 public class Block {
 
 	private Rectangle boundingBox;
-	private PlayerEntity player;
+	private Player player;
 	private Vector2 direction;
 	
 	private int timer;
@@ -19,7 +19,7 @@ public class Block {
 		this.boundingBox = new Rectangle();
 	}
 	
-	public void action(Vector2 position, Vector2 direction, PlayerEntity player){
+	public void action(Vector2 position, Vector2 direction, Player player){
 		this.direction = direction;
 		this.player = player;
 		

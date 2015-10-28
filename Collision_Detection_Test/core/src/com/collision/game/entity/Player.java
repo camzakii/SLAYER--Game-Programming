@@ -1,7 +1,5 @@
 package com.collision.game.entity;
 
-import sun.rmi.transport.LiveRef;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +19,7 @@ import com.collision.game.handler.GameKeys;
 import com.collision.game.networking.Network.PlayerMovement;
 import com.collision.game.networking.Network.PlayerShoot;
 
-public class Player extends PlayerEntity {
+public class Player{
 
 	public enum PlayerState{
 		IDLE,
@@ -87,6 +85,8 @@ public class Player extends PlayerEntity {
 	private ShapeRenderer sr;
 	private TiledMapTileLayer layer;
 	
+	public Player(){}
+	
 	public Player(OrthographicCamera camera, GameLevel level, GameHandler game, boolean isLocal, int id){
 		
 //		this.boundingRectangle = new Rectangle(100, 150, 16, 16);
@@ -101,7 +101,7 @@ public class Player extends PlayerEntity {
 		this.id = id;
 		
 		this.numBullets = 3;
-		this.lifes = 5;
+		this.lifes = 1;
 		this.jumpCount = 0;
 		
 		this.alive = true;

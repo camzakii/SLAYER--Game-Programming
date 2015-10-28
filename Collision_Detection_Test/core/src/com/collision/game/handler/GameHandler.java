@@ -41,10 +41,7 @@ public class GameHandler {
 	
 	private Sprite gameWonSprite;
 	
-	private boolean gameStarted;
 	private int powerupCooldown;
-//	private int startTimer;
-//	private boolean roundStarted;
 	private boolean gameWon;
 	
 	private GameClient client;
@@ -56,6 +53,12 @@ public class GameHandler {
 	private OrthographicCamera camera;
 	
 	private boolean isClient;
+	
+	// camera shake
+	private float time;
+	private float current_time;
+	private float power;
+	private float current_power;
 	
 	public GameHandler(GameClient client){
 		this.client = client;
@@ -83,10 +86,19 @@ public class GameHandler {
 //		System.out.println(startTimer);
 //		System.out.println(gameStarted);
 		
+		
+		System.out.println("Camera Position: " + camera.position.x + " " + camera.position.y);
+		
 		if(client != null && player != null){
 			handleInput();
 			client.sendMessageUDP(player.getPlayerMovement());
 		}
+		
+		if(camera.zoom < 0.15){
+			camera.zoom = 0.15f;
+		}
+		
+		cameraShake(dt);
 		
 		checkWin();
 		gameHud.update(dt, players);
@@ -194,7 +206,7 @@ public class GameHandler {
 	}
 	
 	public void handleInput(){
-		if(!player.isDead()){
+		if(!player.isDead() && !gameWon){
 			
 			if(Gdx.input.isKeyJustPressed(Keys.W)){
 				player.jump();
@@ -232,6 +244,8 @@ public class GameHandler {
 	
 	public void checkWin(){
 		
+		Player p = new Player();
+		
 		if(!gameStart()) return;
 		
 		int index = 0;
@@ -242,7 +256,10 @@ public class GameHandler {
 		
 		if(index == 1) {
 			for(Player player: players.values()){
+				
 				if(!player.isDead()){
+					
+					p = player;
 					
 					if(player.getID() == 1){
 						Texture texture = new Texture(Gdx.files.internal("screen_sprites/P1_wins.png"));
@@ -260,11 +277,33 @@ public class GameHandler {
 						Texture texture = new Texture(Gdx.files.internal("screen_sprites/P4_wins.png"));
 						gameWonSprite = new Sprite(texture);
 					}
+					
+					camera.zoom -= 0.02;
+					camera.update();
+					
 				}
 			}
 			
 			gameWon = true;
 			
+		}
+		
+		if(gameWon){
+			
+			System.out.println("Player position " + p.getPosition().x + " " + p.getPosition().y);
+			
+			if(camera.position.x < p.getPosition().x){
+				camera.position.x += 2;
+			}
+			if(camera.position.x > p.getPosition().x){
+				camera.position.x -= 2;
+			}
+			if(camera.position.y < p.getPosition().y){
+				camera.position.y += 2;
+			}
+			if(camera.position.y > p.getPosition().y){
+				camera.position.y -= 2;
+			}
 		}
 	}
 	
@@ -272,7 +311,6 @@ public class GameHandler {
 		if(this.player == null){
 			
 			player = new Player(camera, level, this, true, client.id);
-//			player.setID(client.id);
 			player.setName(name);
 			players.put(client.id, player);
 		}
@@ -284,8 +322,6 @@ public class GameHandler {
 	}
 	
 	public synchronized void addPlayer(LeaveJoin msg){
-		
-		System.out.println("Add Player, ID: " + msg.playerId);
 		
 		Player newPlayer = new Player(camera, level, this, false, msg.playerId);
 //		newPlayer.setID(msg.playerId);
@@ -319,6 +355,7 @@ public class GameHandler {
 	
 	public synchronized void playerHit(PlayerHit msg){
 		Player currentPlayer = players.get(msg.playerIdVictim);
+		shake(.8f, .3f);
 		
 		if(currentPlayer != null){
 			currentPlayer.setPosition(level.randomSpawn(players));
@@ -335,8 +372,6 @@ public class GameHandler {
 	}
 	
 	public synchronized void addPowerup(PowerupData msg){
-		System.out.println("Powerup ADDED!");
-		
 		powerups.add(new Powerup(msg.position));
 	}
 	
@@ -358,6 +393,29 @@ public class GameHandler {
 		client.sendMessage(msg);
 	}
 	
+	private void shake(float power, float time){
+		this.power = power;
+		this.time = time;
+		this.current_time = 0;
+	}
+	
+	private void cameraShake(float dt){
+		if(current_time <= time){
+			current_power = power * ((time - current_time) / time);
+			
+			camera.position.x += (float) ((Math.random() - 0.5f) * 2 * current_power);
+			camera.position.y += (float) ((Math.random() - 0.5f) * 2 * current_power);
+
+			camera.update();
+			
+			current_time += dt;
+		}else if(!gameWon){
+			camera.position.x = 240.49998f;
+			camera.position.y = 156f;
+			camera.update();
+		}
+	}
+	
 	private void init(){
 		
 		this.players = new HashMap<Integer, Player>();
@@ -374,8 +432,6 @@ public class GameHandler {
 		this.collisionHandler = new CollisionHandler();
 		this.particleEngine = new ParticleEngine();
 		this.gameHud = new GameHud(camera, this);
-		this.gameStarted = false;
-//		this.roundStarted = false;
 		this.gameWon = false;
 	}
 	

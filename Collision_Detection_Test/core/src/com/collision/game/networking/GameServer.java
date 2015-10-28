@@ -66,6 +66,11 @@ public class GameServer {
 			if(name == null || name.length() == 0) return;
 			
 			connection.name = name;
+			if(handler.getPlayers().size() == 4){
+				System.out.println("Max 4 players");
+				return;
+			}
+			
 			if(msg.version != Network.VERSION){
 				System.out.println("wrong version");
 				connection.close();

@@ -133,4 +133,8 @@ public class Network {
 		
 	}
 	
+	public static class ScreenShake{
+		public ScreenShake(){}
+	}
+	
 }
