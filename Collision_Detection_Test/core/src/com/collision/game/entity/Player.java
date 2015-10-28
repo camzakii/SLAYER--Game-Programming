@@ -267,6 +267,7 @@ public class Player extends PlayerEntity {
 		if(position.x < 0) position.x = 465;
 		if(position.x > 465) position.x = 0;
 		if(position.y < 0) position.y = 310;
+		if(position.y > 310) position.y = 0;
 	}
 	
 	public void collisionHandling(float dt){

@@ -25,6 +25,7 @@ public class Network {
 		kryo.register(PlayerShoot.class);
 		kryo.register(PlayerPowerup.class);
 		kryo.register(PowerupData.class);
+		kryo.register(StartRound.class);
 	}
 	
 	public static class Login{
@@ -125,6 +126,11 @@ public class Network {
 		public PowerupData(Vector2 position){
 			this.position = position;
 		}
+	}
+	
+	public static class StartRound{
+		public StartRound(){}
+		
 	}
 	
 }

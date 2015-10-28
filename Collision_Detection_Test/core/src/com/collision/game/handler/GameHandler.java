@@ -25,6 +25,7 @@ import com.collision.game.networking.Network.PlayerMovement;
 import com.collision.game.networking.Network.PlayerPowerup;
 import com.collision.game.networking.Network.PlayerShoot;
 import com.collision.game.networking.Network.PowerupData;
+import com.collision.game.networking.Network.StartRound;
 import com.collision.game.utils.ParticleEngine;
 
 public class GameHandler {
@@ -39,6 +40,8 @@ public class GameHandler {
 	
 	private boolean gameStarted;
 	private int powerupCooldown;
+	private int startTimer;
+	private boolean roundStarted;
 	
 	private GameClient client;
 	private GameServer server;
@@ -67,6 +70,12 @@ public class GameHandler {
 	// removed synchronized 
 	public synchronized void update(float dt){
 		
+		if(!gameStarted && startTimer > 0) startTimer--;
+		
+		if(roundStarted && startTimer <= 0) gameStarted = true;
+		
+		System.out.println(startTimer);
+		
 		if(client != null && player != null){
 			handleInput();
 			client.sendMessageUDP(player.getPlayerMovement());
@@ -87,6 +96,8 @@ public class GameHandler {
 						mpPlayer.getSword().getSwordOnHit() <= 0){	
 					
 					mpPlayer.getSword().setSwordOnHit(5);
+					
+					particleEngine.createParticles(mpPlayer.getSword().getBoundingBox().x, player.getSword().getBoundingBox().y);
 					
 					if(isClient){
 						PlayerHit hit = new PlayerHit(player2.getID(), mpPlayer.getID());
@@ -133,17 +144,19 @@ public class GameHandler {
 			}
 		}
 		
-		if(!isClient){
-			
-			System.out.println(powerupCooldown);
-			
+		if(!isClient){	
 			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
 				PowerupData powerupData = new PowerupData(new Vector2(200, 100));
 				server.sendMessage(powerupData);
-				powerupCooldown = 400;
+				powerupCooldown = 400 * 10;
 			}
-			
 			powerupCooldown --;
+			
+			if(players.size() >= 2 && !gameStarted){
+				StartRound roundStart = new StartRound();
+				server.sendMessage(roundStart);
+				System.out.println("Round start");
+			}
 		}
 	}
 	
@@ -172,7 +185,7 @@ public class GameHandler {
 	}
 	
 	public void handleInput(){
-		if(!player.isDead()){
+		if(!player.isDead() && gameStarted){
 			
 			if(Gdx.input.isKeyJustPressed(Keys.W)){
 				player.jump();
@@ -188,7 +201,6 @@ public class GameHandler {
 			}
 			if(Gdx.input.isKeyPressed(Keys.S)){
 				player.swordAction();
-				particleEngine.createParticles(player.getSword().getBoundingBox().x, player.getSword().getBoundingBox().y);
 			}
 			if(Gdx.input.isKeyPressed(Keys.C)){
 				player.parryAction();
@@ -228,9 +240,6 @@ public class GameHandler {
 			player.setName(name);
 			players.put(client.id, player);
 		}
-//		else{
-//			System.out.println("Player not created"); // debugging
-//		}
 	}
 	
 	public void onDisconnect(){
@@ -301,6 +310,11 @@ public class GameHandler {
 		return players.get(id);
 	}
 	
+	public synchronized void roundStart(StartRound msg){
+		this.startTimer = 100;
+		roundStarted = true;
+	}
+	
 	public synchronized void clientSendMessage(Object msg){
 		client.sendMessage(msg);
 	}
@@ -322,6 +336,7 @@ public class GameHandler {
 		this.particleEngine = new ParticleEngine();
 		this.gameHud = new GameHud(camera, this);
 		this.gameStarted = false;
+		this.roundStarted = false;
 	}
 	
 	public Map<Integer, Player> getPlayers(){
