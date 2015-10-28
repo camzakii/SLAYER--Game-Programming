@@ -39,13 +39,29 @@ public class GameHud {
 		batch.begin();
 		
 		int index = 1;
+		int indexY = 1;
+		int indexCount = 0;
 		
 		for(Player mpPlayer : players.values()){
+			
 			for(int i = 0; i < mpPlayer.getLifes(); i++){
-				batch.draw(healthSprite, 14 * index, 14 * i);	
+				batch.draw(healthSprite, 14 * index, indexY + 14 * i);	
 			}
-			index += 30;
+			
+			indexCount++;
+			
+			if(indexCount == 2) {
+				indexY += 220;
+				index = 1;
+			}
+			else if(indexCount > 2){
+				index -= 62;
+			}
+			
+			
+			index += 31;
 		}
+		
 		batch.end();
 	}
 	
