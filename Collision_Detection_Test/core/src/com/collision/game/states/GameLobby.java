@@ -37,6 +37,7 @@ public class GameLobby extends GameState{
     private Sprite enterName;
     private Sprite charSelect;
     private Sprite charTitle;
+    private Sprite background;
     
     private TextField textFieldIP;
     private TextField textFieldName;
@@ -94,6 +95,9 @@ public class GameLobby extends GameState{
 		   texture = new Texture(Gdx.files.internal("menu_assets/char_title.png"));
 		   this.charTitle = new Sprite(texture);
 		   
+		   texture = new Texture(Gdx.files.internal("menu_assets/lobby_bg.png"));
+		   this.background = new Sprite(texture);
+		   
 		   this.animations = new Array<Animation>();
 		   animations.add(bluePlayer);
 		   animations.add(redPlayer);
@@ -125,6 +129,8 @@ public class GameLobby extends GameState{
 		batch.setProjectionMatrix(camera.combined);
 		
 		batch.begin();
+		batch.draw(background, -40, 0);
+		
 		batch.draw(enterIp, Gdx.graphics.getWidth() / 2 - 400, 121, 100, 30);
 		batch.draw(enterName, Gdx.graphics.getWidth() / 2 - 400, 180, 100, 30);
 		
