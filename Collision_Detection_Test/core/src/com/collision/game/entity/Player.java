@@ -52,7 +52,7 @@ public class Player{
 	private PlayerState state;
 	private PlayerState lastState;
 	private GameHandler game;
-
+	private Sound shurikenSound;
 	private Sound jumpSound;
 	private boolean alive;
 	private int id;
@@ -242,6 +242,7 @@ public class Player{
 		if(state == PlayerState.ATTACKING){
 			
 			if(sword.getPowerup()){
+
 				if(direction.x > 0) currentAnimation = rightExtSwordAnimation;
 				else currentAnimation = leftExtSwordAnimation;
 			}else{
@@ -433,7 +434,8 @@ public class Player{
 	public void shurikenAction(){
 		
 		if(numBullets <= 0) return;
-		
+		shurikenSound = Gdx.audio.newSound(Gdx.files.internal("player_sprites/shuriken.mp3"));
+		shurikenSound.play();
 		PlayerShoot msg = new PlayerShoot(id, position.cpy(), direction.cpy());
 		game.addShuriken(msg);
 		numBullets--;

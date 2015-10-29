@@ -3,6 +3,7 @@ package com.collision.game.entity;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,7 +26,8 @@ public class Powerup {
 	private static final int WIDTH = 16;
 	
 	private PowerupType powerup_type;
-	
+	private Sound powerUpSound;
+
 	private Rectangle boundingBox;
 	private Animation animation;
 	private TextureRegion[] powerupRegion;
@@ -70,6 +72,8 @@ public class Powerup {
 		
 		if(randomNum == 1){
 			powerup_type = PowerupType.RANGE;
+			powerUpSound = Gdx.audio.newSound(Gdx.files.internal("player_sprites/powerUp.wav"));
+			powerUpSound.play();
 		}else{
 			powerup_type = PowerupType.SPEED;
 		}

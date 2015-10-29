@@ -53,7 +53,6 @@ public class GameMenu extends GameState {
 
 		this.menuMusic = Gdx.audio.newMusic(Gdx.files.internal("menu_assets/menuloop.wav"));
 		menuMusic.play();
-		
 		menuMusic.setLooping(true);
 
 		Texture texture = new Texture(Gdx.files.internal("menu_assets/ani_menu_sprite.png"));
