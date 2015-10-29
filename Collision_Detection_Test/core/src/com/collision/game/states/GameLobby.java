@@ -35,6 +35,8 @@ public class GameLobby extends GameState{
 
     private Sprite enterIp;
     private Sprite enterName;
+    private Sprite charSelect;
+    private Sprite charTitle;
     
     private TextField textFieldIP;
     private TextField textFieldName;
@@ -86,6 +88,12 @@ public class GameLobby extends GameState{
 		   this.texRegion2 = TextureRegion.split(texture, 43, 20)[0];
 		   this.redPlayer.setAnimation(texRegion2, 1/3f, redPlayer);
 		   
+		   texture = new Texture(Gdx.files.internal("menu_assets/char_select.png"));
+		   this.charSelect = new Sprite(texture);
+		   
+		   texture = new Texture(Gdx.files.internal("menu_assets/char_title.png"));
+		   this.charTitle = new Sprite(texture);
+		   
 		   this.animations = new Array<Animation>();
 		   animations.add(bluePlayer);
 		   animations.add(redPlayer);
@@ -119,6 +127,9 @@ public class GameLobby extends GameState{
 		batch.begin();
 		batch.draw(enterIp, Gdx.graphics.getWidth() / 2 - 400, 121, 100, 30);
 		batch.draw(enterName, Gdx.graphics.getWidth() / 2 - 400, 180, 100, 30);
+		
+		batch.draw(charTitle, Gdx.graphics.getWidth() / 2 - 90, 380);
+		batch.draw(charSelect, Gdx.graphics.getWidth() / 2 - 60, 50);
 		
 		batch.setProjectionMatrix(playerSelectCamera.combined);
 		batch.draw(currentAnimation.getFrame(), 35, 20);
