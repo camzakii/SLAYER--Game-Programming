@@ -48,9 +48,9 @@ public class Block {
 	}
 	
 	public void render(ShapeRenderer sr){
-		sr.begin(ShapeType.Line);
-		sr.rect(boundingBox.x, boundingBox.y, 5, 15);
-		sr.end();
+//		sr.begin(ShapeType.Line);
+//		sr.rect(boundingBox.x,s boundingBox.y, 5, 15);
+//		sr.end();
 	}
 	
 	public int getTimer(){
