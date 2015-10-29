@@ -27,6 +27,7 @@ public class Network {
 		kryo.register(PlayerPowerup.class);
 		kryo.register(PowerupData.class);
 		kryo.register(PowerupType.class);
+		kryo.register(MapData.class);
 	}
 	
 	public static class Login{
@@ -132,6 +133,17 @@ public class Network {
 		public PowerupData(){}
 		public PowerupData(Vector2 position){
 			this.position = position;
+		}
+	}
+	
+	public static class MapData{
+		public Vector2 position;
+		public PowerupType type;
+		
+		public MapData(){}
+		public MapData(Vector2 position, PowerupType type){
+			this.position = position;
+			this.type = type;
 		}
 	}
 	

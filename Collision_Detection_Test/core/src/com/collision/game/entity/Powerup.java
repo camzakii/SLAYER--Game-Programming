@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.collision.game.handler.Animation;
+import com.collision.game.networking.Network.MapData;
 
 public class Powerup {
 
@@ -68,7 +69,7 @@ public class Powerup {
 		Random rand = new Random();
 		int randomNum = rand.nextInt(2) + 1;
 		
-		System.out.println("RAND: " + rand);
+		System.out.println("RAND: " + randomNum);
 		
 		if(randomNum == 1){
 			powerup_type = PowerupType.RANGE;
@@ -88,8 +89,16 @@ public class Powerup {
 		this.boundingBox.x = -500;
 	}
 	
+	public void setType(PowerupType type){
+		this.powerup_type = type;
+	}
+	
 	public PowerupType getType(){
 		return powerup_type;
+	}
+	
+	public MapData getData(){
+		return new MapData(this.boundingBox.getPosition(new Vector2()), this.powerup_type);
 	}
 	
 }

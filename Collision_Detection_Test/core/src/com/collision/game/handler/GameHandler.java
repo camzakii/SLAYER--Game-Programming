@@ -22,6 +22,7 @@ import com.collision.game.hud.GameHud;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
 import com.collision.game.networking.Network.LeaveJoin;
+import com.collision.game.networking.Network.MapData;
 import com.collision.game.networking.Network.PlayerAttack;
 import com.collision.game.networking.Network.PlayerHit;
 import com.collision.game.networking.Network.PlayerMovement;
@@ -102,7 +103,7 @@ public class GameHandler {
 				
 				if(mpPlayer.getSwordRect().overlaps(player2.getBoundingRectangle()) &&
 						player2.getState() != PlayerState.BLOCKING &&
-						mpPlayer.getSword().getSwordOnHit() <= 0){	
+						mpPlayer.getSword().getSwordOnHit() <= 0 && !player2.equals(mpPlayer)){	
 					
 					mpPlayer.getSword().setSwordOnHit(5);
 					
@@ -143,9 +144,10 @@ public class GameHandler {
 					
 					powerups.removeValue(powerup, true);
 					
+					PlayerPowerup msg = new PlayerPowerup(currentPlayer.getID(), powerup.getType());
+					this.playerPowerup(msg);
+					
 					if(isClient){
-						PlayerPowerup msg = new PlayerPowerup(currentPlayer.getID(), powerup.getType());
-						this.playerPowerup(msg);
 						client.sendMessage(msg);
 					}
 					
@@ -154,12 +156,13 @@ public class GameHandler {
 		}
 		
 		if(!isClient){	
-			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
+//			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
+			if(powerups.size == 0 && powerupCooldown <= 0){
 				PowerupData powerupData = new PowerupData(Powerup.powerup_spawns.random());
 				server.sendMessage(powerupData);
 				powerupCooldown = 20;
 			}
-			powerupCooldown -= dt;
+			if(powerups.size == 0 ) powerupCooldown -= dt;
 		}
 	}
 	
@@ -195,9 +198,6 @@ public class GameHandler {
 		if(!player.isDead() && !gameWon){
 			
 			if(Gdx.input.isKeyJustPressed(Keys.W)){
-				player.jump();
-			}
-			if(Gdx.input.isButtonPressed(XboxController.BUTTON_A)) {
 				player.jump();
 			}
 			if(Gdx.input.isKeyPressed(Keys.A)){
@@ -355,10 +355,30 @@ public class GameHandler {
 		powerups.add(new Powerup(msg.position));
 	}
 	
+	public synchronized MapData getMapData(){
+		
+		if(powerups.size > 0){
+			MapData mapData = powerups.get(0).getData();
+			return mapData;
+		}else{
+			return new MapData(null, null);
+		}
+	}
+	
+	public synchronized void setMapData(MapData msg){
+		if(msg.position != null && msg.type != null){
+			System.out.println("MAP DATA RECIEVED");
+			Powerup powerup = new Powerup(msg.position);
+			powerup.setType(msg.type);
+			powerups.add(powerup);
+		}
+		System.out.println("MAP DATA NOT RECIEVED");
+	}
+	
 	public synchronized void playerPowerup(PlayerPowerup msg){
 		Player player = players.get(msg.playerId);
 		if(msg.type == PowerupType.RANGE) player.getSword().setPowerup(true);
-		else player.setSpeed(true);
+		else player.setSpeed();
 	}
 	
 	public synchronized Player getPlayerById(int id){

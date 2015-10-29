@@ -115,8 +115,6 @@ public class GameLobby extends GameState{
 		setAnimation();
 		handleInput();
 		
-		System.out.println("Index " + index);
-		
 		currentAnimation.setPlaying(true);
 		currentAnimation.update(dt);
 	}

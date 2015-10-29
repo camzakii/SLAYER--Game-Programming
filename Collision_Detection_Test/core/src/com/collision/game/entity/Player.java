@@ -113,6 +113,8 @@ public class Player{
 		this.numBullets = 3;
 		this.lifes = 2;
 		this.jumpCount = 0;
+		this.speedTimer = 0;
+		this.speed = false;
 
 		this.alive = true;
 		this.state = PlayerState.IDLE;
@@ -141,41 +143,6 @@ public class Player{
 		
 		setupAnimation();
 		
-//		Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja1.png"));
-//		this.rightSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
-//		this.rightAnimation.setAnimation(rightSpriteRegion, 1/3f, rightAnimation);
-//		
-//		this.leftSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
-//		this.leftAnimation.setAnimation(leftSpriteRegion, 1/3f, leftAnimation);
-//		
-//		texture = new Texture(Gdx.files.internal("player_sprites/attack_fight_ninja1.png"));
-//		this.rightSwordRegion = TextureRegion.split(texture,43, 25)[0];
-//		this.rightSwordAnimation.setAnimation(rightSwordRegion, 1/8f, rightSwordAnimation);
-//		
-//		this.leftSwordRegion = TextureRegion.split(texture, 43, 25)[1];
-//		this.leftSwordAnimation.setAnimation(leftSwordRegion, 1/8f, leftSwordAnimation);
-//		
-//		texture = new Texture(Gdx.files.internal("player_sprites/block_fight_ninja1.png"));
-//		this.leftBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
-//		this.blockLeftAnimation.setAnimation(leftBlockRegion, 1/8f, blockLeftAnimation);
-//		
-//		this.rightBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
-//		this.blockRightAnimation.setAnimation(rightBlockRegion, 1/8f, blockRightAnimation);
-//		
-//		texture = new Texture(Gdx.files.internal("player_sprites/attack_fight_ninja1_extended.png"));
-//		this.rightExtSwordRegion = TextureRegion.split(texture, 50, 30)[0];
-//		this.rightExtSwordAnimation.setAnimation(rightExtSwordRegion, 1/8f, rightExtSwordAnimation);
-//		
-//		this.leftExtSwordRegion = TextureRegion.split(texture, 50, 30)[1];
-//		this.leftExtSwordAnimation.setAnimation(leftExtSwordRegion, 1/8f, leftExtSwordAnimation);
-//
-//		texture = new Texture(Gdx.files.internal("player_sprites/P1_wall_slide.png"));
-//		this.rightWallSlideRegion = TextureRegion.split(texture, 43, 20)[1];
-//		this.rightWallSlideAnimation.setAnimation(rightWallSlideRegion, 1/2f, rightWallSlideAnimation);
-//
-//		this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
-//		this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/4f, leftWallSlideAnimation);
-//		
 		currentAnimation = rightAnimation;
 		
 		this.font = new BitmapFont(Gdx.files.internal("menu_assets/default.fnt"));
@@ -193,11 +160,16 @@ public class Player{
 
 		if(!alive) return;
 		
-		
 		if(speed){
-			if(speedTimer > 5) speed = false;
+			if(speedTimer > 5){
+				speed = false;
+				speedTimer = 0;
+			}
 			speedTimer += dt;
+			
+			System.out.println("Speed Timer: "+ speedTimer);
 		}
+		
 		
 		if(lifes <= 0) alive = false;
 		
@@ -335,7 +307,7 @@ public class Player{
 		
 		if(velocity.y < -200) velocity.y = -150;
 		
-		if(velocity.y < 0){
+		if(velocity.y < 0){ 
 			collisionY = collisionBottom();
 		} else if (velocity.y > 0){
 			collisionY = collisionTop();
@@ -586,8 +558,8 @@ public class Player{
 		this.playerIcon = new Sprite(texture);
 	}
 	
-	public void setSpeed(boolean speed){
-		this.speed = speed;
+	public void setSpeed(){
+		this.speed = true;
 	}
 	
 	// helper method
