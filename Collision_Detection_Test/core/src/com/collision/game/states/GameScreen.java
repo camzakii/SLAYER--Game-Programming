@@ -84,6 +84,15 @@ public class GameScreen extends GameState{
 			
 			gsm.setState(gsm.LOBBY, false, "", "");
 		}
+		if(Gdx.input.isKeyPressed(Keys.G)){
+			client.stop();
+
+			if(server != null){
+				server.stop();
+			}
+
+			gsm.setState(gsm.MENU, false, "", "");
+		}
 	}
 
 	@Override
