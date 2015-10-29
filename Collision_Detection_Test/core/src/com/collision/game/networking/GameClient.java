@@ -15,13 +15,15 @@ public class GameClient {
 	private GameHandler game;
 	public int id;
 	public String remoteIP;
+	private int spriteIndex;
 	private String name;
 	
 	
-	public GameClient(String name){
+	public GameClient(String name, int spriteIndex){
 		
 		this.name = name;
 		this.client = new Client();
+		this.spriteIndex = spriteIndex;
 		
 		Network.register(client);
 		
@@ -46,14 +48,14 @@ public class GameClient {
 			}
 		});
 		
-		this.game = new GameHandler(this);
+		this.game = new GameHandler(this, spriteIndex);
 		this.client.start();
 	}
 	
 	protected void handleConnected(Connection c){
 		this.id = c.getID();
 		remoteIP = c.getRemoteAddressTCP().toString();
-		Login reg = new Login(name, Network.VERSION);
+		Login reg = new Login(name, Network.VERSION, spriteIndex);
 		client.sendTCP(reg);
 		client.updateReturnTripTime();
 		game.connect(name);

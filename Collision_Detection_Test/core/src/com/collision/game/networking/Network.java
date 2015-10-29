@@ -32,11 +32,13 @@ public class Network {
 	public static class Login{
 		public String name;
 		public int version;
+		public int spriteIndex;
 
 		public Login() {}
-		public Login(String name, int version){
+		public Login(String name, int version, int spriteIndex){
 			this.name = name;
 			this.version = version;
+			this.spriteIndex = spriteIndex;
 		}
 	}
 	
@@ -45,13 +47,15 @@ public class Network {
 		public String name;
 		public boolean hasJoined;
 		public Vector2 position;
+		public int spriteIndex;
 	
 		public LeaveJoin(){};
-		public LeaveJoin(int playerId, String name, boolean hasJoined, Vector2 position){
+		public LeaveJoin(int playerId, String name, boolean hasJoined, Vector2 position, int spriteIndex){
 			this.playerId = playerId;
 			this.name = name;
 			this.hasJoined = hasJoined;
 			this.position = position;
+			this.spriteIndex = spriteIndex;
 		}
 	}
 	

@@ -76,7 +76,7 @@ public class GameServer {
 				connection.close();
 			}else{
 				
-				LeaveJoin reply = new LeaveJoin(connection.getID(), connection.name, true, new Vector2(200, 100));
+				LeaveJoin reply = new LeaveJoin(connection.getID(), connection.name, true, new Vector2(200, 100), msg.spriteIndex);
 				server.sendToAllExceptTCP(connection.getID(), reply);
 				
 				handler.addPlayer(reply);
@@ -86,7 +86,7 @@ public class GameServer {
 					if(conn.getID() != connection.getID() && conn.name != null){
 
 						Player herePlayer = handler.getPlayerById(conn.getID());
-						LeaveJoin hereMsg  = new LeaveJoin(conn.getID(), herePlayer.getName(), true, herePlayer.getPosition());
+						LeaveJoin hereMsg  = new LeaveJoin(conn.getID(), herePlayer.getName(), true, herePlayer.getPosition(), msg.spriteIndex);
 						connection.sendTCP(hereMsg); // basic info
 						connection.sendTCP(herePlayer.getPlayerMovement()); 
 						
@@ -123,7 +123,7 @@ public class GameServer {
 		GameConnection connection = (GameConnection) c;
 		
 		if(connection.name != null){
-			LeaveJoin msg = new LeaveJoin(connection.getID(), connection.name, false, null);
+			LeaveJoin msg = new LeaveJoin(connection.getID(), connection.name, false, null, 0);
 			server.sendToAllExceptTCP(connection.getID(), msg);
 			handler.removePlayer(msg);
 		}

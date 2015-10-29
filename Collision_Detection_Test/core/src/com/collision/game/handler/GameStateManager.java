@@ -19,11 +19,10 @@ public class GameStateManager {
 	
 	private MyGdxGame game;
 	private Stack<GameState> gameStates;
-	private Music menuMusic;
 	public GameStateManager(MyGdxGame game){
 		this.game = game;
 		this.gameStates = new Stack<GameState>();
-		pushState(MENU, false, "", "");
+		pushState(MENU, false, "", "", 0);
 	}
 	
 	public void update(float dt){
@@ -34,35 +33,30 @@ public class GameStateManager {
 		gameStates.peek().render();
 	}
 	
-	private GameState getState(int state, boolean isHost, String ip, String name){
-
-
-
+	private GameState getState(int state, boolean isHost, String ip, String name, int spriteIndex){
+		
 		if(state == PLAY){
-			if(isHost) return new GameScreen(this, true, ip, name);
-			else return new GameScreen(this, false, ip, name);
+			if(isHost) return new GameScreen(this, true, ip, name, spriteIndex);
+			else return new GameScreen(this, false, ip, name, spriteIndex);
 		}
 		if(state == MENU){
-
 			return new GameMenu(this);
 		}
 		
 		if(state == LOBBY){
-
-
 			return new GameLobby(this);
 		}
 		
 		return null;
 	}
 	
-	public void setState(int state, boolean isHost, String ip, String name){
+	public void setState(int state, boolean isHost, String ip, String name, int spriteIndex){
 		popState();
-		pushState(state, isHost, ip, name);
+		pushState(state, isHost, ip, name, spriteIndex);
 	}
 	
-	public void pushState(int state, boolean isHost, String ip, String name){
-		gameStates.push(getState(state, isHost, ip, name));
+	public void pushState(int state, boolean isHost, String ip, String name, int spriteIndex){
+		gameStates.push(getState(state, isHost, ip, name, spriteIndex));
 	}
 	
 	public void popState(){

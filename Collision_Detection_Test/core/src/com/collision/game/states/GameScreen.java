@@ -19,12 +19,13 @@ public class GameScreen extends GameState{
 	private GameServer server;
 	private String ip;
 	private boolean isHost;
+	
 	private String name;
 	
 	// Testing
 	private ShapeRenderer sr;
 	
-	public GameScreen(GameStateManager gsm, boolean isHost, String ip, String name) {
+	public GameScreen(GameStateManager gsm, boolean isHost, String ip, String name, int spriteIndex) {
 		super(gsm);
 
 		this.isHost = isHost;
@@ -36,7 +37,7 @@ public class GameScreen extends GameState{
 		
 		this.name = name;
 		
-		client = new GameClient(name);
+		client = new GameClient(name, spriteIndex);
 		gameHandler = client.getHandler();
 		
 		if(isHost){
@@ -82,7 +83,7 @@ public class GameScreen extends GameState{
 				server.stop();
 			}
 			
-			gsm.setState(gsm.LOBBY, false, "", "");
+			gsm.setState(gsm.LOBBY, false, "", "", 0);
 		}
 		if(Gdx.input.isKeyPressed(Keys.G)){
 			client.stop();
@@ -91,7 +92,7 @@ public class GameScreen extends GameState{
 				server.stop();
 			}
 
-			gsm.setState(gsm.MENU, false, "", "");
+			gsm.setState(gsm.MENU, false, "", "", 0);
 		}
 	}
 

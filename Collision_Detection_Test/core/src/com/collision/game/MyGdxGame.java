@@ -22,8 +22,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private GameStateManager gsm;
-	private Controller controller;
-	private Music menuMusic;
 
 	@Override
 	public void create () {

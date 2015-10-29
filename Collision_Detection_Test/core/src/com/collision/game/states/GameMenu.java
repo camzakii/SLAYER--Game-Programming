@@ -79,7 +79,7 @@ public class GameMenu extends GameState {
 		this.startButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				gsm.setState(gsm.LOBBY, false, "", "");
+				gsm.setState(gsm.LOBBY, false, "", "", 0);
 			}
 		});
 		this.startButton.setPosition(Gdx.graphics.getWidth() / 2 - startButton.getWidth() / 2, 240);

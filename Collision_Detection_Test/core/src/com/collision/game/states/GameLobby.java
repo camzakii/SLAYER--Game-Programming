@@ -72,7 +72,7 @@ public class GameLobby extends GameState{
 		  // Testing choose player sprite
 		  
 		  this.playerSelectCamera = new OrthographicCamera();
-		  this.playerSelectCamera.setToOrtho(false, MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2);
+		  this.playerSelectCamera.setToOrtho(false, MyGdxGame.WIDTH / 4.5f, MyGdxGame.HEIGHT / 4.5f);
 		  
 		  this.bluePlayer = new Animation();
 		  this.redPlayer = new Animation();
@@ -101,6 +101,9 @@ public class GameLobby extends GameState{
 	@Override
 	public void update(float dt) {
 		setAnimation();
+		handleInput();
+		
+		System.out.println("Index " + index);
 		
 		currentAnimation.setPlaying(true);
 		currentAnimation.update(dt);
@@ -111,26 +114,25 @@ public class GameLobby extends GameState{
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		stage.act(Gdx.graphics.getDeltaTime());
-		stage.draw();
-		
 		batch.setProjectionMatrix(camera.combined);
 		
 		batch.begin();
-		batch.draw(enterIp, Gdx.graphics.getWidth() / 2 - 220, 150, 100, 30);
-		batch.draw(enterName, Gdx.graphics.getWidth() / 2 - 220, 200, 100, 30);
+		batch.draw(enterIp, Gdx.graphics.getWidth() / 2 - 400, 121, 100, 30);
+		batch.draw(enterName, Gdx.graphics.getWidth() / 2 - 400, 180, 100, 30);
 		
 		batch.setProjectionMatrix(playerSelectCamera.combined);
-		batch.draw(currentAnimation.getFrame(), 20, 20);
+		batch.draw(currentAnimation.getFrame(), 35, 20);
 		
 		batch.end();
+		
+		stage.act(Gdx.graphics.getDeltaTime());
+		stage.draw();
 	}
 
 	@Override
 	public void handleInput() {
 		if(Gdx.input.isKeyJustPressed(Keys.A)){
 			index--;
-			System.out.println("A PRESSED");
 		}
 		if(Gdx.input.isKeyJustPressed(Keys.D)){
 			index++;
@@ -151,23 +153,23 @@ public class GameLobby extends GameState{
 		final TextButton buttonFind = new TextButton("Find Game", skin, "default");
 		buttonFind.setWidth(200f);
 		buttonFind.setHeight(20f);
-		buttonFind.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 + 70f);
+		buttonFind.setPosition(Gdx.graphics.getWidth() /2 - 300f, Gdx.graphics.getHeight()/2 + 70f);
 		
 		final TextButton buttonJoin = new TextButton("Join Game", skin, "default");
 		buttonJoin.setWidth(200f);
 		buttonJoin.setHeight(20f);
-		buttonJoin.setPosition(Gdx.graphics.getWidth() /2 - 100f, Gdx.graphics.getHeight()/2 + 130f);
+		buttonJoin.setPosition(Gdx.graphics.getWidth() /2 - 300f, Gdx.graphics.getHeight()/2 + 130f);
 		
 		final TextButton buttonHost = new TextButton("Host Game", skin, "default");
 		buttonHost.setWidth(200f);
 		buttonHost.setHeight(20f);
-		buttonHost.setPosition(Gdx.graphics.getWidth() /2 - buttonHost.getWidth() / 2, Gdx.graphics.getHeight()/2 + 200f);
+		buttonHost.setPosition(Gdx.graphics.getWidth() /2 - 300f, Gdx.graphics.getHeight()/2 + 200f);
 		
 		textFieldIP = new TextField("localhost", skin, "default");
-		textFieldIP.setPosition(Gdx.graphics.getWidth() / 2 - buttonHost.getWidth() / 4, 150f);
+		textFieldIP.setPosition(Gdx.graphics.getWidth() / 2 - 250f, 150f);
 		
 		textFieldName = new TextField("", skin, "default");
-		textFieldName.setPosition(Gdx.graphics.getWidth() / 2 - buttonHost.getWidth() / 4 , 200f);
+		textFieldName.setPosition(Gdx.graphics.getWidth() / 2 - 250f , 230f);
 		
 		LabelStyle labelStyle = new LabelStyle();
 		labelStyle.font = samuraiFont;
@@ -214,11 +216,11 @@ public class GameLobby extends GameState{
 	}
 	
 	private void join(){
-		gsm.setState(gsm.PLAY, false, textFieldIP.getText(), getName());
+		gsm.setState(gsm.PLAY, false, textFieldIP.getText(), getName(), index);
 	}
 	
 	private void host(){
-		gsm.setState(gsm.PLAY, true, "localhost", getName());
+		gsm.setState(gsm.PLAY, true, "localhost", getName(), index);
 	}
 	
 	private String getName(){

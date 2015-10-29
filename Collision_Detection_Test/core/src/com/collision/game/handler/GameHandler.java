@@ -54,6 +54,7 @@ public class GameHandler {
 	private OrthographicCamera camera2;
 	
 	private boolean isClient;
+	private int spriteIndex;
 	
 	// camera shake
 	private float time;
@@ -61,9 +62,10 @@ public class GameHandler {
 	private float power;
 	private float current_power;
 	
-	public GameHandler(GameClient client){
+	public GameHandler(GameClient client, int spriteIndex){
 		this.client = client;
 		this.isClient = true;
+		this.spriteIndex = spriteIndex;
 		
 		init();
 	}
@@ -289,7 +291,7 @@ public class GameHandler {
 	
 	public void connect(String name){
 		if(this.player == null){
-			player = new Player(camera, level, this, true, client.id);
+			player = new Player(camera, level, this, true, client.id, spriteIndex);
 			player.setName(name);
 			players.put(client.id, player);
 		}
@@ -302,7 +304,7 @@ public class GameHandler {
 	
 	public synchronized void addPlayer(LeaveJoin msg){
 		
-		Player newPlayer = new Player(camera, level, this, false, msg.playerId);
+		Player newPlayer = new Player(camera, level, this, false, msg.playerId, msg.spriteIndex);
 		newPlayer.setName(msg.name);
 		newPlayer.setPosition(new Vector2(250, 100));
 		this.players.put(msg.playerId, newPlayer);
