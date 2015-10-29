@@ -86,7 +86,7 @@ public class GameServer {
 					if(conn.getID() != connection.getID() && conn.name != null){
 
 						Player herePlayer = handler.getPlayerById(conn.getID());
-						LeaveJoin hereMsg  = new LeaveJoin(conn.getID(), herePlayer.getName(), true, herePlayer.getPosition(), msg.spriteIndex);
+						LeaveJoin hereMsg  = new LeaveJoin(conn.getID(), herePlayer.getName(), true, herePlayer.getPosition(), herePlayer.getSpriteIndex());
 						connection.sendTCP(hereMsg); // basic info
 						connection.sendTCP(herePlayer.getPlayerMovement()); 
 						

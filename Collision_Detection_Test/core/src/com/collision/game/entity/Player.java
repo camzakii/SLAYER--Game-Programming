@@ -595,6 +595,10 @@ public class Player{
 		return this.sr;
 	}
 	
+	public int getSpriteIndex(){
+		return spriteIndex;
+	}
+	
 	private void setupAnimation(){
 		if(spriteIndex == 0){
 			Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja1.png"));
