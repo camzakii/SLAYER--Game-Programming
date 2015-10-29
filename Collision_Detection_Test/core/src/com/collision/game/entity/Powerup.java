@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.collision.game.handler.Animation;
-import com.collision.game.networking.Network.MapData;
 
 public class Powerup {
 
@@ -89,16 +88,8 @@ public class Powerup {
 		this.boundingBox.x = -500;
 	}
 	
-	public void setType(PowerupType type){
-		this.powerup_type = type;
-	}
-	
 	public PowerupType getType(){
 		return powerup_type;
-	}
-	
-	public MapData getData(){
-		return new MapData(this.boundingBox.getPosition(new Vector2()), this.powerup_type);
 	}
 	
 }

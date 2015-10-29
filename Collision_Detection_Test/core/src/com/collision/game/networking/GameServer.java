@@ -76,8 +76,6 @@ public class GameServer {
 				connection.close();
 			}else{
 				
-				connection.sendTCP(handler.getMapData());
-				
 				LeaveJoin reply = new LeaveJoin(connection.getID(), connection.name, true, new Vector2(200, 100), msg.spriteIndex);
 				server.sendToAllExceptTCP(connection.getID(), reply);
 				
@@ -91,7 +89,6 @@ public class GameServer {
 						LeaveJoin hereMsg  = new LeaveJoin(conn.getID(), herePlayer.getName(), true, herePlayer.getPosition(), herePlayer.getSpriteIndex());
 						connection.sendTCP(hereMsg); // basic info
 						connection.sendTCP(herePlayer.getPlayerMovement()); 
-						
 					}
 				}
 			}

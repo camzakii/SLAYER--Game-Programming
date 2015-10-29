@@ -93,10 +93,7 @@ public class GameClient {
 		} else if(msg instanceof PowerupData){
 			PowerupData message = (PowerupData) msg;
 			game.addPowerup(message);
-		}  else if(msg instanceof MapData){
-			MapData message = (MapData) msg;
-			game.setMapData(message);
-		}
+		} 
 	}
 	
 	public void connectLocal() {

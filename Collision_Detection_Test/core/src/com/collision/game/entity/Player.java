@@ -161,13 +161,14 @@ public class Player{
 		if(!alive) return;
 		
 		if(speed){
+			
+			System.out.println("HAS SPEED POWERUP!!");
+			
 			if(speedTimer > 5){
 				speed = false;
 				speedTimer = 0;
 			}
 			speedTimer += dt;
-			
-			System.out.println("Speed Timer: "+ speedTimer);
 		}
 		
 		

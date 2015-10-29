@@ -21,14 +21,7 @@ import com.collision.game.entity.Powerup.PowerupType;
 import com.collision.game.hud.GameHud;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
-import com.collision.game.networking.Network.LeaveJoin;
-import com.collision.game.networking.Network.MapData;
-import com.collision.game.networking.Network.PlayerAttack;
-import com.collision.game.networking.Network.PlayerHit;
-import com.collision.game.networking.Network.PlayerMovement;
-import com.collision.game.networking.Network.PlayerPowerup;
-import com.collision.game.networking.Network.PlayerShoot;
-import com.collision.game.networking.Network.PowerupData;
+import com.collision.game.networking.Network.*;
 import com.collision.game.utils.ParticleEngine;
 
 public class GameHandler {
@@ -142,10 +135,10 @@ public class GameHandler {
 			for(Player currentPlayer : players.values()){
 				if(powerup.getBoundingBox().overlaps(currentPlayer.getBoundingRectangle())){
 					
-					powerups.removeValue(powerup, true);
-					
 					PlayerPowerup msg = new PlayerPowerup(currentPlayer.getID(), powerup.getType());
 					this.playerPowerup(msg);
+					
+					powerups.removeValue(powerup, true);
 					
 					if(isClient){
 						client.sendMessage(msg);
@@ -156,8 +149,7 @@ public class GameHandler {
 		}
 		
 		if(!isClient){	
-//			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
-			if(powerups.size == 0 && powerupCooldown <= 0){
+			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
 				PowerupData powerupData = new PowerupData(Powerup.powerup_spawns.random());
 				server.sendMessage(powerupData);
 				powerupCooldown = 20;
@@ -221,10 +213,6 @@ public class GameHandler {
 			if(Gdx.input.isKeyJustPressed(Keys.B)){
 				player.dashAction();
 			}
-			
-//			if(Gdx.input.isButtonPressed(XboxController.BUTTON_X)){
-//				player.shurikenAction();
-//			}
 		}
 	}
 	
@@ -317,7 +305,6 @@ public class GameHandler {
 	}
 	
 	public synchronized void removePlayer(LeaveJoin msg){
-		System.out.println("Player removed");
 		players.remove(msg.playerId);
 	}
 	
@@ -355,30 +342,13 @@ public class GameHandler {
 		powerups.add(new Powerup(msg.position));
 	}
 	
-	public synchronized MapData getMapData(){
-		
-		if(powerups.size > 0){
-			MapData mapData = powerups.get(0).getData();
-			return mapData;
-		}else{
-			return new MapData(null, null);
-		}
-	}
-	
-	public synchronized void setMapData(MapData msg){
-		if(msg.position != null && msg.type != null){
-			System.out.println("MAP DATA RECIEVED");
-			Powerup powerup = new Powerup(msg.position);
-			powerup.setType(msg.type);
-			powerups.add(powerup);
-		}
-		System.out.println("MAP DATA NOT RECIEVED");
-	}
-	
 	public synchronized void playerPowerup(PlayerPowerup msg){
 		Player player = players.get(msg.playerId);
+		
+		System.out.println("POWERUP TYPE: " + msg.type);
+		
 		if(msg.type == PowerupType.RANGE) player.getSword().setPowerup(true);
-		else player.setSpeed();
+		else if(msg.type == PowerupType.SPEED) player.setSpeed();
 	}
 	
 	public synchronized Player getPlayerById(int id){
