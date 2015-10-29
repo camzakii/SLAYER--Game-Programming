@@ -158,9 +158,7 @@ public class GameHandler {
 				server.sendMessage(powerupData);
 				powerupCooldown = 20;
 			}
-			
 			powerupCooldown -= dt;
-			System.out.println("Powerup Cooldown " + powerupCooldown);
 		}
 	}
 	
@@ -275,7 +273,6 @@ public class GameHandler {
 		
 		if(gameWon){
 			
-			
 			if(camera.position.x < p.getPosition().x){
 				camera.position.x += 2;
 			}
@@ -367,11 +364,6 @@ public class GameHandler {
 	public synchronized Player getPlayerById(int id){
 		return players.get(id);
 	}
-	
-//	public synchronized void roundStart(StartRound msg){
-//		this.startTimer = 100;
-//		roundStarted = true;
-//	}
 	
 	public synchronized void clientSendMessage(Object msg){
 		client.sendMessage(msg);

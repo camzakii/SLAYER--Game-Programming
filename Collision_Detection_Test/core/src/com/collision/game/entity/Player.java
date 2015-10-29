@@ -177,6 +177,7 @@ public class Player{
 		
 		this.font = new BitmapFont(Gdx.files.internal("menu_assets/default.fnt"));
 		this.font.getData().scaleY = 0.5f;
+		this.font.getData().scaleX = 0.5f;
 		
 		setIcon();
 		
@@ -223,7 +224,7 @@ public class Player{
 		batch.draw(currentAnimation.getFrame(), position.x - WIDTH / 3, position.y);
 		if(isLocal){
 			batch.draw(playerIcon, position.x , position.y + HEIGHT);
-			font.draw(batch, "P" + id, position.x - 2, position.y + HEIGHT + 10);
+			font.draw(batch, "P" + id, position.x, position.y + HEIGHT + 11);
 		}
 		batch.end();
 		
@@ -521,6 +522,10 @@ public class Player{
 	
 	public Sword getSword(){
 		return sword;
+	}
+	
+	public Block getBlock(){
+		return block;
 	}
 	
 	public String getName(){

@@ -64,4 +64,8 @@ public class Block {
 	public int getBlockTimer(){
 		return blockTimer;
 	}
+	
+	public Rectangle getBoundingBox(){
+		return this.boundingBox;
+	}
 }

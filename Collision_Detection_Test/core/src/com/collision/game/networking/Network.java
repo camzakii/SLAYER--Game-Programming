@@ -26,7 +26,6 @@ public class Network {
 		kryo.register(PlayerShoot.class);
 		kryo.register(PlayerPowerup.class);
 		kryo.register(PowerupData.class);
-		kryo.register(StartRound.class);
 		kryo.register(PowerupType.class);
 	}
 	
@@ -130,15 +129,6 @@ public class Network {
 		public PowerupData(Vector2 position){
 			this.position = position;
 		}
-	}
-	
-	public static class StartRound{
-		public StartRound(){}
-		
-	}
-	
-	public static class ScreenShake{
-		public ScreenShake(){}
 	}
 	
 }
