@@ -128,10 +128,12 @@ public class Network {
 	
 	public static class PowerupData{
 		public Vector2 position;
+		public PowerupType type;
 		
 		public PowerupData(){}
-		public PowerupData(Vector2 position){
+		public PowerupData(Vector2 position, PowerupType type){
 			this.position = position;
+			this.type = type;
 		}
 	}
 	

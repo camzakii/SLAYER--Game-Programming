@@ -137,20 +137,19 @@ public class GameHandler {
 					
 					PlayerPowerup msg = new PlayerPowerup(currentPlayer.getID(), powerup.getType());
 					this.playerPowerup(msg);
-					
 					powerups.removeValue(powerup, true);
 					
-					if(isClient){
-						client.sendMessage(msg);
+					if(!isClient){
+						server.sendMessage(msg);
 					}
-					
 				}
 			}
 		}
 		
 		if(!isClient){	
 			if(powerups.size == 0 && powerupCooldown <= 0 && players.size() >= 2){
-				PowerupData powerupData = new PowerupData(Powerup.powerup_spawns.random());
+				PowerupData powerupData = new PowerupData(Powerup.powerup_spawns.random(), Powerup.randomPowerup());
+				this.addPowerup(powerupData);
 				server.sendMessage(powerupData);
 				powerupCooldown = 20;
 			}
@@ -339,7 +338,7 @@ public class GameHandler {
 	}
 	
 	public synchronized void addPowerup(PowerupData msg){
-		powerups.add(new Powerup(msg.position));
+		powerups.add(new Powerup(msg.position, msg.type));
 	}
 	
 	public synchronized void playerPowerup(PlayerPowerup msg){
@@ -347,8 +346,8 @@ public class GameHandler {
 		
 		System.out.println("POWERUP TYPE: " + msg.type);
 		
-		if(msg.type == PowerupType.RANGE) player.getSword().setPowerup(true);
-		else if(msg.type == PowerupType.SPEED) player.setSpeed();
+		if(msg.type.equals(PowerupType.RANGE)) player.getSword().setPowerup(true);
+		else if(msg.type.equals(PowerupType.SPEED)) player.setSpeed();
 	}
 	
 	public synchronized Player getPlayerById(int id){

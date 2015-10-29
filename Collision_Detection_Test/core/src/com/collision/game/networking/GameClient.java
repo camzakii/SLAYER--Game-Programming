@@ -89,6 +89,7 @@ public class GameClient {
 			game.addShuriken(message);
 		} else if(msg instanceof PlayerPowerup){
 			PlayerPowerup message = (PlayerPowerup) msg;
+			System.out.println("PLAYER POWERUP CLIENT MSG: " + message.type);
 			game.playerPowerup(message);
 		} else if(msg instanceof PowerupData){
 			PowerupData message = (PowerupData) msg;

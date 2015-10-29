@@ -32,8 +32,9 @@ public class Powerup {
 	private Animation animation;
 	private TextureRegion[] powerupRegion;
 	
-	public Powerup(Vector2 position){
+	public Powerup(Vector2 position, PowerupType type){
 		
+		this.powerup_type = type;
 		this.boundingBox = new Rectangle(position.x, position.y, WIDTH, WIDTH);
 		this.animation = new Animation();
 		
@@ -41,7 +42,12 @@ public class Powerup {
 		this.powerupRegion = TextureRegion.split(texture, 43, 20)[0];
 		this.animation.setAnimation(powerupRegion, 1/3f, animation);
 		
-		randomPowerup();
+		if(powerup_type.equals(PowerupType.RANGE)){
+			powerUpSound = Gdx.audio.newSound(Gdx.files.internal("player_sprites/powerUp.wav"));
+			powerUpSound.play();
+		}
+		
+//		randomPowerup();
 		
 		animation.setPlaying(true);
 	}
@@ -63,7 +69,7 @@ public class Powerup {
 //		sr.end();
 	}
 
-	private void randomPowerup(){
+	public static PowerupType randomPowerup(){
 		
 		Random rand = new Random();
 		int randomNum = rand.nextInt(2) + 1;
@@ -71,11 +77,13 @@ public class Powerup {
 		System.out.println("RAND: " + randomNum);
 		
 		if(randomNum == 1){
-			powerup_type = PowerupType.RANGE;
-			powerUpSound = Gdx.audio.newSound(Gdx.files.internal("player_sprites/powerUp.wav"));
-			powerUpSound.play();
-		}else{
-			powerup_type = PowerupType.SPEED;
+			PowerupType p = PowerupType.RANGE;
+			return p;
+		}
+//		}else if(randomNum == 2){
+			else{
+			PowerupType p = PowerupType.SPEED;
+			return p;
 		}
 		
 	}
