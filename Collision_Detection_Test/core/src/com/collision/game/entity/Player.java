@@ -52,7 +52,8 @@ public class Player{
 	private PlayerState state;
 	private PlayerState lastState;
 	private GameHandler game;
-	
+
+	private Sound jumpSound;
 	private boolean alive;
 	private int id;
 	private String name;
@@ -109,7 +110,7 @@ public class Player{
 		this.numBullets = 3;
 		this.lifes = 2;
 		this.jumpCount = 0;
-		
+
 		this.alive = true;
 		this.state = PlayerState.IDLE;
 		
@@ -370,9 +371,11 @@ public class Player{
 	
 	// Player Actions
 	public void jump(){
-		
+		jumpSound = Gdx.audio.newSound(Gdx.files.internal("player_sprites/jump.mp3"));
+		jumpSound.play();
 		if(jumpCount >= 2) return;
-		
+
+
 		if(speed) velocity.y = 225;
 		else velocity.y = 150;
 		
