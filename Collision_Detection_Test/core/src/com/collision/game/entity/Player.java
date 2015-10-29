@@ -1,6 +1,7 @@
 package com.collision.game.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -81,6 +82,9 @@ public class Player{
 	
 	private Animation currentAnimation;
 
+	private Sound attack;
+	private Sound parry;
+
 	// Testing
 	
 	private boolean isLocal;
@@ -126,6 +130,9 @@ public class Player{
 		this.rightExtSwordAnimation = new Animation();
 		this.leftWallSlideAnimation = new Animation();
 		this.rightWallSlideAnimation = new Animation();
+
+		this.attack = Gdx.audio.newSound(Gdx.files.internal("sounds/sword_attack.mp3"));
+		this.parry = Gdx.audio.newSound(Gdx.files.internal("sounds/parry.mp3"));
 
 		
 		Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja1.png"));
@@ -405,8 +412,9 @@ public class Player{
 		if(block.getTimer() > 0) return;
 		
 		sword.action(position, direction, this);
-		
+		attack.play();
 		state = PlayerState.ATTACKING;
+
 	}
 	
 	public void parryAction(){
@@ -415,6 +423,7 @@ public class Player{
 		if(block.getBlockTimer() > 0) return;
 		
 		block.action(position, direction, this);
+		parry.play();
 		state = PlayerState.BLOCKING;
 	}
 	
