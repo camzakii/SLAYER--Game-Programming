@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -83,6 +83,8 @@ public class Player{
 	
 	private Animation currentAnimation;
 
+	private BitmapFont font;
+	
 	private Sound attack;
 	private Sound parry;
 
@@ -173,6 +175,9 @@ public class Player{
 		
 		currentAnimation = rightAnimation;
 		
+		this.font = new BitmapFont(Gdx.files.internal("menu_assets/default.fnt"));
+		this.font.getData().scaleY = 0.5f;
+		
 		setIcon();
 		
 //		 Testing
@@ -216,7 +221,10 @@ public class Player{
 		
 		batch.begin();
 		batch.draw(currentAnimation.getFrame(), position.x - WIDTH / 3, position.y);
-		if(isLocal) batch.draw(playerIcon, position.x , position.y + HEIGHT);
+		if(isLocal){
+			batch.draw(playerIcon, position.x , position.y + HEIGHT);
+			font.draw(batch, "P" + id, position.x - 2, position.y + HEIGHT + 10);
+		}
 		batch.end();
 		
 //		sr.begin(ShapeType.Line);
@@ -565,24 +573,9 @@ public class Player{
 	
 	private void setIcon(){
 		
-		System.out.println("Player ID: " + id);
-		
-		if(this.id == 1){
-			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag.png"));
-			this.playerIcon = new Sprite(texture);
-		}
-		if(this.id == 2 ){
-			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_2.png"));
-			this.playerIcon = new Sprite(texture);
-		}
-		if(this.id == 3 ){
-			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_3.png"));
-			this.playerIcon = new Sprite(texture);
-		}
-		if(this.id == 4 ){
-			Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag_4.png"));
-			this.playerIcon = new Sprite(texture);
-		}
+		Texture texture = new Texture(Gdx.files.internal("hud_sprites/player_tag.png"));
+		this.playerIcon = new Sprite(texture);
+
 		
 	}
 	

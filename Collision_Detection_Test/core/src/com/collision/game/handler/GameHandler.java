@@ -270,14 +270,11 @@ public class GameHandler {
 					
 				}
 			}
-			
 			gameWon = true;
-			
 		}
 		
 		if(gameWon){
 			
-			System.out.println("Player position " + p.getPosition().x + " " + p.getPosition().y);
 			
 			if(camera.position.x < p.getPosition().x){
 				camera.position.x += 2;
