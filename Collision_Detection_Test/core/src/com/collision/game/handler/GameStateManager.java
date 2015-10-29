@@ -2,6 +2,9 @@ package com.collision.game.handler;
 
 import java.util.Stack;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.collision.game.MyGdxGame;
 import com.collision.game.states.GameLobby;
 import com.collision.game.states.GameMenu;
@@ -16,7 +19,7 @@ public class GameStateManager {
 	
 	private MyGdxGame game;
 	private Stack<GameState> gameStates;
-	
+	private Music menuMusic;
 	public GameStateManager(MyGdxGame game){
 		this.game = game;
 		this.gameStates = new Stack<GameState>();
@@ -32,16 +35,21 @@ public class GameStateManager {
 	}
 	
 	private GameState getState(int state, boolean isHost, String ip, String name){
-		
+
+
+
 		if(state == PLAY){
 			if(isHost) return new GameScreen(this, true, ip, name);
 			else return new GameScreen(this, false, ip, name);
 		}
 		if(state == MENU){
+
 			return new GameMenu(this);
 		}
 		
 		if(state == LOBBY){
+
+
 			return new GameLobby(this);
 		}
 		

@@ -2,11 +2,13 @@ package com.collision.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.collision.game.handler.GameStateManager;
+import com.badlogic.gdx.audio.Music;
 
 public class MyGdxGame extends ApplicationAdapter {
 	
@@ -21,9 +23,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private GameStateManager gsm;
 	private Controller controller;
-	
+	private Music menuMusic;
+
 	@Override
 	public void create () {
+
 
 		this.batch = new SpriteBatch();
 		this.camera = new OrthographicCamera();
