@@ -2,6 +2,7 @@ package com.collision.game.entity;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -73,11 +74,7 @@ public class GameLevel {
 		
 		for(Player player: players.values()){
 			
-			if(players.isEmpty()) System.out.println("NO PLAYERS!");
-			
 			for(Vector2 spawnPosition: spawns){
-				
-				if(spawnPosition == null) System.out.println("SPAWN POSITION IS NULL");
 				
 				float x = player.getPosition().x - spawnPosition.x;
 				x *= x;
@@ -87,6 +84,16 @@ public class GameLevel {
 				
 				distanceSpawns.put((float) Math.sqrt(x + y), spawnPosition);
 			}
+		}
+		
+		if(players.size() == 0){
+			
+			Random rand = new Random();
+			int randNum = rand.nextInt(3) + 1;
+			
+			System.out.println("Random Number Spawn: " + randNum);
+			
+			return spawns.get(randNum);
 		}
 		
 		if(distanceSpawns.isEmpty()) {

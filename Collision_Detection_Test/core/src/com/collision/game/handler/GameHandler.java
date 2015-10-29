@@ -47,7 +47,6 @@ public class GameHandler {
 	
 	private GameClient client;
 	private GameServer server;
-	private CollisionHandler collisionHandler;
 	private ParticleEngine particleEngine;
 	
 	private SpriteBatch batch;
@@ -290,7 +289,6 @@ public class GameHandler {
 	
 	public void connect(String name){
 		if(this.player == null){
-			
 			player = new Player(camera, level, this, true, client.id);
 			player.setName(name);
 			players.put(client.id, player);
@@ -407,7 +405,6 @@ public class GameHandler {
 		
 		// Game components
 		this.level = new GameLevel(camera);
-		this.collisionHandler = new CollisionHandler();
 		this.particleEngine = new ParticleEngine();
 		this.gameHud = new GameHud(camera, this);
 		this.gameWon = false;

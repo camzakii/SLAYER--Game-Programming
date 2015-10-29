@@ -3,11 +3,14 @@ package com.collision.game.states;
 import java.net.InetAddress;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -15,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
+import com.collision.game.MyGdxGame;
+import com.collision.game.handler.Animation;
 import com.collision.game.handler.GameStateManager;
 import com.collision.game.networking.Network;
 import com.esotericsoftware.kryonet.Client;
@@ -33,6 +39,20 @@ public class GameLobby extends GameState{
     private TextField textFieldIP;
     private TextField textFieldName;
     
+    // Testing player selection
+    private Animation bluePlayer;
+    private Animation redPlayer;
+    private Animation currentAnimation;
+    
+    private TextureRegion[] texRegion;
+    private TextureRegion[] texRegion2;
+    
+    private Array<Animation> animations;
+    
+    private int index;
+    
+    private OrthographicCamera playerSelectCamera;
+    
 	public GameLobby(GameStateManager gsm){
 		super(gsm);
 		
@@ -48,6 +68,31 @@ public class GameLobby extends GameState{
 		  texture = new Texture(Gdx.files.internal("menu_assets/enter_name.png"));
 		  enterName = new Sprite(texture);
 		  
+		  
+		  // Testing choose player sprite
+		  
+		  this.playerSelectCamera = new OrthographicCamera();
+		  this.playerSelectCamera.setToOrtho(false, MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2);
+		  
+		  this.bluePlayer = new Animation();
+		  this.redPlayer = new Animation();
+		  this.currentAnimation = new Animation();
+		  
+		   texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja1.png"));
+		   this.texRegion = TextureRegion.split(texture, 43, 20)[0];
+		   this.bluePlayer.setAnimation(texRegion, 1/3f, bluePlayer);
+		   
+		   texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja2.png"));
+		   this.texRegion2 = TextureRegion.split(texture, 43, 20)[0];
+		   this.redPlayer.setAnimation(texRegion2, 1/3f, redPlayer);
+		   
+		   this.animations = new Array<Animation>();
+		   animations.add(bluePlayer);
+		   animations.add(redPlayer);
+		   
+		   index = 0;
+		   currentAnimation = bluePlayer;
+		   
 		  initComponents();
 	        
 		  Gdx.input.setInputProcessor(stage);
@@ -55,7 +100,10 @@ public class GameLobby extends GameState{
 
 	@Override
 	public void update(float dt) {
+		setAnimation();
 		
+		currentAnimation.setPlaying(true);
+		currentAnimation.update(dt);
 	}
 
 	@Override
@@ -66,17 +114,38 @@ public class GameLobby extends GameState{
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 		
+		batch.setProjectionMatrix(camera.combined);
+		
 		batch.begin();
-		batch.draw(enterIp, Gdx.graphics.getWidth() / 2 - 220, 150, 150, 40);
-		batch.draw(enterName, Gdx.graphics.getWidth() / 2 - 220, 200, 170, 50);
+		batch.draw(enterIp, Gdx.graphics.getWidth() / 2 - 220, 150, 100, 30);
+		batch.draw(enterName, Gdx.graphics.getWidth() / 2 - 220, 200, 100, 30);
+		
+		batch.setProjectionMatrix(playerSelectCamera.combined);
+		batch.draw(currentAnimation.getFrame(), 20, 20);
+		
 		batch.end();
 	}
 
 	@Override
 	public void handleInput() {
-		
+		if(Gdx.input.isKeyJustPressed(Keys.A)){
+			index--;
+			System.out.println("A PRESSED");
+		}
+		if(Gdx.input.isKeyJustPressed(Keys.D)){
+			index++;
+		}
 	}
 
+	private void setAnimation(){
+		if(index < 0) index = animations.size - 1;
+		
+		if(index > animations.size - 1)index = 0;
+		
+		currentAnimation = animations.get(index);
+		
+	}
+	
 	public void initComponents(){
 		
 		final TextButton buttonFind = new TextButton("Find Game", skin, "default");

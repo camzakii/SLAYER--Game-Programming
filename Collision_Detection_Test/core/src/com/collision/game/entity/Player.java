@@ -16,7 +16,6 @@ import com.collision.game.ability.Block;
 import com.collision.game.ability.Sword;
 import com.collision.game.handler.Animation;
 import com.collision.game.handler.GameHandler;
-import com.collision.game.handler.GameKeys;
 import com.collision.game.networking.Network.PlayerMovement;
 import com.collision.game.networking.Network.PlayerShoot;
 
@@ -212,7 +211,6 @@ public class Player{
 		
 		currentAnimation.setPlaying(true);
 		currentAnimation.update(dt);
-		GameKeys.update();
 	}
 	
 	public void render(SpriteBatch batch){
@@ -284,6 +282,8 @@ public class Player{
 	public void initPlayerPosition(){
 		
 		Vector2 position = level.randomSpawn(game.getPlayers());
+		
+		System.out.println("Players Size... " + game.getPlayers().size());
 		
 		this.boundingRectangle = new Rectangle(position.x, position.y, 16, 16);
 		
