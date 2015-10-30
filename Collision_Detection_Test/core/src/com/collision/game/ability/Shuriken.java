@@ -154,4 +154,12 @@ public class Shuriken {
 	public void setOnHitTimer(int timer){
 		this.onHitTimer = timer;
 	}
+
+	public Vector2 getDirection(){
+		return this.direction;
+	}
+
+	public void setDirection(Vector2 direction){
+		this.direction = direction;
+	}
 }

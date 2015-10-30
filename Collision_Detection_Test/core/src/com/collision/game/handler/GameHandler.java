@@ -5,11 +5,16 @@ import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.collision.game.MyGdxGame;
 import com.collision.game.ability.Shuriken;
@@ -35,7 +40,6 @@ public class GameHandler {
 	private GameHud gameHud;
 	
 	private Sprite gameWonSprite;
-	private Sprite returnLobbySprite;
 	
 	private double powerupCooldown;
 	private boolean gameWon;
@@ -50,12 +54,19 @@ public class GameHandler {
 	
 	private boolean isClient;
 	private int spriteIndex;
+	private Sprite returnLobbySprite;
 	
 	// camera shake
 	private float time;
 	private float current_time;
 	private float power;
 	private float current_power;
+	
+	private Controller controller;
+	boolean hasControllers = true;
+	
+	private float shurikenTimer;
+	private float jumpTimer;
 	
 	public GameHandler(GameClient client, int spriteIndex){
 		this.client = client;
@@ -82,6 +93,9 @@ public class GameHandler {
 		if(camera.zoom < 0.15){
 			camera.zoom = 0.15f;
 		}
+		
+		if(shurikenTimer > 0) shurikenTimer -= dt;
+		if(jumpTimer > 0) jumpTimer -= dt;
 		
 		cameraShake(dt);
 		
@@ -127,6 +141,12 @@ public class GameHandler {
 						this.playerHit(hit);
 						client.sendMessage(hit);
 					}
+				}
+				if(shuriken.getBoundingBox().overlaps(currentPlayer.getBoundingRectangle()) && 
+						currentPlayer.getState() == PlayerState.BLOCKING &&
+						shuriken.getOnHitTimer() <= 0){
+					if(shuriken.getDirection().x == 1) shuriken.setDirection(new Vector2(-1, 0));
+					else shuriken.setDirection(new Vector2(1, 0));
 				}
 			}
 		}
@@ -182,15 +202,16 @@ public class GameHandler {
 		batch.setProjectionMatrix(camera2.combined);
 		
 		batch.begin();
-		if(gameWon) {
-			batch.draw(gameWonSprite, 0, 200);
-			batch.draw(returnLobbySprite, 0, 0);
+		if(gameWon){
+				batch.draw(gameWonSprite, 0, 200);
+				batch.draw(returnLobbySprite, 0, 0);
+
 		}
 		batch.end();
 	}
-
+	
 	public void handleInput(){
-		if(!player.isDead() && !gameWon){
+		if(!player.isDead() && !gameWon && !hasControllers){
 			
 			if(Gdx.input.isKeyJustPressed(Keys.W)){
 				player.jump();
@@ -201,21 +222,47 @@ public class GameHandler {
 			if(Gdx.input.isKeyPressed(Keys.D)){
 				player.moveRight();
 			}
-			if(Gdx.input.isKeyPressed(Keys.R)){
+			if(Gdx.input.isKeyPressed(Keys.Y)){
 				player.swordAction();
 			}
-			if(Gdx.input.isKeyPressed(Keys.Y)){
+			if(Gdx.input.isKeyPressed(Keys.I)){
 				player.parryAction();
 			}
 			if(!Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.D)){
 				player.setVelocityX(0);
 			}
-			if(Gdx.input.isKeyJustPressed(Keys.T)){
+			if(Gdx.input.isKeyJustPressed(Keys.U)){
 				player.shurikenAction();
 			}
-			if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+			if(Gdx.input.isKeyJustPressed(Keys.B)){
 				player.dashAction();
 			}
+		}
+		else if(!player.isDead() && !gameWon){
+			
+			if(controller.getAxis(XBox360Pad.AXIS_LEFT_X) > 0.2f )
+				player.moveRight();
+			if(controller.getAxis(XBox360Pad.AXIS_LEFT_X) < -0.2f){
+				player.moveLeft();
+			}
+			if(controller.getAxis(XBox360Pad.AXIS_LEFT_X) < 0.2f &&
+					controller.getAxis(XBox360Pad.AXIS_LEFT_X) > -0.2f){
+				player.setVelocityX(0);
+			}
+            if(controller.getButton(XBox360Pad.BUTTON_A) && jumpTimer <= 0){
+            	player.jump();
+            	jumpTimer = 0.2f;
+            }
+            if(controller.getButton(XBox360Pad.BUTTON_B)){
+            	player.parryAction();
+            }
+            if(controller.getButton(XBox360Pad.BUTTON_Y) && shurikenTimer <= 0){
+            	player.shurikenAction();
+            	shurikenTimer = 1f;
+            }
+            if(controller.getButton(XBox360Pad.BUTTON_X)){
+            	player.swordAction();
+            }
 		}
 	}
 	
@@ -386,7 +433,10 @@ public class GameHandler {
 	}
 	
 	private void init(){
-		
+
+		Texture texture = new Texture(Gdx.files.internal("screen_sprites/return_lobby.png"));
+		this.returnLobbySprite = new Sprite(texture);
+
 		this.players = new HashMap<Integer, Player>();
 		this.shurikens = new Array<Shuriken>();
 		this.powerups = new Array<Powerup>();
@@ -403,13 +453,15 @@ public class GameHandler {
 		this.particleEngine = new ParticleEngine();
 		this.gameHud = new GameHud(camera, this);
 		this.gameWon = false;
-
-		Texture texture = new Texture(Gdx.files.internal("screen_sprites/return_lobby.png"));
-		this.returnLobbySprite = new Sprite(texture);
+		
+		this.shurikenTimer = 0;
+		this.jumpTimer = 0;
+		
+		if(Controllers.getControllers().size == 0) hasControllers = false;
+        else controller = Controllers.getControllers().first();
 	}
 	
 	public Map<Integer, Player> getPlayers(){
 		return players;
 	}
-	
 }
