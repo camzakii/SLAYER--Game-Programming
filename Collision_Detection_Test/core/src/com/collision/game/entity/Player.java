@@ -111,7 +111,7 @@ public class Player{
 		this.spriteIndex = spriteIndex;
 		
 		this.numBullets = 3;
-		this.lifes = 2;
+		this.lifes = 5;
 		this.jumpCount = 0;
 		this.speedTimer = 0;
 		this.speed = false;
@@ -612,7 +612,7 @@ public class Player{
 	
 			this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
 			this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/4f, leftWallSlideAnimation);
-		}else{
+		}else if(spriteIndex == 1){
 			Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja2.png"));
 			this.rightSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
 			this.rightAnimation.setAnimation(rightSpriteRegion, 1/3f, rightAnimation);
@@ -648,6 +648,76 @@ public class Player{
 			this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
 			this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/4f, leftWallSlideAnimation);
 		
+		} else if(spriteIndex == 2){
+			Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja3.png"));
+			this.rightSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
+			this.rightAnimation.setAnimation(rightSpriteRegion, 1/3f, rightAnimation);
+			
+			this.leftSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
+			this.leftAnimation.setAnimation(leftSpriteRegion, 1/3f, leftAnimation);
+			
+			texture = new Texture(Gdx.files.internal("player_sprites/attack_fight_ninja3.png"));
+			this.rightSwordRegion = TextureRegion.split(texture,43, 25)[0];
+			this.rightSwordAnimation.setAnimation(rightSwordRegion, 1/8f, rightSwordAnimation);
+			
+			this.leftSwordRegion = TextureRegion.split(texture, 43, 25)[1];
+			this.leftSwordAnimation.setAnimation(leftSwordRegion, 1/8f, leftSwordAnimation);
+			
+			texture = new Texture(Gdx.files.internal("player_sprites/block_fight_ninja3.png"));
+			this.leftBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
+			this.blockLeftAnimation.setAnimation(leftBlockRegion, 1/8f, blockLeftAnimation);
+			
+			this.rightBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
+			this.blockRightAnimation.setAnimation(rightBlockRegion, 1/8f, blockRightAnimation);
+			
+			texture = new Texture(Gdx.files.internal("player_sprites/attack_fight_ninja3_extended.png"));
+			this.rightExtSwordRegion = TextureRegion.split(texture, 50, 30)[0];
+			this.rightExtSwordAnimation.setAnimation(rightExtSwordRegion, 1/8f, rightExtSwordAnimation);
+			
+			this.leftExtSwordRegion = TextureRegion.split(texture, 50, 30)[1];
+			this.leftExtSwordAnimation.setAnimation(leftExtSwordRegion, 1/8f, leftExtSwordAnimation);
+	
+			texture = new Texture(Gdx.files.internal("player_sprites/wall_slide3.png"));
+			this.rightWallSlideRegion = TextureRegion.split(texture, 43, 20)[1];
+			this.rightWallSlideAnimation.setAnimation(rightWallSlideRegion, 1/2f, rightWallSlideAnimation);
+	
+			this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
+			this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/4f, leftWallSlideAnimation);
+		}else {
+			Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja4.png"));
+			this.rightSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
+			this.rightAnimation.setAnimation(rightSpriteRegion, 1/3f, rightAnimation);
+			
+			this.leftSpriteRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
+			this.leftAnimation.setAnimation(leftSpriteRegion, 1/3f, leftAnimation);
+			
+			texture = new Texture(Gdx.files.internal("player_sprites/attack_fight_ninja4.png"));
+			this.rightSwordRegion = TextureRegion.split(texture,43, 25)[0];
+			this.rightSwordAnimation.setAnimation(rightSwordRegion, 1/8f, rightSwordAnimation);
+			
+			this.leftSwordRegion = TextureRegion.split(texture, 43, 25)[1];
+			this.leftSwordAnimation.setAnimation(leftSwordRegion, 1/8f, leftSwordAnimation);
+			
+			texture = new Texture(Gdx.files.internal("player_sprites/block_fight_ninja4.png"));
+			this.leftBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[1];
+			this.blockLeftAnimation.setAnimation(leftBlockRegion, 1/8f, blockLeftAnimation);
+			
+			this.rightBlockRegion = TextureRegion.split(texture, WIDTH, HEIGHT)[0];
+			this.blockRightAnimation.setAnimation(rightBlockRegion, 1/8f, blockRightAnimation);
+			
+			texture = new Texture(Gdx.files.internal("player_sprites/attack_fight_ninja4_extended.png"));
+			this.rightExtSwordRegion = TextureRegion.split(texture, 50, 30)[0];
+			this.rightExtSwordAnimation.setAnimation(rightExtSwordRegion, 1/8f, rightExtSwordAnimation);
+			
+			this.leftExtSwordRegion = TextureRegion.split(texture, 50, 30)[1];
+			this.leftExtSwordAnimation.setAnimation(leftExtSwordRegion, 1/8f, leftExtSwordAnimation);
+	
+			texture = new Texture(Gdx.files.internal("player_sprites/wall_slide4.png"));
+			this.rightWallSlideRegion = TextureRegion.split(texture, 43, 20)[1];
+			this.rightWallSlideAnimation.setAnimation(rightWallSlideRegion, 1/2f, rightWallSlideAnimation);
+	
+			this.leftWallSlideRegion = TextureRegion.split(texture, 43, 20)[0];
+			this.leftWallSlideAnimation.setAnimation(leftWallSlideRegion, 1/4f, leftWallSlideAnimation);
 		}
 	}
 	

@@ -45,10 +45,15 @@ public class GameLobby extends GameState{
     // Testing player selection
     private Animation bluePlayer;
     private Animation redPlayer;
+    private Animation player3;
+    private Animation player4;
+    
     private Animation currentAnimation;
     
     private TextureRegion[] texRegion;
     private TextureRegion[] texRegion2;
+    private TextureRegion[] texRegion3;
+    private TextureRegion[] texRegion4;
     
     private Array<Animation> animations;
     
@@ -79,6 +84,8 @@ public class GameLobby extends GameState{
 		  
 		  this.bluePlayer = new Animation();
 		  this.redPlayer = new Animation();
+		  this.player3 = new Animation();
+		  this.player4 = new Animation();
 		  this.currentAnimation = new Animation();
 		  
 		   texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja1.png"));
@@ -88,6 +95,14 @@ public class GameLobby extends GameState{
 		   texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja2.png"));
 		   this.texRegion2 = TextureRegion.split(texture, 43, 20)[0];
 		   this.redPlayer.setAnimation(texRegion2, 1/3f, redPlayer);
+		   
+		   texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja3.png"));
+		   this.texRegion3 = TextureRegion.split(texture, 43, 20)[0];
+		   this.player3.setAnimation(texRegion3, 1/3f, player3);
+		   
+		   texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja4.png"));
+		   this.texRegion4 = TextureRegion.split(texture, 43, 20)[0];
+		   this.player4.setAnimation(texRegion4, 1/3f, player4);
 		   
 		   texture = new Texture(Gdx.files.internal("menu_assets/char_select.png"));
 		   this.charSelect = new Sprite(texture);
@@ -101,6 +116,8 @@ public class GameLobby extends GameState{
 		   this.animations = new Array<Animation>();
 		   animations.add(bluePlayer);
 		   animations.add(redPlayer);
+		   animations.add(player3);
+		   animations.add(player4);
 		   
 		   index = 0;
 		   currentAnimation = bluePlayer;
