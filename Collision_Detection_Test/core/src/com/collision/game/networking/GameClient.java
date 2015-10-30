@@ -3,8 +3,16 @@ package com.collision.game.networking;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controller;
 import com.collision.game.handler.GameHandler;
-import com.collision.game.networking.Network.*;
+import com.collision.game.networking.Network.LeaveJoin;
+import com.collision.game.networking.Network.Login;
+import com.collision.game.networking.Network.PlayerAttack;
+import com.collision.game.networking.Network.PlayerHit;
+import com.collision.game.networking.Network.PlayerMovement;
+import com.collision.game.networking.Network.PlayerPowerup;
+import com.collision.game.networking.Network.PlayerShoot;
+import com.collision.game.networking.Network.PowerupData;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -19,7 +27,7 @@ public class GameClient {
 	private String name;
 	
 	
-	public GameClient(String name, int spriteIndex){
+	public GameClient(String name, int spriteIndex, Controller controller){
 		
 		this.name = name;
 		this.client = new Client();
@@ -48,7 +56,7 @@ public class GameClient {
 			}
 		});
 		
-		this.game = new GameHandler(this, spriteIndex);
+		this.game = new GameHandler(this, spriteIndex, controller);
 		this.client.start();
 	}
 	

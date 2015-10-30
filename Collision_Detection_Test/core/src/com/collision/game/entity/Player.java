@@ -572,6 +572,10 @@ public class Player{
 		return spriteIndex;
 	}
 	
+	public void resetShurikens(){
+		this.numBullets = 3;
+	}
+	
 	private void setupAnimation(){
 		if(spriteIndex == 0){
 			Texture texture = new Texture(Gdx.files.internal("player_sprites/idle_fight_ninja1.png"));
