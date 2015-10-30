@@ -146,13 +146,13 @@ public class GameLobby extends GameState{
 
 	@Override
 	public void handleInput() {
-		if(Gdx.input.isKeyJustPressed(Keys.A)){ss
+		if(Gdx.input.isKeyJustPressed(Keys.A)){
 			index--;
 		}
 		if(Gdx.input.isKeyJustPressed(Keys.D)){
 			index++;
 		}
-	}s
+	}
 
 	private void setAnimation(){
 		if(index < 0) index = animations.size - 1;

@@ -14,6 +14,7 @@ public class Sword {
 	
 	private boolean powerup;
 	private int timer;
+	private int animationTimer;
 	private double removeTimer;
 	private int swordOnHit;
 	private int attackInterval;
@@ -41,17 +42,17 @@ public class Sword {
 			}
 			
 		}
-		else{
-			if(direction.x > 0){
+		else {
+			if (direction.x > 0) {
 				this.boundingBox = new Rectangle(position.x + 16, position.y, 30, 10);
-			}else{
+			} else {
 				this.boundingBox = new Rectangle(position.x - 30, position.y, 30, 10);
 			}
 		}
-		
 	
 		this.attackInterval = 40;
-		this.timer = 20;
+		this.timer = 5;
+		this.animationTimer = 20;
 	}
 	
 	public void update(float dt){
@@ -83,16 +84,17 @@ public class Sword {
 		
 		if(timer > 0) timer--;
 		if(attackInterval > 0) attackInterval--;
+		if(animationTimer > 0) animationTimer--;
 
 		if(timer <= 0) boundingBox = new Rectangle();
 	}
 	
 	public void render(ShapeRenderer sr){
 		
-//		sr.begin(ShapeType.Line);
-//		if(!powerup) sr.rect(boundingBox.x, boundingBox.y, 16, 10);
-//		else sr.rect(boundingBox.x, boundingBox.y, 30, 10);
-//		sr.end();
+		sr.begin(ShapeType.Line);
+		if(!powerup) sr.rect(boundingBox.x, boundingBox.y, 16, 10);
+		else sr.rect(boundingBox.x, boundingBox.y, 30, 10);
+		sr.end();
 	}
 	
 	public int getTimer(){
@@ -102,7 +104,11 @@ public class Sword {
 	public void setTimer(int timer){
 		this.timer = timer;
 	}
-	
+
+	public int getAnimationTimer(){
+		return this.animationTimer;
+	}
+
 	public int getInterval(){
 		return attackInterval;
 	}

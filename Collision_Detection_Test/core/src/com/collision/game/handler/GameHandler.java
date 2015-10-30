@@ -35,6 +35,7 @@ public class GameHandler {
 	private GameHud gameHud;
 	
 	private Sprite gameWonSprite;
+	private Sprite returnLobbySprite;
 	
 	private double powerupCooldown;
 	private boolean gameWon;
@@ -181,10 +182,13 @@ public class GameHandler {
 		batch.setProjectionMatrix(camera2.combined);
 		
 		batch.begin();
-		if(gameWon) batch.draw(gameWonSprite, 0, 200);
+		if(gameWon) {
+			batch.draw(gameWonSprite, 0, 200);
+			batch.draw(returnLobbySprite, 0, 0);
+		}
 		batch.end();
 	}
-	
+
 	public void handleInput(){
 		if(!player.isDead() && !gameWon){
 			
@@ -197,19 +201,19 @@ public class GameHandler {
 			if(Gdx.input.isKeyPressed(Keys.D)){
 				player.moveRight();
 			}
-			if(Gdx.input.isKeyPressed(Keys.S)){
+			if(Gdx.input.isKeyPressed(Keys.R)){
 				player.swordAction();
 			}
-			if(Gdx.input.isKeyPressed(Keys.C)){
+			if(Gdx.input.isKeyPressed(Keys.Y)){
 				player.parryAction();
 			}
 			if(!Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.D)){
 				player.setVelocityX(0);
 			}
-			if(Gdx.input.isKeyJustPressed(Keys.V)){
+			if(Gdx.input.isKeyJustPressed(Keys.T)){
 				player.shurikenAction();
 			}
-			if(Gdx.input.isKeyJustPressed(Keys.B)){
+			if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
 				player.dashAction();
 			}
 		}
@@ -399,6 +403,9 @@ public class GameHandler {
 		this.particleEngine = new ParticleEngine();
 		this.gameHud = new GameHud(camera, this);
 		this.gameWon = false;
+
+		Texture texture = new Texture(Gdx.files.internal("screen_sprites/return_lobby.png"));
+		this.returnLobbySprite = new Sprite(texture);
 	}
 	
 	public Map<Integer, Player> getPlayers(){

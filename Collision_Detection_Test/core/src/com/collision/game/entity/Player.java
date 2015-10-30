@@ -216,7 +216,7 @@ public class Player{
 		
 		if(state == PlayerState.MOVING){
 			
-			if(sword.getTimer() > 0) return;
+			if(sword.getAnimationTimer() > 0) return;
 			
 			if(state == PlayerState.SLIDING) return;
 			
@@ -234,7 +234,7 @@ public class Player{
 				else currentAnimation = leftSwordAnimation;
 			}
 			
-			if(sword.getTimer() == 0){
+			if(sword.getAnimationTimer() == 0){
 				currentAnimation.setCurrentFrame(0);
 				state = PlayerState.MOVING;
 			}
@@ -370,8 +370,8 @@ public class Player{
 	}
 	
 	public void moveLeft(){
-		if(speed) velocity.x = -80;	
-		else velocity.x = -40;
+		if(speed) velocity.x = -40;
+		else velocity.x = -25;
 		
 		direction.x = -1;
 		
@@ -384,8 +384,8 @@ public class Player{
 	
 	public void moveRight(){
 		
-		if(speed) velocity.x = 80;
-		else velocity.x = 40;
+		if(speed) velocity.x = 40;
+		else velocity.x = 25;
 		
 		direction.x = 1;
 		
