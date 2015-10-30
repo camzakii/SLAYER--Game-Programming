@@ -240,8 +240,9 @@ public class GameHandler {
 		}
 		else if(!player.isDead() && !gameWon){
 			
-			if(controller.getAxis(XBox360Pad.AXIS_LEFT_X) > 0.2f )
+			if(controller.getAxis(XBox360Pad.AXIS_LEFT_X) > 0.2f ){
 				player.moveRight();
+			}
 			if(controller.getAxis(XBox360Pad.AXIS_LEFT_X) < -0.2f){
 				player.moveLeft();
 			}

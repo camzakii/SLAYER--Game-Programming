@@ -2,13 +2,15 @@ package com.collision.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.collision.game.handler.GameHandler;
 import com.collision.game.handler.GameStateManager;
+import com.collision.game.handler.XBox360Pad;
 import com.collision.game.networking.GameClient;
 import com.collision.game.networking.GameServer;
-import com.collision.game.networking.Network.LeaveJoin;
 
 public class GameScreen extends GameState{
 
@@ -19,6 +21,9 @@ public class GameScreen extends GameState{
 	private GameServer server;
 	private String ip;
 	private boolean isHost;
+	
+	private Controller controller;
+	private boolean hasControllers;
 	
 	private String name;
 	
@@ -39,6 +44,9 @@ public class GameScreen extends GameState{
 		
 		client = new GameClient(name, spriteIndex);
 		gameHandler = client.getHandler();
+		
+		if(Controllers.getControllers().size == 0) hasControllers = false;
+        else controller = Controllers.getControllers().first();
 		
 		if(isHost){
 			server = new GameServer();
@@ -76,23 +84,45 @@ public class GameScreen extends GameState{
 
 	@Override
 	public void handleInput() {
-		if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
-			client.stop();
-			
-			if(server != null){
-				server.stop();
+		
+		if(!hasControllers){
+			if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+				client.stop();
+				
+				if(server != null){
+					server.stop();
+				}
+				
+				gsm.setState(gsm.LOBBY, false, "", "", 0);
 			}
-			
-			gsm.setState(gsm.LOBBY, false, "", "", 0);
-		}
-		if(Gdx.input.isKeyPressed(Keys.G)){
-			client.stop();
-
-			if(server != null){
-				server.stop();
+			if(Gdx.input.isKeyPressed(Keys.G)){
+				client.stop();
+	
+				if(server != null){
+					server.stop();
+				}
+	
+				gsm.setState(gsm.MENU, false, "", "", 0);
 			}
-
-			gsm.setState(gsm.MENU, false, "", "", 0);
+		}else{
+			 if(controller.getButton(XBox360Pad.BUTTON_BACK)){
+				 client.stop();
+					
+					if(server != null){
+						server.stop();
+					}
+		
+					gsm.setState(gsm.MENU, false, "", "", 0);
+			 }
+			 if(controller.getButton(XBox360Pad.BUTTON_START)){
+				 client.stop();
+					
+					if(server != null){
+						server.stop();
+					}
+					
+					gsm.setState(gsm.LOBBY, false, "", "", 0);
+			 }
 		}
 	}
 
