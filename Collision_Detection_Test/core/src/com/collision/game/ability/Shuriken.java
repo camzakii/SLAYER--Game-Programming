@@ -105,9 +105,9 @@ public class Shuriken {
 					boundingBox.y - 6);
 		batch.end();
 		
-		sr.begin(ShapeType.Line);
-		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
-		sr.end();
+//		sr.begin(ShapeType.Line);
+//		sr.rect(boundingBox.x, boundingBox.y, 8, 8);
+//		sr.end();
 	}
 
 	private void mapCollision(){
