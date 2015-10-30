@@ -378,6 +378,7 @@ public class GameHandler {
 		if(currentPlayer != null){
 			currentPlayer.setPosition(level.randomSpawn(players));
 			currentPlayer.setDead();
+			currentPlayer.resetShurikens();
 		}
 	}
 	
