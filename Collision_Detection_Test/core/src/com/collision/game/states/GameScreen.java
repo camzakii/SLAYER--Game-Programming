@@ -42,11 +42,11 @@ public class GameScreen extends GameState{
 		
 		this.name = name;
 		
-		client = new GameClient(name, spriteIndex);
-		gameHandler = client.getHandler();
-		
 		if(Controllers.getControllers().size == 0) hasControllers = false;
         else controller = Controllers.getControllers().first();
+		
+		client = new GameClient(name, spriteIndex, controller);
+		gameHandler = client.getHandler();
 		
 		if(isHost){
 			server = new GameServer();
