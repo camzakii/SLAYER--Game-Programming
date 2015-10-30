@@ -27,7 +27,7 @@ public class GameClient {
 	private String name;
 	
 	
-	public GameClient(String name, int spriteIndex){
+	public GameClient(String name, int spriteIndex, Controller controller){
 		
 		this.name = name;
 		this.client = new Client();
@@ -56,7 +56,7 @@ public class GameClient {
 			}
 		});
 		
-		this.game = new GameHandler(this, spriteIndex);
+		this.game = new GameHandler(this, spriteIndex, controller);
 		this.client.start();
 	}
 	

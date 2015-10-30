@@ -68,10 +68,11 @@ public class GameHandler {
 	private float shurikenTimer;
 	private float jumpTimer;
 	
-	public GameHandler(GameClient client, int spriteIndex){
+	public GameHandler(GameClient client, int spriteIndex, Controller controller){
 		this.client = client;
 		this.isClient = true;
 		this.spriteIndex = spriteIndex;
+		this.controller = controller;
 		
 		init();
 	}
@@ -462,8 +463,8 @@ public class GameHandler {
 		if(this.controller == null) hasControllers = false;
 		else hasControllers = true;
 		
-		if(Controllers.getControllers().size == 0) hasControllers = false;
-        else controller = Controllers.getControllers().first();
+//		if(Controllers.getControllers().size == 0) hasControllers = false;
+//        else controller = Controllers.getControllers().first();
 	}
 	
 	public Map<Integer, Player> getPlayers(){
