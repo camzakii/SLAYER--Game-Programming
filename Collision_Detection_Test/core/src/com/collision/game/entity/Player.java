@@ -370,8 +370,8 @@ public class Player{
 	}
 	
 	public void moveLeft(){
-		if(speed) velocity.x = -40;
-		else velocity.x = -25;
+		if(speed) velocity.x = -50;
+		else velocity.x = -38;
 		
 		direction.x = -1;
 		
@@ -384,8 +384,8 @@ public class Player{
 	
 	public void moveRight(){
 		
-		if(speed) velocity.x = 40;
-		else velocity.x = 25;
+		if(speed) velocity.x = 50;
+		else velocity.x = 38;
 		
 		direction.x = 1;
 		
